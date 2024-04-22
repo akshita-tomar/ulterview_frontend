@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
+import LanguageModal from "./language";
+// import SeriesDropdown from "./SeriesDropdown";
 
-
-const Sidebar = (props) => {
-  const [language, setLanguage] = useState([]);
+const Sidebar = () => {
+  const [languages, setLanguages] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [series, setSeries] = useState([]);
+  const [selectedSeries, setSelectedSeries] = useState(null);
+  const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const [showSeriesDropdown, setShowSeriesDropdown] = useState(false);
   const navigate = useNavigate();
-  const [holdChange, setHoldChange] = useState(0);
 
-  useEffect(() => {
-    let token = localStorage.getItem('token');
+  const fetchLanguages = () => {
+    let token = localStorage.getItem('token')
     if (!token) {
       navigate('/');
     }
@@ -24,57 +30,41 @@ const Sidebar = (props) => {
     fetch("http://localhost:8000/api/v1/getAllLanguages", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log("total languages in sidebar--", result);
-        setLanguage(result.data);
+        setLanguages(result.data);
+        setShowLanguageModal(true);
       })
       .catch((error) => console.error(error));
-  }, []);
+  };
 
-  const handlechangeLanguage = (Language) => {
-    let token = localStorage.getItem('token');
-    const updatededLanguage = Language;
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer " + token);
 
-    const raw = JSON.stringify({
-      "language": updatededLanguage
-    });
+  const handleLanguageClick = (language) => {
+    setSelectedLanguage(language);
+    setShowLanguageModal(false);
+    // Fetch series based on selected language
+    // For example:
+    // setSeries([...]); // Set series fetched from API
+    // setShowSeriesDropdown(true);
+  };
 
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow"
-    };
-
-    fetch("http://localhost:8000/api/v1/UpdateUserLanguage", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        if (result.type === 'success') {
-          setHoldChange(prev=>prev +1);
-          props?.setConfigurechange(true)
-        }
-      })
-      .catch((error) => console.error(error));
-  }
+//   const handleSeriesSelect = (series) => {
+//     setSelectedSeries(series);
+//     setShowSeriesDropdown(false);
+//     // Perform actions based on selected series
+//   };
+console.log("language model --",languages)
 
   return (
-    <>
-      <div className="sidebar">
-        <nav className="nav">
-          {language.map((Element, index) => (
-            <ul className="nav-list" key={index}>
-              <li className="nav-item">
-                <p className="nav-link" onClick={() => handlechangeLanguage(Element.language)}>{Element.language}</p>
-              </li>
-            </ul>
-          ))}
-        </nav>
-      </div>
-      {/* <HomepageData holdChange={holdChange} /> */}
-    </>
+    <div className="sidebar">
+      <button className="sidebar-button" onClick={fetchLanguages}>Create Task</button>
+      <button className="sidebar-button">Show Tasks</button>
+      <Toaster />
+      {showLanguageModal && (
+        <LanguageModal languages={languages} handleLanguageClick={handleLanguageClick} />
+      )}
+      {/* {showSeriesDropdown && (
+        <SeriesDropdown series={series} handleSeriesSelect={handleSeriesSelect} />
+      )} */}
+    </div>
   );
 };
 

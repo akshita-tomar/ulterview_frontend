@@ -10,7 +10,7 @@ const Language = React.lazy(() => import('./components/language/language'));
 const HomePage = React.lazy(() => import('./components/homepage/homepage'));
 const HomepageData = React.lazy(() => import('./components/homepage/homepageData'));
 const Sidebar = React.lazy(() => import('./components/sidebar/sidebar'));
-
+const LanguageModal =React.lazy(() => import('./components/sidebar/language'));
 
 function App() {
   const [configurechange, setConfigurechange] = useState(false);
@@ -23,9 +23,10 @@ function App() {
           {/* <Route path='/register' element={<Suspense fallback={<div>Loading...</div>}><Register /></Suspense>}></Route> */}
           <Route path='/header' element={<Suspense fallback={<div>Loading...</div>}><Header /></Suspense>}></Route>
           <Route path='/language' element={<Suspense fallback={<div>Loading...</div>}><Header /><Language /></Suspense>}></Route>
-          <Route path='/homepage' element={<Suspense fallback={<div>Loading...</div>}><Header /><Suspense fallback={<div>Loading...</div>}><Sidebar setConfigurechange={setConfigurechange} /><HomePage setConfigurechange={setConfigurechange} configurechange={configurechange} /></Suspense></Suspense>}></Route>
+          <Route path='/homepage' element={<Suspense fallback={<div>Loading...</div>}><Header /> <Suspense fallback={<div>Loading...</div>}><HomePage/></Suspense></Suspense>}></Route>
           <Route path='/homepagedata' element={<Suspense fallback={<div>Loading...</div>}><HomepageData /></Suspense>}></Route>
           <Route path='/sidebar' element={<Suspense fallback={<div>Loading...</div>}><Sidebar /></Suspense>}></Route>
+          <Route path='/languagemodel' element={<Suspense fallback={<div>Loading...</div>}><LanguageModal /></Suspense>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
