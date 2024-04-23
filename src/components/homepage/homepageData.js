@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React,  {useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 
 
-const HomepageData = () => {
+
+const HomepageData = ({series}) => {
 
     const navigate = useNavigate()
     const [openmodal, setOpenModal] = useState(false)
@@ -15,7 +16,7 @@ const HomepageData = () => {
     const [holdChange, setHoldChange] = useState(0)
   
   
-  
+
   
   
     const handleQuestionTypeChange = (type) => {
@@ -31,11 +32,6 @@ const HomepageData = () => {
     };
   
   
-  
-  
-    const openTestModal = () => {
-      setOpenModal(true)
-    }
   
     const closeTestModal = () => {
       setOpenModal(false)
@@ -73,7 +69,8 @@ const HomepageData = () => {
         "question": question,
         "options": options,
         "correctAnswer": correctAnswer,
-        "answer": answer
+        "answer": answer,
+        "difficultyLevel":series
       });
   
       const requestOptions = {
@@ -146,14 +143,12 @@ const HomepageData = () => {
   
     return (
       <div className="homepage-outer-div">
-        <div className="create-test-btn-wrapper">
-          <button className="createtest-btn" onClick={openTestModal}>Create Test</button>
-        </div>
-        {/* <HomepageData configurechange={configurechange} setConfigurechange={setConfigurechange} holdChange={holdChange} /> */}
         {
-          openmodal && (
+          openmodal || series && (
+            <>
+           <h2> Create test of {series} series</h2>
             <div className="test-box">
-              <div className="cross-sign" onClick={closeTestModal}> <b>  &#10005; </b></div>
+              {/* <div className="cross-sign" onClick={closeTestModal}> <b>  &#10005; </b></div> */}
               <div className="internal-testbox">
                 <button onClick={() => handleQuestionTypeChange("mcq")} className="mcq-btn">
                   MCQ
@@ -197,7 +192,7 @@ const HomepageData = () => {
                   Add Question
                 </button>
               )}
-            </div>
+            </div></>
           )}
         <Toaster />
       </div>
@@ -205,3 +200,4 @@ const HomepageData = () => {
   };
 
 export default HomepageData;
+//  i am calling this component in sidebar i want that each time openmodal

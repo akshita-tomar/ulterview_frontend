@@ -6,11 +6,11 @@ import Sidebar from "../sidebar/sidebar";
 const HomePage = () => {
  
 
-
   return(
     <>
-    <Sidebar/>
-    <h1>Create tasks ! </h1>
+     <h1>Create tasks ! </h1>
+    <Sidebar />
+   
     </>
   )
 }

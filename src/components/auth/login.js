@@ -37,7 +37,7 @@ fetch("http://localhost:8000/api/v1/signIn", requestOptions)
       })
     }else{
       localStorage.setItem('token',result.data.token)
-      navigate('/language')
+      navigate('/homepage')
       }
   })
   .catch((error) => console.error(error));

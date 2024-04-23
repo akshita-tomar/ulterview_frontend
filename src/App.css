@@ -180,10 +180,11 @@ body {
 .modal-overlay {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 0%;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4); 
+  /* background-color: #ed6b4a; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -195,6 +196,8 @@ body {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   width: 50%;
+  margin-left: 14%;
+  position: absolute;
 }
 
 .close {
@@ -256,8 +259,8 @@ body {
   height: 85vh;
   margin-top: 50px;
   margin-left: 270px;
-  overflow-y: scroll;
-  scrollbar-width: thin;
+  /* overflow-y: scroll;
+  scrollbar-width: thin; */
 }
 
 .createtest-btn{
@@ -285,17 +288,18 @@ body {
 .test-box{
   margin-top: 150px;
   height: 60vh;
-  width: 205vh;
-  margin-left: 60px;
+  width: 180vh;
+  margin-left: 17%;
   border-style: solid;
-  border-color: rgb(216, 175, 175);
+  /* border-color: rgb(216, 175, 175); */
+  background-color: #ccc;
   border-radius: 10px;
   position: fixed;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.4); 
-
 }
+
 .internal-testbox{
   float: right;
   margin-top: 5px;  
@@ -303,19 +307,18 @@ body {
  
 }
 .mcq-btn{
+  margin-top: 5px;
   padding: 3px;
-  
   background-color:rgb(227, 192, 192);
 }
 .subjective-btn{
   padding: 3px;
-
   background-color: rgb(244, 230, 230);
 }
 .logical-btn{
-  padding: 3px;
-  
+  padding: 3px;  
   background-color: rgb(227, 192, 192);
+  margin-right: 10px;
 }
 
 
@@ -423,9 +426,9 @@ body {
 /* LanguageModal.css */
 .language-modal {
   position: fixed;
-  width: 30%;
-  top: 50%;
-  left: 50%;
+  width: 40%;
+  top: 50%; 
+  left: 55%;
   transform: translate(-50%, -50%);
   background-color: #fff;
   border-radius: 10px;
@@ -434,8 +437,11 @@ body {
   z-index: 1000;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; 
+  /* justify-content: space-between;  */
   margin-top: 25px;
+  height: 400px;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 .language-card {
@@ -445,6 +451,7 @@ body {
   background-color: #f0f0f0;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 18px;
 }
 
 .language-card:hover {
@@ -459,5 +466,62 @@ body {
 }
 
 
+.add-more-languages-btn{
+  width: calc(24.33% - 7px); 
+  padding: 20px;
+  margin-bottom: 20px; 
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 18px;
+  background-color:#f5b8a9;
+}
 
+/* series css */
+/* Modal */
+.series-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.series-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Series Options */
+.series-option {
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  border-style: groove;
+  /* color: white; */
+  font-size: large;
+  font-weight: 400px;
+}
+.series-option:hover{
+  background-color: #ed6b4a;
+}
+
+.close-series{
+  float: right;
+}

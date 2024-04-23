@@ -1,19 +1,19 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import React from 'react';
 
 const Login = React.lazy(() => import('./components/auth/login'));
-const Register = React.lazy(() => import('./components/auth/register'));
+// const Register = React.lazy(() => import('./components/auth/register'));
 const Header = React.lazy(() => import('./components/header/header'));
 const Language = React.lazy(() => import('./components/language/language'));
 const HomePage = React.lazy(() => import('./components/homepage/homepage'));
 const HomepageData = React.lazy(() => import('./components/homepage/homepageData'));
 const Sidebar = React.lazy(() => import('./components/sidebar/sidebar'));
-const LanguageModal =React.lazy(() => import('./components/sidebar/language'));
+const Questionnarie = React.lazy(() => import('./components/questionnarie/questionnarie'));
 
 function App() {
-  const [configurechange, setConfigurechange] = useState(false);
+
 
   return (
     <div className="App">
@@ -23,11 +23,11 @@ function App() {
           {/* <Route path='/register' element={<Suspense fallback={<div>Loading...</div>}><Register /></Suspense>}></Route> */}
           <Route path='/header' element={<Suspense fallback={<div>Loading...</div>}><Header /></Suspense>}></Route>
           <Route path='/language' element={<Suspense fallback={<div>Loading...</div>}><Header /><Language /></Suspense>}></Route>
-          <Route path='/homepage' element={<Suspense fallback={<div>Loading...</div>}><Header /> <Suspense fallback={<div>Loading...</div>}><HomePage/></Suspense></Suspense>}></Route>
+          <Route path='/homepage' element={<Suspense fallback={<div>Loading...</div>}><Header /> <Suspense fallback={<div>Loading...</div>}><HomePage /></Suspense></Suspense>}></Route>
           <Route path='/homepagedata' element={<Suspense fallback={<div>Loading...</div>}><HomepageData /></Suspense>}></Route>
           <Route path='/sidebar' element={<Suspense fallback={<div>Loading...</div>}><Sidebar /></Suspense>}></Route>
-          <Route path='/languagemodel' element={<Suspense fallback={<div>Loading...</div>}><LanguageModal /></Suspense>}></Route>
-        </Routes>
+          <Route path='/questionnarie' element={<Suspense fallback={<div>Loading...</div>}><Questionnarie /></Suspense>}></Route>
+        </Routes> 
       </BrowserRouter>
     </div>
   );
