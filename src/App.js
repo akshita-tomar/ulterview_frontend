@@ -8,12 +8,13 @@ const Login = React.lazy(() => import('./components/auth/login'));
 const Header = React.lazy(() => import('./components/header/header'));
 const Language = React.lazy(() => import('./components/language/language'));
 const HomePage = React.lazy(() => import('./components/homepage/homepage'));
-const HomepageData = React.lazy(() => import('./components/homepage/homepageData'));
+const CreateTask = React.lazy(() => import('./components/homepage/createTask'));
 const Sidebar = React.lazy(() => import('./components/sidebar/sidebar'));
-const Questionnarie = React.lazy(() => import('./components/questionnarie/questionnarie'));
+const UpdateQuestions = React.lazy(()=>import('./components/updateQuestions/updateQuestions'));
+
+
 
 function App() {
-
 
   return (
     <div className="App">
@@ -24,10 +25,10 @@ function App() {
           <Route path='/header' element={<Suspense fallback={<div>Loading...</div>}><Header /></Suspense>}></Route>
           <Route path='/language' element={<Suspense fallback={<div>Loading...</div>}><Header /><Language /></Suspense>}></Route>
           <Route path='/homepage' element={<Suspense fallback={<div>Loading...</div>}><Header /> <Suspense fallback={<div>Loading...</div>}><HomePage /></Suspense></Suspense>}></Route>
-          <Route path='/homepagedata' element={<Suspense fallback={<div>Loading...</div>}><HomepageData /></Suspense>}></Route>
+          <Route path='/create-task' element={<Suspense fallback={<div>Loading...</div>}><CreateTask /></Suspense>}></Route>
           <Route path='/sidebar' element={<Suspense fallback={<div>Loading...</div>}><Sidebar /></Suspense>}></Route>
-          <Route path='/questionnarie' element={<Suspense fallback={<div>Loading...</div>}><Questionnarie /></Suspense>}></Route>
-        </Routes> 
+          <Route path='/updateQuestions' element={<Suspense fallback={<div>Loading...</div>}><Header/><Sidebar/><UpdateQuestions/></Suspense>}></Route>
+        </Routes > 
       </BrowserRouter>
     </div>
   );

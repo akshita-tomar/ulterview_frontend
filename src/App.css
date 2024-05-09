@@ -256,7 +256,7 @@ body {
 .homepage-outer-div{
   width: 160vh;
   /* background-color: rgb(252, 246, 246); */
-  height: 85vh;
+  height: 79vh;
   margin-top: 50px;
   margin-left: 270px;
   /* overflow-y: scroll;
@@ -288,16 +288,16 @@ body {
 .test-box{
   margin-top: 150px;
   height: 60vh;
-  width: 180vh;
+  width: 170vh;
   margin-left: 17%;
-  border-style: solid;
+  /* border-style: solid; */
   /* border-color: rgb(216, 175, 175); */
   background-color: #ccc;
   border-radius: 10px;
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.4); 
+  background-color: rgba(250, 216, 204, 0.4); 
 }
 
 .internal-testbox{
@@ -310,20 +310,24 @@ body {
   margin-top: 5px;
   padding: 3px;
   background-color:rgb(227, 192, 192);
+  border-radius: 50px;
 }
 .subjective-btn{
   padding: 3px;
   background-color: rgb(244, 230, 230);
+  border-radius: 50px;
 }
 .logical-btn{
   padding: 3px;  
   background-color: rgb(227, 192, 192);
   margin-right: 10px;
+  border-radius: 50px;
 }
 
 
 .mcq-inputs, .subjective-inputs, .logical-inputs {
   margin-bottom: 20px;
+  /* margin-top: 200px; */
 }
 
 .mcq-question, .mcq-options, .subjective-inputs input, .logical-inputs input  {
@@ -332,6 +336,7 @@ body {
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  margin-top: 5px;
 
 }
 
@@ -442,12 +447,13 @@ body {
   height: 400px;
   overflow-y: scroll;
   scrollbar-width: none;
+  box-shadow: 1px 1px 3px 2px #c22e0a;
 }
 
 .language-card {
   width: calc(23.33% - 10px); 
-  padding: 20px;
-  margin-bottom: 20px; 
+  padding-bottom: 10px;
+  margin-bottom: 10px; 
   background-color: #f0f0f0;
   border-radius: 5px;
   cursor: pointer;
@@ -456,6 +462,17 @@ body {
 
 .language-card:hover {
   background-color:#f29d88;
+}
+
+.card-inner{
+  background-color:#787777;
+  /* margin-bottom: 15px; */
+  /* border-radius: 5px; */
+  color: white;
+  /* text-align: right; */
+}
+.text-space{
+  padding: 30px;
 }
 
 /* Media query for smaller screens */
@@ -524,4 +541,79 @@ body {
 
 .close-series{
   float: right;
+}
+
+
+.chooselanguage-heading-sidebar{
+  position: fixed;
+  /* margin-left:40%;
+  margin-top: 300px; */
+  /* margin-bottom: 20%; */
+  /* height: 25px; */
+  height: 20px;
+  width: 400px;
+  background-color: #0056b3;
+  color: white;
+  font-size: large;
+
+}
+
+/* *******  HEADINGS OF CREATE TEST FOR SERIES */
+.headings{
+  display: flex;
+}
+
+.create-series-heading{
+  /* background-color: #0056b3; */
+  width: 1000px;
+}
+
+.edit-series-button{
+ height: 40px;
+ width: 170px;
+ margin-top: 12px;
+ border: none;
+ font-size: medium;
+ border-radius: 4px;
+ background-color: #ff5733;
+ color: white;
+ cursor: pointer;
+ /* margin-left: 380px; */
+}
+
+/* ****************** EDIT QUESTIONS */
+
+
+
+.mcq-question-edit{
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 2%;
+  background-color: pink
+}
+
+
+.heading-objective{
+  background-color: #0056b3;
+  width: 400px;
+  margin-left: 19px;
+  padding: 2px;
+  color: white;
+  border-radius: 50px;
+  /* text-align: left; */
+}
+
+.outer-edit-question-div{
+  margin-top: 55%;
+  width: 85%;
+  margin-left: 15%;
+}
+
+.Update-btn{
+  float: right;
+  background-color: #0056b3;
+  margin-right: 20px;
 }
