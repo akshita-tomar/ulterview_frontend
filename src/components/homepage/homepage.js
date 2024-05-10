@@ -13,16 +13,41 @@ const HomePage = () => {
   const [showAddlanguageModal, setShowAddlanguageModal] = useState(false)
   const [newlanguage, setNewLanguage] = useState('')
   const [showseries, setShowSeries] = useState(false)
-  const [seriesOptions, setSeriesOptions] = useState(['easy', 'very easy', 'medium', 'hard', 'very hard'])
+  const [seriesOptions, setSeriesOptions] = useState([])
   const [series, setSeries] = useState('')
-  const [showquestionFrom, setshowQuestionForm] = useState(false)
-  const [language, setlanguage] = useState('')
   const [showcreteTasksection, setShowcreteTasksection] = useState(false)
   const [configurechange, setconfigureChange] = useState(0)
   const [showEditBox, setshowEditBox] = useState(false)
   const [languageId, setLanguageId] = useState('')
   const [holdLanguage, setHoldLanguage] = useState('')
+  const [openAddnewseriesModal,setopenAddnewseriesModal]= useState(false)
   const navigate = useNavigate();
+
+
+
+
+  useEffect(() => {
+    let token = localStorage.getItem('token')
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+
+    fetch("http://localhost:8000/api/v1/getAllSeries", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.type === 'success') {
+          setSeriesOptions(result.allSeries)
+        }
+      })
+      .catch((error) => console.error(error));
+  }, [])
+
 
 
   useEffect(() => {
@@ -100,7 +125,8 @@ const HomePage = () => {
 
   const handleLanguageClick = (language) => {
     let mylanguage = language
-    setlanguage(mylanguage)
+    localStorage.setItem("language",language)
+   
     let token = localStorage.getItem('token')
     if (!token) {
       navigate('/')
@@ -123,7 +149,7 @@ const HomePage = () => {
     fetch("http://localhost:8000/api/v1/UpdateUserLanguage", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        
+
         if (result.type === 'error') {
           toast.error(result.message)
         } else {
@@ -137,31 +163,6 @@ const HomePage = () => {
 
 
 
-  const handleEditLanguage2 = (id, language) => {
-    let token = localStorage.getItem('token')
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer " + token);
-
-    const raw = JSON.stringify({
-      "language": language
-    });
-
-    const requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow"
-    };
-
-    fetch(`http://localhost:8000/api/v1/updateLanguage?languageId=${id}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        console.log(result)
-      })
-      .catch((error) => console.error(error));
-
-  }
 
 
 
@@ -197,42 +198,42 @@ const HomePage = () => {
 
 
 
+  let token = localStorage.getItem('token')
+  const updateLanguage = () => {
 
-  const updateLanguage=()=>{
-    let token = localStorage.getItem('token')
-    if(!token){
+    if (!token) {
       navigate('/')
     }
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer "+token);
-    
+    myHeaders.append("Authorization", "Bearer " + token);
+
     const raw = JSON.stringify({
       "language": holdLanguage
     });
-    
+
     const requestOptions = {
       method: "PUT",
       headers: myHeaders,
       body: raw,
       redirect: "follow"
     };
-    
+
     fetch(`http://localhost:8000/api/v1/updateLanguage?languageId=${languageId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
-        if(result.type==='error'){
+        if (result.type === 'error') {
           toast.error(result.message)
-        }else{
+        } else {
           toast.success(result.message)
           setshowEditBox(false)
-          setconfigureChange(prev=>prev + 1)
+          setconfigureChange(prev => prev + 1)
         }
       })
       .catch((error) => console.error(error));
-    }
-    
+  }
+
 
 
   const handleEditLanguage = (id, language) => {
@@ -252,16 +253,34 @@ const HomePage = () => {
   const closeAddlanguageModal = () => {
     setShowAddlanguageModal(false)
     setShowLanguageModal(true)
-   
+
   }
 
-  const showQuestion = (series) => {
-    localStorage.setItem('series',series)
-    setSeries(series);
-    setShowSeries(false);
-    setShowLanguageModal(false);
-    setshowQuestionForm(true);
+  const showQuestion = (seriesId) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + token);
 
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+
+    fetch(`http://localhost:8000/api/v1/getSeries?seriesId=${seriesId}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.type === 'success') {
+          localStorage.setItem('series', result.series.seriesName)
+          localStorage.setItem('seriesId',result.series._id)
+          setSeries(result.series.seriesName);
+          setShowSeries(false);
+          setShowLanguageModal(false);
+          navigate('/create-task')
+
+        }
+      })
+      .catch((error) => console.error(error));
   };
 
   const closeseries = () => {
@@ -269,20 +288,24 @@ const HomePage = () => {
     setShowLanguageModal(true)
   }
 
-  const closeAddlanguageModal2 =()=>{
+  const closeAddlanguageModal2 = () => {
     setshowEditBox(false)
     setShowLanguageModal(true)
   }
 
+const openAddseries =()=>{
+  setopenAddnewseriesModal(true)
+}
 
 
+const AddSeries =()=>{
 
-
+}
 
   return (
     <>
       <div className="sidebar">
-        <button className="sidebar-button" onClick={fetchLanguages}>Create Task</button>
+        <button className="sidebar-button" onClick={fetchLanguages}>Questionnaire</button>
         <Toaster />
       </div>
       {
@@ -323,6 +346,7 @@ const HomePage = () => {
                   </div>
                 </div>
               )}
+            {/* ******* */}
             {showseries && (
               <div className="series-modal-overlay">
                 <div className="series-modal">
@@ -331,15 +355,21 @@ const HomePage = () => {
                     <h3>Select Series</h3>
                   </div>
                   <div className="modal-body">
+                    <div className="series-option-new" onClick={openAddseries} >Add new series</div> 
                     {seriesOptions.map((series, index) => (
-                      <div key={index} className={`series-option series-${series.toLowerCase()}`} onClick={() => showQuestion(series)}>
-                        <div> {series}</div>
-                      </div>
+                      <>
+                      <div className="series-outer-box">
+                        <MdEdit /> <MdDelete />
+                        <div  key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName}</div>   
+                      </div> <br></br></>
                     ))}
                   </div>
                 </div>
               </div>
             )}
+       
+        
+            {/* ********* */}
             {
               showEditBox && (
                 <div className="modal-overlay">
@@ -361,10 +391,7 @@ const HomePage = () => {
                 </div>
               )
             }
-            {showquestionFrom && (
-
-              <CreateTask series={series} language={language} />
-            )}
+         
           </>)}
 
     </>
@@ -373,7 +400,7 @@ const HomePage = () => {
 }
 export default HomePage;
 
- 
+
 
 
 

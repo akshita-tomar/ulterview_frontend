@@ -46,7 +46,8 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  font-family:Georgia, 'Times New Roman', Times, serif
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  /* background-color: rgb(245, 141, 112); */
 }
 
 .login-container {
@@ -310,23 +311,29 @@ body {
   margin-top: 5px;
   padding: 3px;
   background-color:rgb(227, 192, 192);
-  border-radius: 50px;
+  border: none;
+  margin-right: 4px;
+  /* border-radius: 50px; */
 }
 .subjective-btn{
   padding: 3px;
-  background-color: rgb(244, 230, 230);
-  border-radius: 50px;
+  background-color:rgb(227, 192, 192);
+  border: none;
+  margin-right: 4px;
+  /* border-radius: 50px; */
 }
 .logical-btn{
   padding: 3px;  
   background-color: rgb(227, 192, 192);
   margin-right: 10px;
-  border-radius: 50px;
+  border: none;
+  /* border-radius: 50px; */
 }
 
 
 .mcq-inputs, .subjective-inputs, .logical-inputs {
   margin-bottom: 20px;
+
   /* margin-top: 200px; */
 }
 
@@ -400,7 +407,8 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #fdac9d;
+  /* background-color: #fdac9d; */
+  background-color: #eebfb5;
   padding-top: 20px;
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
   background-size: 100px 100px;
@@ -447,7 +455,7 @@ body {
   height: 400px;
   overflow-y: scroll;
   scrollbar-width: none;
-  box-shadow: 1px 1px 3px 2px #c22e0a;
+  /* box-shadow: 1px 1px 3px 2px #c22e0a; */
 }
 
 .language-card {
@@ -522,6 +530,8 @@ body {
 .modal-body {
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 /* Series Options */
@@ -581,6 +591,23 @@ body {
  /* margin-left: 380px; */
 }
 
+
+.series-option-new{
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  border-style: groove;
+  color:  #ff5733;
+  font-size: large;
+  font-weight: 400px;
+}
+
+.series-outer-box{
+  background-color: rgb(244, 237, 231);
+  border-radius: 10px;
+}
+
 /* ****************** EDIT QUESTIONS */
 
 
@@ -607,13 +634,31 @@ body {
 }
 
 .outer-edit-question-div{
-  margin-top: 55%;
+  margin-top: 5%;
   width: 85%;
   margin-left: 15%;
+  height: 550px;
+  /* background-color: #0056b3; */
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }
 
 .Update-btn{
   float: right;
   background-color: #0056b3;
   margin-right: 20px;
+}
+
+.testbox-textarea-logical-edit{
+  padding: 10px;
+  width: 95%;
+  height: 40px;
+  background-color: pink;
+  margin-top: 20px;
+}
+
+
+.back-btn{
+width: 50px;
+height: 30px;
 }

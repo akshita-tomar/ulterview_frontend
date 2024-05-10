@@ -1,12 +1,12 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from "react-router-dom";
+import { useFetcher, useNavigate } from "react-router-dom";
 
 
 
 
-const CreateTask = ({ series, language }) => {
+const CreateTask = () => {
 
   const navigate = useNavigate()
   // const [openmodal, setOpenModal] = useState(false)
@@ -16,11 +16,10 @@ const CreateTask = ({ series, language }) => {
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [answer, setAnswer] = useState("");
   const [isQuesionPresent, setISQuestionPresent] = useState(false)
-
-
-
-
-
+  const [checkChange,setCheckChange]=useState(0)
+  
+  let series= localStorage.getItem('series')
+  let language = localStorage.getItem('language')
 
 
 
@@ -36,12 +35,6 @@ const CreateTask = ({ series, language }) => {
     newOptions[index] = value;
     setOptions(newOptions);
   };
-
-
-
-  // const closeTestModal = () => {
-
-  // }
 
 
 
@@ -67,6 +60,7 @@ const CreateTask = ({ series, language }) => {
 
 
     let token = localStorage.getItem('token')
+    let seriesId = localStorage.getItem('seriesId')
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + token);
@@ -76,7 +70,7 @@ const CreateTask = ({ series, language }) => {
       "options": options,
       "correctAnswer": correctAnswer,
       "answer": answer,
-      "difficultyLevel": series
+     
     });
 
     const requestOptions = {
@@ -89,7 +83,7 @@ const CreateTask = ({ series, language }) => {
     switch (questionType) {
       case "mcq":
 
-        fetch("http://localhost:8000/api/v1/addObjective", requestOptions)
+        fetch(`http://localhost:8000/api/v1/addObjective?seriesId=${seriesId}`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             console.log(result)
@@ -97,7 +91,7 @@ const CreateTask = ({ series, language }) => {
               setQuestion('')
               setOptions(["", "", "", ""]);
               setCorrectAnswer('')
-
+              setCheckChange(prev=>prev+1)
             } else {
               toast.error(result.message)
             }
@@ -108,14 +102,14 @@ const CreateTask = ({ series, language }) => {
 
       case "subjective":
 
-        fetch("http://localhost:8000/api/v1/addSubjective", requestOptions)
+        fetch(`http://localhost:8000/api/v1/addSubjective?seriesId=${seriesId}`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             console.log(result)
             if (result.type === 'success') {
               setQuestion('')
               setAnswer('')
-
+              setCheckChange(prev=>prev+1)
             } else {
               toast.error(result.message)
             }
@@ -125,14 +119,14 @@ const CreateTask = ({ series, language }) => {
 
       case "logical":
 
-        fetch("http://localhost:8000/api/v1/addLogical", requestOptions)
+        fetch(`http://localhost:8000/api/v1/addLogical?seriesId=${seriesId}`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             console.log(result)
             if (result.type === 'success') {
               setQuestion('')
               setAnswer('')
-
+              setCheckChange(prev=>prev+1)
             } else {
               toast.error(result.message)
             }
@@ -145,13 +139,46 @@ const CreateTask = ({ series, language }) => {
     }
   };
 
-  
-  
+
+
+
+  useEffect(() => {
+    let series = localStorage.getItem('seriesId')
+    let token = localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+    fetch(`http://localhost:8000/api/v1/getQuestionsSeriesWise?seriesId=${series}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.type === 'error') {
+          // toast.error(result.message)
+        } else {
+          setISQuestionPresent(true)
+        }
+      })
+      .catch((error) => console.error(error));
+
+  }, [series,checkChange])
+
 
   const handleEditQuestion = () => {
     navigate('/updateQuestions')
   }
 
+
+  
 
   return (
     <div className="homepage-outer-div">
@@ -159,9 +186,13 @@ const CreateTask = ({ series, language }) => {
         // openmodal || series && (
         series && (
           <>
-            <div className="headings"><h2 className="create-series-heading"> Create test of {series} series ({language}) </h2> 
-           
-              <button className="edit-series-button" onClick={() => handleEditQuestion()}>edit series</button>
+            <div className="headings"><h2 className="create-series-heading"> Create test of {series} series ({language}) </h2>
+              {
+                isQuesionPresent && (
+                  <button className="edit-series-button" onClick={() => handleEditQuestion()}>edit series</button>
+                )
+              }
+
             </div>
             <div className="test-box">
               {/* <div className="cross-sign" onClick={closeTestModal}> <b>  &#10005; </b></div> */}

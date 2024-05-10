@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
-
+import { MdOutlineArrowBack } from "react-icons/md"
 
 const UpdateQuestions = () => {
     const navigate = useNavigate()
     const [questionAnswer, setQuestionAnswer] = useState([])
-    const [subjectiveQuestion, setSubjectiveQuestion] = useState('')
+    const [question, setQuestion] = useState('')
+    const [answer,setAnswer]=useState('')
+    let series = localStorage.getItem('seriesId')
 
-    let series = localStorage.getItem('series')
+   
 
     useEffect(() => {
         let token = localStorage.getItem('token')
@@ -27,31 +29,39 @@ const UpdateQuestions = () => {
             headers: myHeaders,
             redirect: "follow"
         };
-        fetch(`http://localhost:8000/api/v1/getQuestionsSeriesWise?series=${series}`, requestOptions)
+        fetch(`http://localhost:8000/api/v1/getQuestionsSeriesWise?seriesId=${series}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result)
                 if (result.type === 'error') {
-                    toast.error(result.message)
+                    console.log(result.message)
+                    // toast.error(result.message)
                 } else {
                     setQuestionAnswer(result)
                 }
-
-
             })
             .catch((error) => console.error(error));
 
     }, [series])
 
 
+    const handleBackClick =()=>{
+        navigate('/create-task')
+    }
 
     return (
         <div className="outer-edit-question-div">
-            <div className="mcq-inputs-edit-question">
-                 <div className="heading-objective">Objective</div>
+           <div className="back-btn" onClick={handleBackClick}>< MdOutlineArrowBack /></div>
+            <>
+                {
+                    questionAnswer?.questions?.objective?.length > 0 && (
+                        <div className="heading-objective">Objective</div>
+                    )
+                }
+
                 {questionAnswer?.questions?.objective?.map((Element, index) => (
                     <>
-                        <input className="mcq-question-edit" type="text" placeholder="Enter question" defaultValue={Element.question} />
+                        <input className="mcq-question-edit" type="text" placeholder="Enter question" defaultValue={Element.question} onChange={(e)=>setQuestion(e.target.value)} />
                         {Element?.options?.map((option, index) => (
                             <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} />
                         ))}
@@ -64,20 +74,47 @@ const UpdateQuestions = () => {
                         <button className="Update-btn">Update</button>
                     </>
                 ))}
-            </div> <br></br>
-           
-            <div  className="mcq-inputs-edit-question" >
-            <div className="heading-objective">Subjective</div>
+            </> <br></br>
+
+            <>
+                {
+                    questionAnswer?.questions?.subjective?.length > 0 && (
+                        <div className="heading-objective">Subjective</div>
+                    )
+                }
+
                 {
                     questionAnswer?.questions?.subjective?.map((Element, index) => (
-                   <>
-                    <input className='mcq-question-edit' type="text" placeholder="Enter subjective question"  defaultValue={Element.question} />
-                    <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} />
-                    <button className="Update-btn">Update</button>
-                   </>
+                        <>
+                            <input className='mcq-question-edit' type="text" placeholder="Enter subjective question" defaultValue={Element.question} />
+                            <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} />
+                            <button className="Update-btn">Update</button>
+
+                        </>
                     ))
                 }
-                </div>
+
+            </><br></br><br></br>
+
+            <>
+                {
+                    questionAnswer?.questions?.logical?.length > 0 && (
+                        <div className="heading-objective">Logical</div>
+                    )
+                }
+
+                {
+                    questionAnswer?.questions?.logical?.map((Element, index) => (
+                        <>
+                            <textarea type="text" className="testbox-textarea-logical-edit" placeholder="Enter logical question" defaultValue={Element.question} />
+                            <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} />
+                            <button className="Update-btn">Update</button>
+
+                        </>
+                    ))
+
+                }
+            </>
             <Toaster />
         </div>
     )

@@ -25,7 +25,7 @@ function App() {
           <Route path='/header' element={<Suspense fallback={<div>Loading...</div>}><Header /></Suspense>}></Route>
           <Route path='/language' element={<Suspense fallback={<div>Loading...</div>}><Header /><Language /></Suspense>}></Route>
           <Route path='/homepage' element={<Suspense fallback={<div>Loading...</div>}><Header /> <Suspense fallback={<div>Loading...</div>}><HomePage /></Suspense></Suspense>}></Route>
-          <Route path='/create-task' element={<Suspense fallback={<div>Loading...</div>}><CreateTask /></Suspense>}></Route>
+          <Route path='/create-task' element={<Suspense fallback={<div>Loading...</div>}><Header/><Sidebar/><CreateTask /></Suspense>}></Route>
           <Route path='/sidebar' element={<Suspense fallback={<div>Loading...</div>}><Sidebar /></Suspense>}></Route>
           <Route path='/updateQuestions' element={<Suspense fallback={<div>Loading...</div>}><Header/><Sidebar/><UpdateQuestions/></Suspense>}></Route>
         </Routes > 
