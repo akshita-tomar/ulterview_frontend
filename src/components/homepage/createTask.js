@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import { useFetcher, useNavigate } from "react-router-dom";
 
@@ -9,16 +8,15 @@ import { useFetcher, useNavigate } from "react-router-dom";
 const CreateTask = () => {
 
   const navigate = useNavigate()
-  // const [openmodal, setOpenModal] = useState(false)
   const [questionType, setQuestionType] = useState("mcq");
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState(["", "", "", ""]);
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [answer, setAnswer] = useState("");
   const [isQuesionPresent, setISQuestionPresent] = useState(false)
-  const [checkChange,setCheckChange]=useState(0)
-  
-  let series= localStorage.getItem('series')
+  const [checkChange, setCheckChange] = useState(0)
+
+  let series = localStorage.getItem('series')
   let language = localStorage.getItem('language')
 
 
@@ -70,7 +68,7 @@ const CreateTask = () => {
       "options": options,
       "correctAnswer": correctAnswer,
       "answer": answer,
-     
+
     });
 
     const requestOptions = {
@@ -91,7 +89,7 @@ const CreateTask = () => {
               setQuestion('')
               setOptions(["", "", "", ""]);
               setCorrectAnswer('')
-              setCheckChange(prev=>prev+1)
+              setCheckChange(prev => prev + 1)
             } else {
               toast.error(result.message)
             }
@@ -109,7 +107,7 @@ const CreateTask = () => {
             if (result.type === 'success') {
               setQuestion('')
               setAnswer('')
-              setCheckChange(prev=>prev+1)
+              setCheckChange(prev => prev + 1)
             } else {
               toast.error(result.message)
             }
@@ -126,7 +124,7 @@ const CreateTask = () => {
             if (result.type === 'success') {
               setQuestion('')
               setAnswer('')
-              setCheckChange(prev=>prev+1)
+              setCheckChange(prev => prev + 1)
             } else {
               toast.error(result.message)
             }
@@ -170,7 +168,7 @@ const CreateTask = () => {
       })
       .catch((error) => console.error(error));
 
-  }, [series,checkChange])
+  }, [series, checkChange])
 
 
   const handleEditQuestion = () => {
@@ -178,7 +176,7 @@ const CreateTask = () => {
   }
 
 
-  
+
 
   return (
     <div className="homepage-outer-div">
@@ -186,7 +184,7 @@ const CreateTask = () => {
         // openmodal || series && (
         series && (
           <>
-            <div className="headings"><h2 className="create-series-heading"> Create test of {series} series ({language}) </h2>
+            <div className="headings"><h2 className="create-series-heading"> Create test of {series} ({language}) </h2>
               {
                 isQuesionPresent && (
                   <button className="edit-series-button" onClick={() => handleEditQuestion()}>edit series</button>

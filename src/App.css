@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+
 }
 
 .App-logo {
@@ -454,7 +455,7 @@ body {
   margin-top: 25px;
   height: 400px;
   overflow-y: scroll;
-  scrollbar-width: none;
+  scrollbar-width: thin;
   /* box-shadow: 1px 1px 3px 2px #c22e0a; */
 }
 
@@ -519,7 +520,10 @@ body {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  width: 300px;
+  width: 400px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  height: 400px;
 }
 
 .modal-header {
@@ -647,6 +651,7 @@ body {
   float: right;
   background-color: #0056b3;
   margin-right: 20px;
+  color: white;
 }
 
 .testbox-textarea-logical-edit{

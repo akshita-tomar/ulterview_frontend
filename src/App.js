@@ -30,7 +30,7 @@ function App() {
           <Route path='/updateQuestions' element={<Suspense fallback={<div>Loading...</div>}><Header/><Sidebar/><UpdateQuestions/></Suspense>}></Route>
         </Routes > 
       </BrowserRouter>
-    </div>
+    </div>  
   );
 }
 

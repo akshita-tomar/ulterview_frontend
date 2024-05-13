@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useAsyncError, useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
-import CreateTask from "../homepage/createTask";
 import { MdEdit, MdDelete } from "react-icons/md";
 import swal from "sweetalert";
+import { RiUserStarFill } from "react-icons/ri";
 
 
 
@@ -20,8 +20,14 @@ const HomePage = () => {
   const [showEditBox, setshowEditBox] = useState(false)
   const [languageId, setLanguageId] = useState('')
   const [holdLanguage, setHoldLanguage] = useState('')
-  const [openAddnewseriesModal,setopenAddnewseriesModal]= useState(false)
+  const [openAddnewseriesModal, setopenAddnewseriesModal] = useState(false)
+  const [holdNewSeries, setHoldNewSeries] = useState('')
+  const [configureSeriesChange, setConfigureSeriesChange] = useState(0)
+  const [openEditseriesModal, setOpenEditseriesModal] = useState(false)
+  const [seriesId, setSeriesId] = useState('')
+  const [updatedSeries,setUpdatedSeries]=useState('')
   const navigate = useNavigate();
+
 
 
 
@@ -46,7 +52,7 @@ const HomePage = () => {
         }
       })
       .catch((error) => console.error(error));
-  }, [])
+  }, [configureSeriesChange])
 
 
 
@@ -125,8 +131,8 @@ const HomePage = () => {
 
   const handleLanguageClick = (language) => {
     let mylanguage = language
-    localStorage.setItem("language",language)
-   
+    localStorage.setItem("language", language)
+
     let token = localStorage.getItem('token')
     if (!token) {
       navigate('/')
@@ -272,7 +278,7 @@ const HomePage = () => {
         console.log(result)
         if (result.type === 'success') {
           localStorage.setItem('series', result.series.seriesName)
-          localStorage.setItem('seriesId',result.series._id)
+          localStorage.setItem('seriesId', result.series._id)
           setSeries(result.series.seriesName);
           setShowSeries(false);
           setShowLanguageModal(false);
@@ -282,6 +288,115 @@ const HomePage = () => {
       })
       .catch((error) => console.error(error));
   };
+
+
+
+
+  const AddNewSeries = (e) => {
+    e.preventDefault()
+    let token = localStorage.getItem('token')
+    if (!token) {
+      navigate('/')
+    }
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    const raw = JSON.stringify({
+      "seriesName": holdNewSeries
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+
+    fetch("http://localhost:8000/api/v1/createSeries", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.type === 'success') {
+          setConfigureSeriesChange(prev => prev + 1)
+          setopenAddnewseriesModal(false)
+        }
+
+      })
+      .catch((error) => console.error(error));
+  }
+
+
+
+  const delteSeries = (id, seriesName) => {
+    let token = localStorage.getItem('token')
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+
+    fetch(`http://localhost:8000/api/v1/deleteSeries?seriesId=${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        setConfigureSeriesChange(prev => prev + 1)
+        swal(seriesName + " deleted successfully!", "", "success");
+      })
+      .catch((error) => console.error(error));
+  }
+
+
+
+  const AddEditSeries = () => {
+    console.log("series id -----",seriesId)
+    let token = localStorage.getItem('token')
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    const raw = JSON.stringify({
+      "updatedSeries": updatedSeries
+    });
+
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+
+    fetch(`http://localhost:8000/api/v1/updateSeries?updateSeriesId=${seriesId}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.type === 'success') {
+          console.log('here--', result)
+          setConfigureSeriesChange(prev => prev + 1)
+          setOpenEditseriesModal(false)
+          // toast.success(result.message)
+        }
+      })
+      .catch((error) => console.error(error));
+  }
+
+
+  const handleEditSeries = (seriesName, seriesId) => {
+    // setShowSeries(false)
+    console.log('series name ------', seriesName)
+    setSeriesId(seriesId)
+    setSeries(seriesName)
+    setOpenEditseriesModal(true)
+  }
+
+  const handleCloseEditSeries = () => {
+    setOpenEditseriesModal(false)
+  }
+
+
 
   const closeseries = () => {
     setShowSeries(false)
@@ -293,14 +408,19 @@ const HomePage = () => {
     setShowLanguageModal(true)
   }
 
-const openAddseries =()=>{
-  setopenAddnewseriesModal(true)
-}
+  const openAddseries = () => {
+    // setShowSeries(false)
+    setopenAddnewseriesModal(true)
 
+  }
 
-const AddSeries =()=>{
+  const handlecloseAddseriesModal = () => {
+    setopenAddnewseriesModal(false)
+  }
 
-}
+  const AddSeries = () => {
+
+  }
 
   return (
     <>
@@ -355,20 +475,60 @@ const AddSeries =()=>{
                     <h3>Select Series</h3>
                   </div>
                   <div className="modal-body">
-                    <div className="series-option-new" onClick={openAddseries} >Add new series</div> 
+                    <div className="series-option-new" onClick={openAddseries} >Add new series</div>
                     {seriesOptions.map((series, index) => (
                       <>
-                      <div className="series-outer-box">
-                        <MdEdit /> <MdDelete />
-                        <div  key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName}</div>   
-                      </div> <br></br></>
+                        <div className="series-outer-box">
+                          <MdEdit onClick={() => handleEditSeries(series.seriesName, series._id)} /> <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
+                          <div key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName}</div>
+                        </div> <br></br></>
                     ))}
                   </div>
                 </div>
               </div>
             )}
-       
-        
+            {
+              openAddnewseriesModal && (
+                <div className="modal-overlay">
+                  <div className="modal">
+                    <div><h3>Add Series</h3></div>
+                    <div className="cross-sign" onClick={handlecloseAddseriesModal}>  &#10005;</div>
+
+                    <div className="input-field">
+                      <input
+                        type="text"
+                        placeholder="Enter new series"
+                        onChange={event => setHoldNewSeries(event.target.value)}
+                      />
+                      <button onClick={AddNewSeries} >Add</button>
+                    </div>
+                    <Toaster />
+                  </div>
+                </div>
+              )
+            }
+            {
+              openEditseriesModal && (
+                <div className="modal-overlay">
+                  <div className="modal">
+                    <div><h3>Edit Series</h3></div>
+                    <div className="cross-sign" onClick={handleCloseEditSeries} >  &#10005;</div>
+
+                    <div className="input-field">
+                      <input
+                        defaultValue={series}
+                        type="text"
+                      // placeholder="Edit series"
+                      onChange={event => setUpdatedSeries(event.target.value)}
+                      />
+                      <button onClick={AddEditSeries} >Add</button>
+                    </div>
+                    <Toaster />
+                  </div>
+                </div>
+              )
+            }
+
             {/* ********* */}
             {
               showEditBox && (
@@ -391,7 +551,7 @@ const AddSeries =()=>{
                 </div>
               )
             }
-         
+
           </>)}
 
     </>
