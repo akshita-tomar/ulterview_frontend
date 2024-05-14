@@ -184,7 +184,7 @@ const CreateTask = () => {
         // openmodal || series && (
         series && (
           <>
-            <div className="headings"><h2 className="create-series-heading"> Create test of {series} ({language}) </h2>
+            <div className="headings"><h2 className="create-series-heading"> Create test for {series} ({language}) </h2>
               {
                 isQuesionPresent && (
                   <button className="edit-series-button" onClick={() => handleEditQuestion()}>edit series</button>

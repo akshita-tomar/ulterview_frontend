@@ -41,13 +41,14 @@ const UpdateQuestions = () => {
                 //     // toast.error(result.message)
                 // } else {
                 setQuestionAnswer(result)
+               
                 // }
             })
             .catch((error) => console.error(error));
 
     }, [series, configureChange])
 
-
+console.log("questions ---",questionAnswer)
 
 
 
@@ -85,45 +86,49 @@ const UpdateQuestions = () => {
 
 
 
-    const handleUpdateQuestion = (questionType,id) => {
-       console.log("updatedQuestion ----",question, "answer----",answer)
-       console.log(questionType,id)
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer "+token);
+    const handleUpdateQuestion = (questionType,id,qus,ans) => {
 
-        const raw = JSON.stringify({
-            "questionType": questionType,
-            "answer": answer,
-            "question": question,
-            "options":options,
-            "correctAnswer":correctAnswer
-        });
+       console.log("updatedQuestion ----",qus, "answer----",ans)
 
-        const requestOptions = {
-            method: "PUT",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-
-        fetch(`http://localhost:8000/api/v1/updateQuestionAnswer?questionId=${id}`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                console.log(result)
-                if(result.type==='success'){
-                    setConfigureSeriesChange(prev=>prev+1)
-                    setQuestion('')
-                    setAnswer('')
-                    setCorrectAnswer()
-                    setOptions(["", "", "", ""])
-                    toast.success(result.message,{
-                        duration:1000
+            setTimeout(() => {
+                console.log(questionType,id)
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+                myHeaders.append("Authorization", "Bearer "+token);
+        
+                const raw = JSON.stringify({
+                    "questionType": questionType,
+                    "answer": answer ? answer : ans,
+                    "question": question ? question : qus,
+                    "options":options,
+                    "correctAnswer":correctAnswer
+                });
+        
+                const requestOptions = {
+                    method: "PUT",
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: "follow"
+                };
+        
+                fetch(`http://localhost:8000/api/v1/updateQuestionAnswer?questionId=${id}`, requestOptions)
+                    .then((response) => response.json())
+                    .then((result) => {
+                        console.log(result)
+                        if(result.type==='success'){
+                            setConfigureSeriesChange(prev=>prev+1)
+                            setQuestion('')
+                            setAnswer('')
+                            setCorrectAnswer()
+                            setOptions(["", "", "", ""])
+                            toast.success(result.message,{
+                                duration:1000
+                            })
+        
+                        }
                     })
-
-                }
-            })
-            .catch((error) => console.error(error));
+                    .catch((error) => console.error(error));
+            }, 500);
     }
 
 
@@ -154,10 +159,11 @@ const UpdateQuestions = () => {
                     <>
                         <input className="mcq-question-edit" type="text" placeholder="Enter question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
                         {Element?.options?.map((option, index) => (
-                            <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
+                        //    console.log("optioen----",option)
+                           <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
                         ))}
                         <label>Select correct answer:</label>
-                        <select defaultValue={Element.correctAnswer}  onChange={(e) => setCorrectAnswer(parseInt(e.target.value))}  >
+                        <select defaultValue={Element.correctAnswer}  onChange={(e) => setCorrectAnswer(parseInt(e.target.value))} >
                             {Element?.options?.map((_, index) => (
                                 <option key={index} value={index + 1}>{index + 1}</option>
                             ))}
@@ -177,9 +183,10 @@ const UpdateQuestions = () => {
                 {
                     questionAnswer?.questions?.subjective?.map((Element, index) => (
                         <>
-                            <input className='mcq-question-edit' type="text" placeholder="Enter subjective question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.defaultValue)}/>
-                            <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} onChange={(e)=>setAnswer(e.target.defaultValue)} />
-                            <button className="Update-btn" onClick={() => delteQuestion('subjective', Element._id)} >DELETE</button><button className="Update-btn" onClick={() => handleUpdateQuestion('subjective', Element._id)} >UPDATE</button>
+                        console.log("subjective----",{Element.answer})
+                            <input className='mcq-question-edit' type="text" placeholder="Enter subjective question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
+                            <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} onChange={(e)=>setAnswer(e.target.value)} />
+                            <button className="Update-btn" onClick={() => delteQuestion('subjective', Element._id)} >DELETE</button><button className="Update-btn" onClick={() => handleUpdateQuestion('subjective', Element._id,Element.question,Element.answer)} >UPDATE</button>
 
                         </>
                     ))
