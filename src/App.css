@@ -462,11 +462,12 @@ body {
 .language-card {
   width: calc(23.33% - 10px); 
   padding-bottom: 10px;
-  margin-bottom: 10px; 
+  /* margin-bottom: 10px;  */
   background-color: #f0f0f0;
   border-radius: 5px;
   cursor: pointer;
   margin-left: 18px;
+  height: 100px;
 }
 
 .language-card:hover {
@@ -495,10 +496,11 @@ body {
 .add-more-languages-btn{
   width: calc(24.33% - 7px); 
   padding: 20px;
-  margin-bottom: 20px; 
+  /* margin-bottom: 20px;  */
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 18px;
+  margin-left: 10px;
+  height: 110px;
   background-color:#f5b8a9;
 }
 

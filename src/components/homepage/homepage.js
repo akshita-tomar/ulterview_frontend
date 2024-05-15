@@ -3,7 +3,9 @@ import { useAsyncError, useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import { MdEdit, MdDelete } from "react-icons/md";
 import swal from "sweetalert";
-import { RiUserStarFill } from "react-icons/ri";
+import env from 'react-dotenv'
+
+
 
 
 
@@ -27,6 +29,10 @@ const HomePage = () => {
   const [seriesId, setSeriesId] = useState('')
   const [updatedSeries,setUpdatedSeries]=useState('')
   const navigate = useNavigate();
+  // const url = 'http://localhost:8000/api/v1/'
+  const url = 'http://16.171.41.223:8000/api/v1/'
+
+ 
 
 
 
@@ -43,7 +49,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch("http://localhost:8000/api/v1/getAllSeries", requestOptions)
+    fetch(`${url}/getAllSeries`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -79,7 +85,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch("http://localhost:8000/api/v1/getAllLanguages", requestOptions)
+    fetch(`${url}getAllLanguages`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setLanguages(result.data);
@@ -109,7 +115,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch("http://localhost:8000/api/v1/addLanguage", requestOptions)
+    fetch(`${url}addLanguage`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -152,7 +158,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch("http://localhost:8000/api/v1/UpdateUserLanguage", requestOptions)
+    fetch(`${url}UpdateUserLanguage`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
 
@@ -188,7 +194,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch(`http://localhost:8000/api/v1/deleteLanguage?languageId=${id}`, requestOptions)
+    fetch(`${url}deleteLanguage?languageId=${id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -225,7 +231,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch(`http://localhost:8000/api/v1/updateLanguage?languageId=${languageId}`, requestOptions)
+    fetch(`${url}updateLanguage?languageId=${languageId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -272,7 +278,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch(`http://localhost:8000/api/v1/getSeries?seriesId=${seriesId}`, requestOptions)
+    fetch(`${url}getSeries?seriesId=${seriesId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -313,7 +319,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch("http://localhost:8000/api/v1/createSeries", requestOptions)
+    fetch(`${url}createSeries`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -339,7 +345,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch(`http://localhost:8000/api/v1/deleteSeries?seriesId=${id}`, requestOptions)
+    fetch(`${url}deleteSeries?seriesId=${id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -369,7 +375,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch(`http://localhost:8000/api/v1/updateSeries?updateSeriesId=${seriesId}`, requestOptions)
+    fetch(`${url}updateSeries?updateSeriesId=${seriesId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -436,7 +442,7 @@ const HomePage = () => {
               <>
                 {/* <div className="chooselanguage-heading-sidebar">Select language to create task</div> */}
                 <div className="language-modal">
-                  {languages.map((language) => (
+                  {languages?.map((language) => (
 
                     <div key={language.id} className="language-card">
                       <div className="card-inner"><MdEdit onClick={() => handleEditLanguage(language._id, language.language)} /> <MdDelete onClick={() => handleDeleteLanguage(language._id)} /> </div>

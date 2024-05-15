@@ -20,6 +20,9 @@ const CreateTask = () => {
   let language = localStorage.getItem('language')
 
 
+  // const url = 'http://localhost:8000/api/v1/'
+  const url = 'http://16.171.41.223:8000/api/v1/'
+
 
 
   const handleQuestionTypeChange = (type) => {
@@ -81,7 +84,7 @@ const CreateTask = () => {
     switch (questionType) {
       case "mcq":
 
-        fetch(`http://localhost:8000/api/v1/addObjective?seriesId=${seriesId}`, requestOptions)
+        fetch(`${url}addObjective?seriesId=${seriesId}`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             console.log(result)
@@ -100,7 +103,7 @@ const CreateTask = () => {
 
       case "subjective":
 
-        fetch(`http://localhost:8000/api/v1/addSubjective?seriesId=${seriesId}`, requestOptions)
+        fetch(`${url}addSubjective?seriesId=${seriesId}`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             console.log(result)
@@ -117,7 +120,7 @@ const CreateTask = () => {
 
       case "logical":
 
-        fetch(`http://localhost:8000/api/v1/addLogical?seriesId=${seriesId}`, requestOptions)
+        fetch(`${url}addLogical?seriesId=${seriesId}`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             console.log(result)
@@ -156,7 +159,7 @@ const CreateTask = () => {
       headers: myHeaders,
       redirect: "follow"
     };
-    fetch(`http://localhost:8000/api/v1/getQuestionsSeriesWise?seriesId=${series}`, requestOptions)
+    fetch(`${url}getQuestionsSeriesWise?seriesId=${series}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)

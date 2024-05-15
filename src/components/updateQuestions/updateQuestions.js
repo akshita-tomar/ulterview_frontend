@@ -9,14 +9,18 @@ const UpdateQuestions = () => {
     const [questionAnswer, setQuestionAnswer] = useState([])
     const [question, setQuestion] = useState('')
     const [answer, setAnswer] = useState('')
-    const [correctAnswer,setCorrectAnswer]=useState()
+    const [correctAnswer, setCorrectAnswer] = useState()
     const [options, setOptions] = useState(["", "", "", ""]);
     let series = localStorage.getItem('seriesId')
     let token = localStorage.getItem('token')
 
 
+    // const url = 'http://localhost:8000/api/v1/'
+    const url = 'http://16.171.41.223:8000/api/v1/'
+
+
     useEffect(() => {
-        
+
         if (!token) {
             navigate('/')
         }
@@ -32,7 +36,7 @@ const UpdateQuestions = () => {
             headers: myHeaders,
             redirect: "follow"
         };
-        fetch(`http://localhost:8000/api/v1/getQuestionsSeriesWise?seriesId=${series}`, requestOptions)
+        fetch(`${url}getQuestionsSeriesWise?seriesId=${series}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result)
@@ -41,14 +45,14 @@ const UpdateQuestions = () => {
                 //     // toast.error(result.message)
                 // } else {
                 setQuestionAnswer(result)
-               
+
                 // }
             })
             .catch((error) => console.error(error));
 
     }, [series, configureChange])
 
-console.log("questions ---",questionAnswer)
+    console.log("questions ---", questionAnswer)
 
 
 
@@ -70,7 +74,7 @@ console.log("questions ---",questionAnswer)
             redirect: "follow"
         };
 
-        fetch(`http://localhost:8000/api/v1/DeleteQuestionAnswer?questionId=${id}`, requestOptions)
+        fetch(`${url}DeleteQuestionAnswer?questionId=${id}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 console.log(result)
@@ -86,58 +90,98 @@ console.log("questions ---",questionAnswer)
 
 
 
-    const handleUpdateQuestion = (questionType,id,qus,ans) => {
+    const handleUpdateSubjectiveQuestion = (questionType, id, qus, ans) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
 
-       console.log("updatedQuestion ----",qus, "answer----",ans)
+        const raw = JSON.stringify({
+            "questionType": questionType,
+            "answer": answer ? answer : ans,
+            "question": question ? question : qus,
+            "options": options,
+            "correctAnswer": correctAnswer
+        });
 
-            setTimeout(() => {
-                console.log(questionType,id)
-                const myHeaders = new Headers();
-                myHeaders.append("Content-Type", "application/json");
-                myHeaders.append("Authorization", "Bearer "+token);
-        
-                const raw = JSON.stringify({
-                    "questionType": questionType,
-                    "answer": answer ? answer : ans,
-                    "question": question ? question : qus,
-                    "options":options,
-                    "correctAnswer":correctAnswer
-                });
-        
-                const requestOptions = {
-                    method: "PUT",
-                    headers: myHeaders,
-                    body: raw,
-                    redirect: "follow"
-                };
-        
-                fetch(`http://localhost:8000/api/v1/updateQuestionAnswer?questionId=${id}`, requestOptions)
-                    .then((response) => response.json())
-                    .then((result) => {
-                        console.log(result)
-                        if(result.type==='success'){
-                            setConfigureSeriesChange(prev=>prev+1)
-                            setQuestion('')
-                            setAnswer('')
-                            setCorrectAnswer()
-                            setOptions(["", "", "", ""])
-                            toast.success(result.message,{
-                                duration:1000
-                            })
-        
-                        }
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch(`${url}updateQuestionAnswer?questionId=${id}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result)
+                if (result.type === 'success') {
+                    setConfigureSeriesChange(prev => prev + 1)
+                    setQuestion('')
+                    setAnswer('')
+                    setCorrectAnswer()
+                    setOptions(["", "", "", ""])
+                    toast.success(result.message, {
+                        duration: 1000
                     })
-                    .catch((error) => console.error(error));
-            }, 500);
+
+                }
+            })
+            .catch((error) => console.error(error));
+
     }
 
+
+    const updateLogicalQuestion = (questionType, id, qus, ans) => {
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+
+        const raw = JSON.stringify({
+            "questionType": questionType,
+            "answer": answer ? answer : ans,
+            "question": question ? question : qus,
+            "options": options,
+            "correctAnswer": correctAnswer
+        });
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch(`${url}updateQuestionAnswer?questionId=${id}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result)
+                if (result.type === 'success') {
+                    setConfigureSeriesChange(prev => prev + 1)
+                    setQuestion('')
+                    setAnswer('')
+                    setCorrectAnswer()
+                    setOptions(["", "", "", ""])
+                    toast.success(result.message, {
+                        duration: 1000
+                    })
+
+                }
+            })
+            .catch((error) => console.error(error));
+
+    }
+
+    const updateObjectiveQuestion = (questionType, id) => {
+    
+    }
 
     const handleOptionChange = (index, value) => {
         const newOptions = [...options];
         newOptions[index] = value;
         setOptions(newOptions);
-      };
-    
+    };
+
 
 
     const handleBackClick = () => {
@@ -159,16 +203,16 @@ console.log("questions ---",questionAnswer)
                     <>
                         <input className="mcq-question-edit" type="text" placeholder="Enter question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
                         {Element?.options?.map((option, index) => (
-                        //    console.log("optioen----",option)
-                           <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
+                            //    console.log("optioen----",option)
+                            <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
                         ))}
                         <label>Select correct answer:</label>
-                        <select defaultValue={Element.correctAnswer}  onChange={(e) => setCorrectAnswer(parseInt(e.target.value))} >
+                        <select defaultValue={Element.correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))} >
                             {Element?.options?.map((_, index) => (
                                 <option key={index} value={index + 1}>{index + 1}</option>
                             ))}
                         </select>
-                        <button className="Update-btn" onClick={() => delteQuestion('objective', Element._id)}>DELETE</button><button className="Update-btn" onClick={() => handleUpdateQuestion('objective', Element._id)} >UPDATE</button>
+                        <button className="Update-btn" onClick={() => delteQuestion('objective', Element._id)}>DELETE</button><button className="Update-btn" onClick={() => updateObjectiveQuestion('objective', Element._id)} >UPDATE</button>
                     </>
                 ))}
             </> <br></br>
@@ -183,15 +227,14 @@ console.log("questions ---",questionAnswer)
                 {
                     questionAnswer?.questions?.subjective?.map((Element, index) => (
                         <>
-                        console.log("subjective----",{Element.answer})
                             <input className='mcq-question-edit' type="text" placeholder="Enter subjective question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
-                            <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} onChange={(e)=>setAnswer(e.target.value)} />
-                            <button className="Update-btn" onClick={() => delteQuestion('subjective', Element._id)} >DELETE</button><button className="Update-btn" onClick={() => handleUpdateQuestion('subjective', Element._id,Element.question,Element.answer)} >UPDATE</button>
+                            <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} onChange={(e) => setAnswer(e.target.value)} />
+                            <button className="Update-btn" onClick={() => delteQuestion('subjective', Element._id)} >DELETE</button><button className="Update-btn" onClick={() => handleUpdateSubjectiveQuestion('subjective', Element._id, Element.question, Element.answer)} >UPDATE</button>
 
                         </>
                     ))
                 }
-         </><br></br><br></br>
+            </><br></br><br></br>
 
             <>
                 {
@@ -204,8 +247,8 @@ console.log("questions ---",questionAnswer)
                     questionAnswer?.questions?.logical?.map((Element, index) => (
                         <>
                             <textarea type="text" className="testbox-textarea-logical-edit" placeholder="Enter logical question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
-                            <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} onChange={(e)=>setAnswer(e.target.value)} />
-                            <button className="Update-btn" onClick={() => delteQuestion('logical', Element._id)}>DELETE</button><button className="Update-btn" onClick={() => handleUpdateQuestion('logical', Element._id)} >UPDATE</button>
+                            <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} onChange={(e) => setAnswer(e.target.value)} />
+                            <button className="Update-btn" onClick={() => delteQuestion('logical', Element._id)}>DELETE</button><button className="Update-btn" onClick={() => updateLogicalQuestion('logical', Element._id, Element.question, Element.answer)} >UPDATE</button>
                         </>
                     ))
 
