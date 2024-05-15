@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { useFetcher, useNavigate } from "react-router-dom";
-
+import { MdOutlineArrowBack } from "react-icons/md"
 
 
 
@@ -20,8 +20,8 @@ const CreateTask = () => {
   let language = localStorage.getItem('language')
 
 
-  // const url = 'http://localhost:8000/api/v1/'
-  const url = 'http://16.171.41.223:8000/api/v1/'
+  const url = 'http://localhost:8000/api/v1/'
+  // const url = 'http://16.171.41.223:8000/api/v1/'
 
 
 
@@ -93,6 +93,7 @@ const CreateTask = () => {
               setOptions(["", "", "", ""]);
               setCorrectAnswer('')
               setCheckChange(prev => prev + 1)
+              navigate('/updateQuestions')
             } else {
               toast.error(result.message)
             }
@@ -111,6 +112,7 @@ const CreateTask = () => {
               setQuestion('')
               setAnswer('')
               setCheckChange(prev => prev + 1)
+              navigate('/updateQuestions')
             } else {
               toast.error(result.message)
             }
@@ -128,6 +130,7 @@ const CreateTask = () => {
               setQuestion('')
               setAnswer('')
               setCheckChange(prev => prev + 1)
+              navigate('/updateQuestions')
             } else {
               toast.error(result.message)
             }
@@ -174,29 +177,26 @@ const CreateTask = () => {
   }, [series, checkChange])
 
 
-  const handleEditQuestion = () => {
-    navigate('/updateQuestions')
-  }
+   const handleBackClick = () => {
+        navigate('/updateQuestions')
+    }
 
 
 
 
   return (
     <div className="homepage-outer-div">
+      <div className="back-btn" onClick={handleBackClick}>< MdOutlineArrowBack /></div>
       {
         // openmodal || series && (
         series && (
           <>
+           
             <div className="headings"><h2 className="create-series-heading"> Create test for {series} ({language}) </h2>
-              {
-                isQuesionPresent && (
-                  <button className="edit-series-button" onClick={() => handleEditQuestion()}>edit series</button>
-                )
-              }
-              
-
             </div>
+            
             <div className="test-box">
+
               {/* <div className="cross-sign" onClick={closeTestModal}> <b>  &#10005; </b></div> */}
               <div className="internal-testbox">
                 <button onClick={() => handleQuestionTypeChange("mcq")} className="mcq-btn">

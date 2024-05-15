@@ -11,12 +11,15 @@ const UpdateQuestions = () => {
     const [answer, setAnswer] = useState('')
     const [correctAnswer, setCorrectAnswer] = useState()
     const [options, setOptions] = useState(["", "", "", ""]);
+    const [showobjective,setShowObjective]=useState(true)
+    const [showsubjective,setShowsubjective]=useState(false)
+    const [showLogical,setShowLogical]= useState(false)
     let series = localStorage.getItem('seriesId')
     let token = localStorage.getItem('token')
 
 
-    // const url = 'http://localhost:8000/api/v1/'
-    const url = 'http://16.171.41.223:8000/api/v1/'
+    const url = 'http://localhost:8000/api/v1/'
+    // const url = 'http://16.171.41.223:8000/api/v1/'
 
 
     useEffect(() => {
@@ -173,7 +176,7 @@ const UpdateQuestions = () => {
     }
 
     const updateObjectiveQuestion = (questionType, id) => {
-    
+
     }
 
     const handleOptionChange = (index, value) => {
@@ -182,49 +185,96 @@ const UpdateQuestions = () => {
         setOptions(newOptions);
     };
 
+ const handleShowobjective=()=>{
+    setShowsubjective(false)
+    setShowLogical(false)
+    setShowObjective(true)
+ }
+
+ const handleShowSubjective=()=>{
+    setShowLogical(false)
+    setShowObjective(false)
+    setShowsubjective(true)
+ }
+
+const handleShowLogical=()=>{
+    setShowObjective(false)
+    setShowsubjective(false)
+    setShowLogical(true)
+}
+
+    // const handleBackClick = () => {
+    //     navigate('/create-task')
+    // }
 
 
-    const handleBackClick = () => {
+    const handleAddQyestion = () => {
         navigate('/create-task')
     }
 
-
     return (
         <div className="outer-edit-question-div">
-            <div className="back-btn" onClick={handleBackClick}>< MdOutlineArrowBack /></div>
+            {/* <div className="back-btn" onClick={handleBackClick}>< MdOutlineArrowBack /></div> */}
             <>
-                {
-                    questionAnswer?.questions?.objective?.length > 0 && (
-                        <div className="heading-objective">Objective</div>
-                    )
-                }
+                <div className="headings"><h2 className="create-series-heading"> </h2>
+                    {
 
-                {questionAnswer?.questions?.objective?.map((Element, index) => (
-                    <>
-                        <input className="mcq-question-edit" type="text" placeholder="Enter question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
-                        {Element?.options?.map((option, index) => (
-                            //    console.log("optioen----",option)
-                            <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
-                        ))}
-                        <label>Select correct answer:</label>
-                        <select defaultValue={Element.correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))} >
-                            {Element?.options?.map((_, index) => (
-                                <option key={index} value={index + 1}>{index + 1}</option>
-                            ))}
-                        </select>
-                        <button className="Update-btn" onClick={() => delteQuestion('objective', Element._id)}>DELETE</button><button className="Update-btn" onClick={() => updateObjectiveQuestion('objective', Element._id)} >UPDATE</button>
-                    </>
-                ))}
+                        <button className="edit-series-button" onClick={() => handleAddQyestion()}>Add Question</button>
+
+                    }
+
+
+                </div>
+                <div className="sub-obj-log-heading">
+                    {
+
+                        questionAnswer?.questions?.objective?.length > 0 && (
+                            <div className="heading-objective" onClick={handleShowobjective}>Objective</div>
+                        )
+
+                    }
+                    {
+                        questionAnswer?.questions?.subjective?.length > 0 && (
+                            <div className="heading-objective" onClick={handleShowSubjective}>Subjective</div>
+                        )
+                    }
+                    {
+                        questionAnswer?.questions?.logical?.length > 0 && (
+                            <div className="heading-objective" onClick={handleShowLogical}>Logical</div>
+                        )
+                    }
+                </div>
+                {
+                    showobjective && 
+                        questionAnswer?.questions?.objective?.map((Element, index) => (
+                            <>
+                                <input className="mcq-question-edit" type="text" placeholder="Enter question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
+                                {Element?.options?.map((option, index) => (
+                                    //    console.log("optioen----",option)
+                                    <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
+                                ))}
+                                <label>Select correct answer:</label>
+                                <select defaultValue={Element.correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))} >
+                                    {Element?.options?.map((_, index) => (
+                                        <option key={index} value={index + 1}>{index + 1}</option>
+                                    ))}
+                                </select>
+                                <button className="Update-btn" onClick={() => delteQuestion('objective', Element._id)}>DELETE</button><button className="Update-btn" onClick={() => updateObjectiveQuestion('objective', Element._id)} >UPDATE</button>
+                            </>
+                        )) 
+                }
+             
             </> <br></br>
 
             <>
-                {
+                {/* {
                     questionAnswer?.questions?.subjective?.length > 0 && (
                         <div className="heading-objective">Subjective</div>
                     )
-                }
+                } */}
 
                 {
+                    showsubjective &&
                     questionAnswer?.questions?.subjective?.map((Element, index) => (
                         <>
                             <input className='mcq-question-edit' type="text" placeholder="Enter subjective question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
@@ -237,13 +287,14 @@ const UpdateQuestions = () => {
             </><br></br><br></br>
 
             <>
-                {
+                {/* {
                     questionAnswer?.questions?.logical?.length > 0 && (
                         <div className="heading-objective">Logical</div>
                     )
-                }
+                } */}
 
                 {
+                    showLogical &&
                     questionAnswer?.questions?.logical?.map((Element, index) => (
                         <>
                             <textarea type="text" className="testbox-textarea-logical-edit" placeholder="Enter logical question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
