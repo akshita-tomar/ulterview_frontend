@@ -7,6 +7,8 @@ const Login = () => {
 const[email,setEmail]=useState('')
 const[password,setPassword]=useState('') 
 const navigate = useNavigate()
+// const url = 'http://localhost:8000/api/v1/'
+const url = 'http://16.171.41.223:8000/api/v1/'
 
 useEffect(()=>{
   let token = localStorage.getItem('token')
@@ -37,7 +39,7 @@ const requestOptions = {
 
 
 
-fetch("http://localhost:8000/api/v1/signIn", requestOptions)
+fetch(`${url}signIn`, requestOptions)
   .then((response) => response.json())
   .then((result) =>{
     console.log(result)
