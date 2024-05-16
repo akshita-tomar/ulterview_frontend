@@ -303,31 +303,40 @@ body {
 }
 
 .internal-testbox{
-  float: right;
+  /* float: right; */
   margin-top: 5px;  
   margin-right: 9px;
  
 }
 .mcq-btn{
   margin-top: 5px;
-  padding: 3px;
+  padding: 5px;
   background-color:rgb(227, 192, 192);
   border: none;
   margin-right: 4px;
+  width: 250px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-weight: 700;
   /* border-radius: 50px; */
 }
 .subjective-btn{
-  padding: 3px;
+  padding: 5px;
   background-color:rgb(227, 192, 192);
   border: none;
   margin-right: 4px;
+  width: 250px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-weight: 700;
   /* border-radius: 50px; */
 }
 .logical-btn{
-  padding: 3px;  
+  padding: 5px;  
   background-color: rgb(227, 192, 192);
   margin-right: 10px;
   border: none;
+  width: 250px;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-weight: 700;
   /* border-radius: 50px; */
 }
 
@@ -388,6 +397,8 @@ body {
   padding: 10px;
   width: 95%;
   height: 180px;
+  /* min-height: 180px; */
+  
   
 }
 .testbox-textarea-logical{
@@ -577,6 +588,7 @@ body {
 /* *******  HEADINGS OF CREATE TEST FOR SERIES */
 .headings{
   display: flex;
+  margin-left: 25%;
 }
 
 .create-series-heading{
@@ -594,8 +606,9 @@ body {
  background-color: #ff5733;
  color: white;
  cursor: pointer;
- margin-left: 90px;
- margin-bottom: 20px;
+ /* margin-left: 90px; */
+ margin-top: 20px;
+ margin-left: 28%;
 }
 
 
@@ -611,7 +624,11 @@ body {
 }
 
 .series-outer-box{
-  background-color: rgb(244, 237, 231);
+  background-color: rgb(150, 230, 148);
+  border-radius: 10px;
+}
+.series-outer-box-pending{
+  background-color: rgb(247, 184, 184);
   border-radius: 10px;
 }
 
@@ -638,6 +655,15 @@ body {
   color: white;
   border-radius: 50px;
   /* text-align: left; */
+}
+
+.heading-objective-activen{
+  background-color: #acbdd1;
+  width: 390px;
+  margin-left: 19px;
+  padding: 2px;
+  color: white;
+  border-radius: 50px;
 }
 
 .outer-edit-question-div{
@@ -675,4 +701,30 @@ height: 30px;
 /* *************\  SERIES HEADING */
 .sub-obj-log-heading{
   display: flex;
+}
+
+
+/* ****** QUESTIONNARIE  PAGE ****** */
+
+.generatelink-btn{
+  height: 35px;
+  width: 150px;
+  /* margin-top: 12px; */
+  border: none;
+  font-size: medium;
+  border-radius: 4px;
+  background-color: #ff5733;
+  color: white;
+  cursor: pointer;
+  margin-left:22%;
+}
+
+.questionnarie-heading{
+  display: flex;
+  margin-left: 30%;
+  /* justify-content: center; */
+}
+
+.active-btn{
+  background-color: rgb(191, 130, 140)
 }

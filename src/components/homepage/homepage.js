@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useAsyncError, useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import { MdEdit, MdDelete } from "react-icons/md";
-import swal from "sweetalert";
-import env from 'react-dotenv'
+import Swal from "sweetalert2";
+
 
 
 
@@ -27,13 +27,13 @@ const HomePage = () => {
   const [configureSeriesChange, setConfigureSeriesChange] = useState(0)
   const [openEditseriesModal, setOpenEditseriesModal] = useState(false)
   const [seriesId, setSeriesId] = useState('')
-  const [updatedSeries,setUpdatedSeries]=useState('')
+  const [updatedSeries, setUpdatedSeries] = useState('')
   const navigate = useNavigate();
 
   const url = 'http://localhost:8000/api/v1/'
   // const url = 'http://16.171.41.223:8000/api/v1/'
 
- 
+
 
 
 
@@ -41,6 +41,7 @@ const HomePage = () => {
 
   useEffect(() => {
     let token = localStorage.getItem('token')
+    let languageId = localStorage.getItem('languageId')
     const myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + token);
 
@@ -49,11 +50,11 @@ const HomePage = () => {
       headers: myHeaders,
       redirect: "follow"
     };
-
-    fetch(`${url}/getAllSeries`, requestOptions)
+    console.log("languageid ------", languageId)
+    fetch(`${url}/getAllSeries?languageId=${languageId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        console.log("series---", result)
         if (result.type === 'success') {
           setSeriesOptions(result.allSeries)
         }
@@ -136,9 +137,10 @@ const HomePage = () => {
 
 
 
-  const handleLanguageClick = (language) => {
+  const handleLanguageClick = (language, id) => {
     let mylanguage = language
     localStorage.setItem("language", language)
+    localStorage.setItem('languageId', id)
 
     let token = localStorage.getItem('token')
     if (!token) {
@@ -167,6 +169,7 @@ const HomePage = () => {
           toast.error(result.message)
         } else {
           setShowLanguageModal(false);
+          setConfigureSeriesChange(prev => prev + 1)
           setShowSeries(true)
         }
       })
@@ -177,10 +180,29 @@ const HomePage = () => {
 
 
 
-
-
   const handleDeleteLanguage = (id) => {
-    console.log("id--->", id)
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDeleteLanguageYes(id)
+
+      } else {
+        // handleDeleteLanguageYes(id)
+      }
+    });
+  }
+
+
+
+  const handleDeleteLanguageYes = (id) => {
+
     let token = localStorage.getItem('token')
     if (!token) {
       navigate('/')
@@ -203,7 +225,11 @@ const HomePage = () => {
           toast.error(result.message)
         } else {
           setconfigureChange((prev) => prev + 1)
-          swal("language deleted successfully!", "", "success");
+          // Swal.fire({
+          //   title: "Deleted!",
+          //   text: "Your file has been deleted.",
+          //   icon: "success"
+          // });
         }
       })
       .catch((error) => console.error(error));
@@ -289,7 +315,12 @@ const HomePage = () => {
           setSeries(result.series.seriesName);
           setShowSeries(false);
           setShowLanguageModal(false);
-          navigate('/updateQuestions')
+          if(localStorage.getItem('role')==='DEVELOPER'){
+            navigate('/updateQuestions')
+          }else{
+            navigate('/questionnarie')
+          }
+         
 
         }
       })
@@ -336,6 +367,29 @@ const HomePage = () => {
 
 
   const delteSeries = (id, seriesName) => {
+    Swal.fire({
+      title: "Are you sure to delete this series?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        delteSeriesyes(id, seriesName)
+
+      } else {
+        // handleDeleteLanguageYes(id)
+      }
+    });
+  }
+
+
+
+
+
+  const delteSeriesyes = (id, seriesName) => {
     let token = localStorage.getItem('token')
     const myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + token);
@@ -351,7 +405,7 @@ const HomePage = () => {
       .then((result) => {
         console.log(result)
         setConfigureSeriesChange(prev => prev + 1)
-        swal(seriesName + " deleted successfully!", "", "success");
+        // swal(seriesName + " deleted successfully!", "", "success");
       })
       .catch((error) => console.error(error));
   }
@@ -359,7 +413,7 @@ const HomePage = () => {
 
 
   const AddEditSeries = () => {
-    console.log("series id -----",seriesId)
+    console.log("series id -----", seriesId)
     let token = localStorage.getItem('token')
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -438,19 +492,26 @@ const HomePage = () => {
       {
         showcreteTasksection && (
           <>
-
             {showLanguageModal && (
               <>
                 {/* <div className="chooselanguage-heading-sidebar">Select language to create task</div> */}
                 <div className="language-modal">
                   {languages?.map((language) => (
-
                     <div key={language.id} className="language-card">
-                      <div className="card-inner"><MdEdit onClick={() => handleEditLanguage(language._id, language.language)} /> <MdDelete onClick={() => handleDeleteLanguage(language._id)} /> </div>
-                      <div className="text-space" onClick={() => handleLanguageClick(language.language)}> {language.language}</div>
+                      {localStorage.getItem('role') === 'DEVELOPER' ? (
+                        <div className="card-inner"><MdEdit onClick={() => handleEditLanguage(language._id, language.language)} /> <MdDelete onClick={() => handleDeleteLanguage(language._id)} /> </div>
+                      ) : null
+
+                      }
+
+                      <div className="text-space" onClick={() => handleLanguageClick(language.language, language._id)}> {language.language}</div>
                     </div>
-                  ))}
-                  <button className="add-more-languages-btn" onClick={handleAddNewLanguage}>Add new</button>
+                  ))}{
+                    localStorage.getItem('role') === 'DEVELOPER' ? (
+                      <button className="add-more-languages-btn" onClick={handleAddNewLanguage}>Add new</button>
+                    ) : null
+                  }
+
                 </div>
               </>
             )}
@@ -481,13 +542,24 @@ const HomePage = () => {
                   <div className="modal-header">
                     <h3>Select Series</h3>
                   </div>
-                  <div className="modal-body">
-                    <div className="series-option-new" onClick={openAddseries} >Add new series</div>
+                  <div className="modal-body">{
+                    localStorage.getItem('role')==='DEVELOPER'?(
+                      <div className="series-option-new" onClick={openAddseries} >Add new series</div>
+                    ):null
+                  }
+                   
                     {seriesOptions.map((series, index) => (
                       <>
-                        <div className="series-outer-box">
-                          <MdEdit onClick={() => handleEditSeries(series.seriesName, series._id)} /> <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
-                          <div key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName}</div>
+                        <div className={series.status === 'pending' ? 'series-outer-box-pending' : "series-outer-box"}>
+                          {
+                            localStorage.getItem('role')==='DEVELOPER'? (
+                              <>
+                              <MdEdit onClick={() => handleEditSeries(series.seriesName, series._id)} /> <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
+                              </>
+                            ):null
+                          }
+                          
+                          <div key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName} ({series.status})</div>
                         </div> <br></br></>
                     ))}
                   </div>
@@ -525,8 +597,8 @@ const HomePage = () => {
                       <input
                         defaultValue={series}
                         type="text"
-                      // placeholder="Edit series"
-                      onChange={event => setUpdatedSeries(event.target.value)}
+                        // placeholder="Edit series"
+                        onChange={event => setUpdatedSeries(event.target.value)}
                       />
                       <button onClick={AddEditSeries} >Add</button>
                     </div>

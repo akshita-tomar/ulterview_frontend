@@ -49,6 +49,7 @@ fetch(`${url}signIn`, requestOptions)
       })
     }else{
       localStorage.setItem('token',result.data.token)
+      localStorage.setItem('role',result.data.role)
       navigate('/homepage')
       }
   })

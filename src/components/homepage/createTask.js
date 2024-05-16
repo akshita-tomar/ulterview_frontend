@@ -8,7 +8,7 @@ import { MdOutlineArrowBack } from "react-icons/md"
 const CreateTask = () => {
 
   const navigate = useNavigate()
-  const [questionType, setQuestionType] = useState("mcq");
+  const [questionType, setQuestionType] = useState(localStorage.getItem('questionType')?localStorage.getItem('questionType'):'mcq');
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState(["", "", "", ""]);
   const [correctAnswer, setCorrectAnswer] = useState("");
@@ -182,6 +182,11 @@ const CreateTask = () => {
     }
 
 
+    const getButtonClass = (type) => {
+      return questionType === type ? "active-btn" : "";
+    };
+  
+
 
 
   return (
@@ -192,23 +197,23 @@ const CreateTask = () => {
         series && (
           <>
            
-            <div className="headings"><h2 className="create-series-heading"> Create test for {series} ({language}) </h2>
-            </div>
+            {/* <div className="headings"><h2 className="create-series-heading"> Create test for {series} ({language}) </h2>
+            </div> */}
             
             <div className="test-box">
 
               {/* <div className="cross-sign" onClick={closeTestModal}> <b>  &#10005; </b></div> */}
               <div className="internal-testbox">
-                <button onClick={() => handleQuestionTypeChange("mcq")} className="mcq-btn">
-                  MCQ
-                </button>
-                <button onClick={() => handleQuestionTypeChange("subjective")} className="subjective-btn">
-                  Subjective
-                </button>
-                <button onClick={() => handleQuestionTypeChange("logical")} className="logical-btn">
-                  Logical
-                </button>
-              </div>
+              <button onClick={() => handleQuestionTypeChange("mcq")} className={`mcq-btn ${getButtonClass("mcq")}`}>
+                Objective
+              </button>
+              <button onClick={() => handleQuestionTypeChange("subjective")} className={`subjective-btn ${getButtonClass("subjective")}`}>
+                Subjective
+              </button>
+              <button onClick={() => handleQuestionTypeChange("logical")} className={`logical-btn ${getButtonClass("logical")}`}>
+                Logical
+              </button>
+            </div>
               {questionType === "mcq" && (
                 <div className="mcq-inputs">
                   <input className="mcq-question" type="text" placeholder="Enter question" value={question} onChange={(e) => setQuestion(e.target.value)} />
@@ -243,7 +248,6 @@ const CreateTask = () => {
               )}
             </div></>
         )}
-
       <Toaster />
     </div>
   );

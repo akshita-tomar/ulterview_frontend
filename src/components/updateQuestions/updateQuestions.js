@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import { MdOutlineArrowBack } from "react-icons/md"
+import swal from "sweetalert";
 
 const UpdateQuestions = () => {
     const navigate = useNavigate()
@@ -11,9 +12,9 @@ const UpdateQuestions = () => {
     const [answer, setAnswer] = useState('')
     const [correctAnswer, setCorrectAnswer] = useState()
     const [options, setOptions] = useState(["", "", "", ""]);
-    const [showobjective,setShowObjective]=useState(true)
-    const [showsubjective,setShowsubjective]=useState(false)
-    const [showLogical,setShowLogical]= useState(false)
+    const [showobjective, setShowObjective] = useState(true)
+    const [showsubjective, setShowsubjective] = useState(false)
+    const [showLogical, setShowLogical] = useState(false)
     let series = localStorage.getItem('seriesId')
     let token = localStorage.getItem('token')
 
@@ -42,11 +43,14 @@ const UpdateQuestions = () => {
         fetch(`${url}getQuestionsSeriesWise?seriesId=${series}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                console.log("result -----", result)
                 // if (result.type === 'error') {
                 //     console.log(result.message)
                 //     // toast.error(result.message)
                 // } else {
+                if (result.message === 'No questions found') {
+                    swal('This series is empty for now. You can add questions!', 'Thanks!', 'success')
+                }
                 setQuestionAnswer(result)
 
                 // }
@@ -102,8 +106,6 @@ const UpdateQuestions = () => {
             "questionType": questionType,
             "answer": answer ? answer : ans,
             "question": question ? question : qus,
-            "options": options,
-            "correctAnswer": correctAnswer
         });
 
         const requestOptions = {
@@ -123,7 +125,7 @@ const UpdateQuestions = () => {
                     setAnswer('')
                     setCorrectAnswer()
                     setOptions(["", "", "", ""])
-                    toast.success(result.message, {
+                    toast.success('Document updated successfully.', {
                         duration: 1000
                     })
 
@@ -144,8 +146,7 @@ const UpdateQuestions = () => {
             "questionType": questionType,
             "answer": answer ? answer : ans,
             "question": question ? question : qus,
-            "options": options,
-            "correctAnswer": correctAnswer
+
         });
 
         const requestOptions = {
@@ -165,7 +166,7 @@ const UpdateQuestions = () => {
                     setAnswer('')
                     setCorrectAnswer()
                     setOptions(["", "", "", ""])
-                    toast.success(result.message, {
+                    toast.success('Doucument updated successfully.', {
                         duration: 1000
                     })
 
@@ -175,38 +176,88 @@ const UpdateQuestions = () => {
 
     }
 
-    const updateObjectiveQuestion = (questionType, id) => {
 
+
+    const updateObjectiveQuestion = (questionType, id, ques, optns, corrAns) => {
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + token);
+
+        const filteredOptions = options.filter(option => option.trim() !== "");
+
+        const raw = JSON.stringify({
+            "questionType": questionType,
+            "question": question ? question : ques,
+            "options": filteredOptions.length > 0 ? filteredOptions : optns,
+            "correctAnswer": correctAnswer ? correctAnswer : corrAns
+        });
+
+        const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch(`${url}updateQuestionAnswer?questionId=${id}`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result)
+                if (result.type === 'success') {
+                    setConfigureSeriesChange(prev => prev + 1)
+                    setQuestion('')
+                    setAnswer('')
+                    setCorrectAnswer()
+                    setOptions(["", "", "", ""])
+                    toast.success('Document updated successfully.', {
+                        duration: 1000
+                    })
+
+                } else {
+                    toast.error(result.message)
+
+                }
+            })
+            .catch((error) => console.error(error));
     }
 
-    const handleOptionChange = (index, value) => {
-        const newOptions = [...options];
-        newOptions[index] = value;
-        setOptions(newOptions);
-    };
 
- const handleShowobjective=()=>{
-    setShowsubjective(false)
-    setShowLogical(false)
-    setShowObjective(true)
- }
 
- const handleShowSubjective=()=>{
-    setShowLogical(false)
-    setShowObjective(false)
-    setShowsubjective(true)
- }
 
-const handleShowLogical=()=>{
-    setShowObjective(false)
-    setShowsubjective(false)
-    setShowLogical(true)
-}
+    const handleOptionChange = (index, value, prevOpts) => {
+        prevOpts[index] = value;
+        console.log("prev updted options ---", prevOpts)
+        setOptions(prevOpts);
+    }
+
+    const handleShowobjective = () => {
+        localStorage.setItem('questionType', 'mcq')
+        setShowsubjective(false)
+        setShowLogical(false)
+        setShowObjective(true)
+    }
+
+    const handleShowSubjective = () => {
+        localStorage.setItem('questionType', 'subjective')
+        setShowLogical(false)
+        setShowObjective(false)
+        setShowsubjective(true)
+    }
+
+    const handleShowLogical = () => {
+        localStorage.setItem('questionType', 'logical')
+        setShowObjective(false)
+        setShowsubjective(false)
+        setShowLogical(true)
+    }
 
     // const handleBackClick = () => {
     //     navigate('/create-task')
     // }
-
+    const getButtonClass =()=>{
+        return 'active-type-btn'
+    }
 
     const handleAddQyestion = () => {
         navigate('/create-task')
@@ -216,54 +267,51 @@ const handleShowLogical=()=>{
         <div className="outer-edit-question-div">
             {/* <div className="back-btn" onClick={handleBackClick}>< MdOutlineArrowBack /></div> */}
             <>
-                <div className="headings"><h2 className="create-series-heading"> </h2>
-                    {
-
-                        <button className="edit-series-button" onClick={() => handleAddQyestion()}>Add Question</button>
-
-                    }
-
-
+                
+                <div className="headings">
+                <h1>{localStorage.getItem('series')} ({localStorage.getItem('language')}) </h1> <button className="edit-series-button" onClick={() => handleAddQyestion()}>Add Question</button>
                 </div>
                 <div className="sub-obj-log-heading">
                     {
 
                         questionAnswer?.questions?.objective?.length > 0 && (
-                            <div className="heading-objective" onClick={handleShowobjective}>Objective</div>
+                            <div onClick={handleShowobjective}   className='heading-objective' >Objective</div>
                         )
 
                     }
                     {
                         questionAnswer?.questions?.subjective?.length > 0 && (
-                            <div className="heading-objective" onClick={handleShowSubjective}>Subjective</div>
+                            <div  className="heading-objective" onClick={handleShowSubjective}>Subjective</div>
+                            // <div   className={`heading-objective ${getButtonClass()}`} onClick={handleShowSubjective}>Subjective</div>
                         )
                     }
                     {
                         questionAnswer?.questions?.logical?.length > 0 && (
                             <div className="heading-objective" onClick={handleShowLogical}>Logical</div>
+                            // <div  onClick={handleShowLogical} className={`heading-objective ${getButtonClass()}`}>Logical</div>
                         )
                     }
                 </div>
                 {
-                    showobjective && 
-                        questionAnswer?.questions?.objective?.map((Element, index) => (
-                            <>
-                                <input className="mcq-question-edit" type="text" placeholder="Enter question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
-                                {Element?.options?.map((option, index) => (
-                                    //    console.log("optioen----",option)
-                                    <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
+                    showobjective &&
+                    questionAnswer?.questions?.objective?.map((Element, index) => (
+                        <>
+                            <input className="mcq-question-edit" type="text" placeholder="Enter question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
+                            {Element?.options?.map((option, index) => (
+                                //    console.log("optioen----",option)
+                                <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} onChange={(e) => handleOptionChange(index, e.target.value, Element?.options)} />
+                            ))}
+                            <label>Select correct answer:</label>
+                            <select defaultValue={Element.correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))} >
+                                {Element?.options?.map((_, index) => (
+                                    <option key={index} value={index + 1}>{index + 1}</option>
                                 ))}
-                                <label>Select correct answer:</label>
-                                <select defaultValue={Element.correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))} >
-                                    {Element?.options?.map((_, index) => (
-                                        <option key={index} value={index + 1}>{index + 1}</option>
-                                    ))}
-                                </select>
-                                <button className="Update-btn" onClick={() => delteQuestion('objective', Element._id)}>DELETE</button><button className="Update-btn" onClick={() => updateObjectiveQuestion('objective', Element._id)} >UPDATE</button>
-                            </>
-                        )) 
+                            </select>
+                            <button className="Update-btn" onClick={() => delteQuestion('objective', Element._id)}>DELETE</button><button className="Update-btn" onClick={() => updateObjectiveQuestion('objective', Element._id, Element.question, Element?.options, Element.correctAnswer)} >UPDATE</button>
+                        </>
+                    ))
                 }
-             
+
             </> <br></br>
 
             <>

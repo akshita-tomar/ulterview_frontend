@@ -11,6 +11,7 @@ const HomePage = React.lazy(() => import('./components/homepage/homepage'));
 const CreateTask = React.lazy(() => import('./components/homepage/createTask'));
 const Sidebar = React.lazy(() => import('./components/sidebar/sidebar'));
 const UpdateQuestions = React.lazy(()=>import('./components/updateQuestions/updateQuestions'));
+const Questionnarie = React.lazy(()=>import('./components/questionnarie/questionnarie'))
 
 
 
@@ -28,6 +29,7 @@ function App() {
           <Route path='/create-task' element={<Suspense fallback={<div>Loading...</div>}><Header/><Sidebar/><CreateTask /></Suspense>}></Route>
           <Route path='/sidebar' element={<Suspense fallback={<div>Loading...</div>}><Sidebar /></Suspense>}></Route>
           <Route path='/updateQuestions' element={<Suspense fallback={<div>Loading...</div>}><Header/><Sidebar/><UpdateQuestions/></Suspense>}></Route>
+          <Route path='/questionnarie' element={<Suspense fallback={<div>Loading...</div>}><Header/><Sidebar/><Questionnarie/></Suspense>}></Route>
         </Routes > 
       </BrowserRouter>
     </div>  
