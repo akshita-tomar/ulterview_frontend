@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import toast, { Toaster } from 'react-hot-toast';
-import { useFetcher, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MdOutlineArrowBack } from "react-icons/md"
 
 
@@ -13,11 +13,9 @@ const CreateTask = () => {
   const [options, setOptions] = useState(["", "", "", ""]);
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [answer, setAnswer] = useState("");
-  const [isQuesionPresent, setISQuestionPresent] = useState(false)
   const [checkChange, setCheckChange] = useState(0)
 
   let series = localStorage.getItem('series')
-  let language = localStorage.getItem('language')
 
 
   const url = 'http://localhost:8000/api/v1/'
@@ -168,8 +166,6 @@ const CreateTask = () => {
         console.log(result)
         if (result.type === 'error') {
           // toast.error(result.message)
-        } else {
-          setISQuestionPresent(true)
         }
       })
       .catch((error) => console.error(error));

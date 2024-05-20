@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-
+ 
 }
 
 .App-logo {
@@ -38,25 +38,14 @@
   }
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-family:Georgia, 'Times New Roman', Times, serif;
-  /* background-color: rgb(245, 141, 112); */
-}
+
 
 .login-container {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 40px;
-  width: 320px;
+  width: auto;
 }
 
 .login-container h2 {
@@ -95,7 +84,7 @@ body {
   border-radius: 4px;
   cursor: pointer;
   width: 100%;
-  display: block;
+  /* display: block; */
   font-size: 16px;
 }
 
@@ -133,7 +122,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 98%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -179,6 +168,11 @@ body {
 
 /* for modal css  */
 
+.modal-inner{
+   
+  /* position: absolute; */
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -197,9 +191,9 @@ body {
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  width: 50%;
-  margin-left: 14%;
-  position: absolute;
+  width: 50%; 
+  margin-left: 14%; 
+position: absolute;
 }
 
 .close {
@@ -607,8 +601,8 @@ body {
  color: white;
  cursor: pointer;
  /* margin-left: 90px; */
- margin-top: 20px;
- margin-left: 28%;
+ /* margin-top: 20px; */
+ margin-left: 40%;
 }
 
 
@@ -657,12 +651,12 @@ body {
   /* text-align: left; */
 }
 
-.heading-objective-activen{
-  background-color: #acbdd1;
+.heading-objective-active{
+  background-color: #7db5fe;
   width: 390px;
   margin-left: 19px;
   padding: 2px;
-  color: white;
+  color: black;
   border-radius: 50px;
 }
 
@@ -727,4 +721,39 @@ height: 30px;
 
 .active-btn{
   background-color: rgb(191, 130, 140)
+}
+
+
+
+/* *************  CANDIDATES DETAILS  */
+.wrapper {
+  background: #ddd;
+  margin-left: 200px;
+  padding-top: 80px;
+}
+
+
+
+/* ******* Table  */
+.table-responsive {
+  margin: 20px 0;
+}
+
+.user-table th, .user-table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.user-table .fa-user {
+  margin: 0 auto;
+  display: block;
+}
+
+
+/* //******************   REGISTER CANDIDATE MODAL******** */
+.candidate-register-input{
+  padding: 5px;
+  margin-bottom: 7px;
+  border-radius: 5px;
+  font-size: large;
 }

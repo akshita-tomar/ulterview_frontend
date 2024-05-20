@@ -50,7 +50,13 @@ fetch(`${url}signIn`, requestOptions)
     }else{
       localStorage.setItem('token',result.data.token)
       localStorage.setItem('role',result.data.role)
-      navigate('/homepage')
+      if(result.data.role==="HR"){
+        navigate('/candidates')
+      }
+      if(result.data.role === 'DEVELOPER'){
+        navigate('/homepage')
+      }
+     
       }
   })
   .catch((error) => console.error(error));
@@ -68,8 +74,8 @@ fetch(`${url}signIn`, requestOptions)
           <div className="input-group">
             <input type="password" id="password" name="password" placeholder="Enter your password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
           </div>
-          <button type="submit" class="btn" onClick={collectData}>Submit</button> <br></br>
-          <a className="forget-password" href="/register">forgetpassword </a>  <br></br>
+          <button type="submit" className="btn" onClick={collectData}>Submit</button> <br></br>
+          <a className="forget-password" href="/">forgetpassword </a>  <br></br>
          {/* <div className="register"> Don't have account? <a href="/register"> register here</a></div> */}
         </form>
         <Toaster/>

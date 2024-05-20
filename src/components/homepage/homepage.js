@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useAsyncError, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import { MdEdit, MdDelete } from "react-icons/md";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import Swal from "sweetalert2";
-
-
-
-
 
 
 const HomePage = () => {
@@ -29,14 +27,10 @@ const HomePage = () => {
   const [seriesId, setSeriesId] = useState('')
   const [updatedSeries, setUpdatedSeries] = useState('')
   const navigate = useNavigate();
+  let token = localStorage.getItem('token')
 
   const url = 'http://localhost:8000/api/v1/'
   // const url = 'http://16.171.41.223:8000/api/v1/'
-
-
-
-
-
 
 
   useEffect(() => {
@@ -50,7 +44,7 @@ const HomePage = () => {
       headers: myHeaders,
       redirect: "follow"
     };
-    console.log("languageid ------", languageId)
+
     fetch(`${url}/getAllSeries?languageId=${languageId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
@@ -67,8 +61,6 @@ const HomePage = () => {
   useEffect(() => {
     fetchLanguages()
   }, [configurechange])
-
-
 
 
   const fetchLanguages = () => {
@@ -95,7 +87,6 @@ const HomePage = () => {
       })
       .catch((error) => console.error(error));
   };
-
 
 
 
@@ -132,9 +123,6 @@ const HomePage = () => {
       })
       .catch((error) => console.error(error));
   }
-
-
-
 
 
   const handleLanguageClick = (language, id) => {
@@ -225,19 +213,15 @@ const HomePage = () => {
           toast.error(result.message)
         } else {
           setconfigureChange((prev) => prev + 1)
-          // Swal.fire({
-          //   title: "Deleted!",
-          //   text: "Your file has been deleted.",
-          //   icon: "success"
-          // });
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
   }
 
 
 
-  let token = localStorage.getItem('token')
+
+
   const updateLanguage = () => {
 
     if (!token) {
@@ -315,13 +299,12 @@ const HomePage = () => {
           setSeries(result.series.seriesName);
           setShowSeries(false);
           setShowLanguageModal(false);
-          if(localStorage.getItem('role')==='DEVELOPER'){
+          if (localStorage.getItem('role') === 'DEVELOPER') {
             navigate('/updateQuestions')
-          }else{
-            navigate('/questionnarie')
+          } 
+          if(localStorage.getItem('role'==='HR')){
+            navigate('/candidates')
           }
-         
-
         }
       })
       .catch((error) => console.error(error));
@@ -378,16 +361,7 @@ const HomePage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         delteSeriesyes(id, seriesName)
-
-      } else {
-        // handleDeleteLanguageYes(id)
-      }
-    });
-  }
-
-
-
-
+      } })}
 
   const delteSeriesyes = (id, seriesName) => {
     let token = localStorage.getItem('token')
@@ -437,17 +411,13 @@ const HomePage = () => {
         if (result.type === 'success') {
           console.log('here--', result)
           setConfigureSeriesChange(prev => prev + 1)
-          setOpenEditseriesModal(false)
-          // toast.success(result.message)
-        }
+          setOpenEditseriesModal(false)}
       })
       .catch((error) => console.error(error));
   }
 
 
   const handleEditSeries = (seriesName, seriesId) => {
-    // setShowSeries(false)
-    console.log('series name ------', seriesName)
     setSeriesId(seriesId)
     setSeries(seriesName)
     setOpenEditseriesModal(true)
@@ -456,8 +426,6 @@ const HomePage = () => {
   const handleCloseEditSeries = () => {
     setOpenEditseriesModal(false)
   }
-
-
 
   const closeseries = () => {
     setShowSeries(false)
@@ -470,18 +438,13 @@ const HomePage = () => {
   }
 
   const openAddseries = () => {
-    // setShowSeries(false)
     setopenAddnewseriesModal(true)
-
   }
 
   const handlecloseAddseriesModal = () => {
     setopenAddnewseriesModal(false)
   }
 
-  const AddSeries = () => {
-
-  }
 
   return (
     <>
@@ -489,154 +452,103 @@ const HomePage = () => {
         <button className="sidebar-button" onClick={fetchLanguages}>Questionnaire</button>
         <Toaster />
       </div>
-      {
-        showcreteTasksection && (
-          <>
-            {showLanguageModal && (
-              <>
-                {/* <div className="chooselanguage-heading-sidebar">Select language to create task</div> */}
-                <div className="language-modal">
-                  {languages?.map((language) => (
-                    <div key={language.id} className="language-card">
-                      {localStorage.getItem('role') === 'DEVELOPER' ? (
-                        <div className="card-inner"><MdEdit onClick={() => handleEditLanguage(language._id, language.language)} /> <MdDelete onClick={() => handleDeleteLanguage(language._id)} /> </div>
-                      ) : null
-
-                      }
-
-                      <div className="text-space" onClick={() => handleLanguageClick(language.language, language._id)}> {language.language}</div>
-                    </div>
-                  ))}{
-                    localStorage.getItem('role') === 'DEVELOPER' ? (
-                      <button className="add-more-languages-btn" onClick={handleAddNewLanguage}>Add new</button>
-                    ) : null
-                  }
-
+      {showcreteTasksection && (
+        <>
+          {showLanguageModal && (
+            <div className="language-modal">
+              {languages?.map((language) => (
+                <div key={language.id} className="language-card">
+                  {localStorage.getItem('role') === 'DEVELOPER' ? (
+                    <div className="card-inner"><MdEdit onClick={() => handleEditLanguage(language._id, language.language)} /> <MdDelete onClick={() => handleDeleteLanguage(language._id)} /> </div>
+                  ) : null}
+                  <div className="text-space" onClick={() => handleLanguageClick(language.language, language._id)}> {language.language}</div>
                 </div>
-              </>
-            )}
-            {
-              showAddlanguageModal && (
-                <div className="modal-overlay">
-                  <div className="modal">
-                    <div><h3>Add another language</h3></div>
-                    <div className="cross-sign" onClick={closeAddlanguageModal}>  &#10005;</div>
+              ))}{
+                localStorage.getItem('role') === 'DEVELOPER' ? (
+                  <button className="add-more-languages-btn" onClick={handleAddNewLanguage}>Add new</button>
+                ) : null}
+            </div>)}
 
-                    <div className="input-field">
-                      <input
-                        type="text"
-                        placeholder="language"
-                        onChange={event => setNewLanguage(event.target.value)}
-                      />
-                      <button onClick={addLanguages}>Add</button>
-                    </div>
-                    <Toaster />
-                  </div>
+          <Modal show={showAddlanguageModal} onHide={closeAddlanguageModal} backdrop="static" keyboard={false} className="modal-inner" >
+            <Modal.Header closeButton>
+              <Modal.Title>Add language</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <input required type="text" placeholder="language" onChange={event => setNewLanguage(event.target.value)} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={closeAddlanguageModal}> Close </Button>
+              <Button onClick={addLanguages} variant="primary">Add</Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={showEditBox} onHide={closeAddlanguageModal2} backdrop="static" keyboard={false} className="modal-inner" >
+            <Modal.Header closeButton>
+              <Modal.Title>Update language</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <input required defaultValue={holdLanguage} type="text" onChange={event => setHoldLanguage(event.target.value)} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={closeAddlanguageModal2}> Close</Button>
+              <Button onClick={updateLanguage} variant="primary">Update</Button>
+            </Modal.Footer>
+          </Modal>
+          {/* ****** Series */}
+          {showseries && (
+            <div className="series-modal-overlay">
+              <div className="series-modal">
+                <div className="close-series" onClick={closeseries}> &#10005;</div>
+                <div className="modal-header">
+                  <h3>Select Series</h3>
                 </div>
-              )}
-            {/* ******* */}
-            {showseries && (
-              <div className="series-modal-overlay">
-                <div className="series-modal">
-                  <div className="close-series" onClick={closeseries}> &#10005;</div>
-                  <div className="modal-header">
-                    <h3>Select Series</h3>
-                  </div>
-                  <div className="modal-body">{
-                    localStorage.getItem('role')==='DEVELOPER'?(
-                      <div className="series-option-new" onClick={openAddseries} >Add new series</div>
-                    ):null
-                  }
-                   
-                    {seriesOptions.map((series, index) => (
-                      <>
-                        <div className={series.status === 'pending' ? 'series-outer-box-pending' : "series-outer-box"}>
-                          {
-                            localStorage.getItem('role')==='DEVELOPER'? (
-                              <>
-                              <MdEdit onClick={() => handleEditSeries(series.seriesName, series._id)} /> <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
-                              </>
-                            ):null
-                          }
-                          
-                          <div key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName} ({series.status})</div>
-                        </div> <br></br></>
-                    ))}
-                  </div>
+                <div className="modal-body">{
+                  localStorage.getItem('role') === 'DEVELOPER' ? (
+                    <div className="series-option-new" onClick={openAddseries} >Add new series</div>
+                  ) : null }
+                  {seriesOptions.map((series, index) => (
+                    <>
+                      <div className={series.status === 'pending' ? 'series-outer-box-pending' : "series-outer-box"}>
+                        {localStorage.getItem('role') === 'DEVELOPER' ? (
+                          <>
+                            <MdEdit onClick={() => handleEditSeries(series.seriesName, series._id)} /> <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
+                          </>
+                        ) : null}
+                        <div key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName} ({series.status})</div>
+                      </div> <br></br></>
+                  ))}
                 </div>
               </div>
-            )}
-            {
-              openAddnewseriesModal && (
-                <div className="modal-overlay">
-                  <div className="modal">
-                    <div><h3>Add Series</h3></div>
-                    <div className="cross-sign" onClick={handlecloseAddseriesModal}>  &#10005;</div>
+            </div>
+          )}
+          <Modal show={openAddnewseriesModal} onHide={handlecloseAddseriesModal} backdrop="static" keyboard={false} className="modal-inner" >
+            <Modal.Header closeButton>
+              <Modal.Title>Add new series</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <input required className="input-field" type="text" placeholder="Enter new series" onChange={event => setHoldNewSeries(event.target.value)} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handlecloseAddseriesModal}>Close </Button>
+              <Button onClick={AddNewSeries} variant="primary">Add</Button>
+            </Modal.Footer>
+          </Modal>
 
-                    <div className="input-field">
-                      <input
-                        type="text"
-                        placeholder="Enter new series"
-                        onChange={event => setHoldNewSeries(event.target.value)}
-                      />
-                      <button onClick={AddNewSeries} >Add</button>
-                    </div>
-                    <Toaster />
-                  </div>
-                </div>
-              )
-            }
-            {
-              openEditseriesModal && (
-                <div className="modal-overlay">
-                  <div className="modal">
-                    <div><h3>Edit Series</h3></div>
-                    <div className="cross-sign" onClick={handleCloseEditSeries} >  &#10005;</div>
+          <Modal show={openEditseriesModal} onHide={handleCloseEditSeries} backdrop="static" keyboard={false} className="modal-inner" >
+            <Modal.Header closeButton>
+              <Modal.Title>Edit series</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <input required className="input-field" type="text" defaultValue={series} placeholder="Edit series" onChange={event => setUpdatedSeries(event.target.value)} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseEditSeries}> Close </Button>
+              <Button onClick={AddEditSeries} variant="primary">Sumit</Button>
+            </Modal.Footer>
+          </Modal>
+        </>)}
+    </>)}
 
-                    <div className="input-field">
-                      <input
-                        defaultValue={series}
-                        type="text"
-                        // placeholder="Edit series"
-                        onChange={event => setUpdatedSeries(event.target.value)}
-                      />
-                      <button onClick={AddEditSeries} >Add</button>
-                    </div>
-                    <Toaster />
-                  </div>
-                </div>
-              )
-            }
-
-            {/* ********* */}
-            {
-              showEditBox && (
-                <div className="modal-overlay">
-                  <div className="modal">
-                    <div><h3>Update language</h3></div>
-                    <div className="cross-sign" onClick={closeAddlanguageModal2}>  &#10005;</div>
-
-                    <div className="input-field">
-                      <input
-                        defaultValue={holdLanguage}
-                        type="text"
-                        placeholder="language"
-                        onChange={event => setHoldLanguage(event.target.value)}
-                      />
-                      <button onClick={updateLanguage}>Add</button>
-                    </div>
-                    <Toaster />
-                  </div>
-                </div>
-              )
-            }
-
-          </>)}
-
-    </>
-
-  );
-}
 export default HomePage;
 
 

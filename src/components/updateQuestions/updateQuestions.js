@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from 'react-hot-toast';
-import { MdOutlineArrowBack } from "react-icons/md"
+import toast, { Toaster } from 'react-hot-toast'
 import swal from "sweetalert";
 
 const UpdateQuestions = () => {
@@ -87,7 +86,7 @@ const UpdateQuestions = () => {
                 console.log(result)
                 // if (result.type === 'success') {
                 setConfigureSeriesChange(prev => prev + 1)
-                toast.success(result.message)
+                toast.success('Document delted successfully.')
 
                 // }
             })
@@ -263,8 +262,11 @@ const UpdateQuestions = () => {
         navigate('/create-task')
     }
 
+
+    
+
     return (
-        <div className="outer-edit-question-div">
+        <div className="wrapper">
             {/* <div className="back-btn" onClick={handleBackClick}>< MdOutlineArrowBack /></div> */}
             <>
                 
@@ -275,19 +277,20 @@ const UpdateQuestions = () => {
                     {
 
                         questionAnswer?.questions?.objective?.length > 0 && (
-                            <div onClick={handleShowobjective}   className='heading-objective' >Objective</div>
+                            
+                            <div onClick={handleShowobjective}   className= { showobjective ===true?'heading-objective-active' :'heading-objective'} >Objective</div>
                         )
-
+                
                     }
                     {
                         questionAnswer?.questions?.subjective?.length > 0 && (
-                            <div  className="heading-objective" onClick={handleShowSubjective}>Subjective</div>
+                            <div   className= { showsubjective ===true?'heading-objective-active' :'heading-objective'} onClick={handleShowSubjective}>Subjective</div>
                             // <div   className={`heading-objective ${getButtonClass()}`} onClick={handleShowSubjective}>Subjective</div>
                         )
                     }
                     {
                         questionAnswer?.questions?.logical?.length > 0 && (
-                            <div className="heading-objective" onClick={handleShowLogical}>Logical</div>
+                            <div  className= { showLogical ===true?'heading-objective-active' :'heading-objective'} onClick={handleShowLogical}>Logical</div>
                             // <div  onClick={handleShowLogical} className={`heading-objective ${getButtonClass()}`}>Logical</div>
                         )
                     }

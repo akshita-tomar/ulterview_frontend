@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate= useNavigate()
+  let role = localStorage.getItem('role')
 
 const fetchLanguages =()=>{
   navigate('/homepage')
@@ -15,8 +16,13 @@ const fetchLanguages =()=>{
   return (
     <>
       <div className="sidebar">
-        <button className="sidebar-button" onClick={fetchLanguages}> Questionnaire</button>
-     
+        {
+          role==="HR"?<button className="sidebar-button"> Candidates</button>:null
+        }
+        {
+          role==='DEVELOPER'?<button className="sidebar-button" onClick={fetchLanguages}> Questionnaire</button>:null
+        }
+        
       </div>
       
     </>
