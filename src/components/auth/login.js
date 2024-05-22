@@ -12,8 +12,12 @@ const url = 'http://localhost:8000/api/v1/'
 
 useEffect(()=>{
   let token = localStorage.getItem('token')
-  if(token){
+  let role = localStorage.getItem('role')
+  if(token && role==='DEVELOPER'){
     navigate('/homepage')
+  }
+  if(token && role==="HR"){
+    navigate('/candidates')
   }
 },[])
 

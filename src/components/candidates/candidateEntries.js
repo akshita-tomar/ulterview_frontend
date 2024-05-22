@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import { Row, Col, Table } from "react-bootstrap";
 import CandidateRegisterModal from "./candidateRegistarModal";
 import UpdateCandidate from "./updateCandidate";
@@ -8,6 +8,8 @@ import InviteCandidate from "./InviteCandidate";
 import Swal from "sweetalert2";
 import { MdEdit, MdDelete } from "react-icons/md";
 import toast, { Toaster } from 'react-hot-toast';
+
+
 
 
 const CandidateEntries = () => {
@@ -19,6 +21,7 @@ const CandidateEntries = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false)
   const [showInviteModal,setShowInviteModal]=useState(false)
   const [candidateID, setCandidateID] = useState('')
+  const [LanguageId,setLanguageId] = useState('')
   const [handleChange, setHandleChange] = useState(0)
   const url = 'http://localhost:8000/api/v1/'
   // const url = 'http://16.171.41.223:8000/api/v1/'
@@ -28,6 +31,8 @@ const CandidateEntries = () => {
     navigate('/')
   }
 
+
+ 
 
   useEffect(() => {
     const myHeaders = new Headers();
@@ -92,8 +97,9 @@ const CandidateEntries = () => {
     setShowUpdateModal(true)
   }
 
-  const handleInvite = (id)=>{
+  const handleInvite = (id,languageId)=>{
     setCandidateID(id)
+    setLanguageId(languageId)
     setShowInviteModal(true)
   }
 
@@ -126,9 +132,9 @@ const CandidateEntries = () => {
                 <td>{element.email}</td>
                 <td>{element.profile}</td>
                 <td>{element.experience}</td>
-                <td>pending</td>
+                <td>{element.testStatus}</td>
                 <td>{element.resultStatus}</td>
-                <td><button onClick={()=>handleInvite(element._id)}>Invite</button>  <MdEdit onClick={() => handleUpdateCandidate(element._id)} /> <MdDelete onClick={() => handleDelete(element._id)} /></td>
+                <td><button onClick={()=>handleInvite(element._id,element.languageId)}>Invite</button>  <MdEdit onClick={() => handleUpdateCandidate(element._id)} /> <MdDelete onClick={() => handleDelete(element._id)} /></td>
               </tr>
             ))}
           </tbody>
@@ -150,12 +156,14 @@ const CandidateEntries = () => {
           handleChange={setHandleChange}
         />
       )}
-      {
+      { 
         showInviteModal && (
           <InviteCandidate
           show={showInviteModal}
           onHide={()=>setShowInviteModal(false)}
           candidateID={candidateID}
+          languageId={LanguageId}
+          handleChange={setHandleChange}
           />
         )
       }

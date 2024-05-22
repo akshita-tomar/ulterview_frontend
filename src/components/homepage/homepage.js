@@ -26,6 +26,8 @@ const HomePage = () => {
   const [openEditseriesModal, setOpenEditseriesModal] = useState(false)
   const [seriesId, setSeriesId] = useState('')
   const [updatedSeries, setUpdatedSeries] = useState('')
+  const [taskTime,setTaskTime]=useState(0)
+  const [updatedTasktime,setUpdatedTaskTime]=useState(0)
   const navigate = useNavigate();
   let token = localStorage.getItem('token')
 
@@ -319,12 +321,14 @@ const HomePage = () => {
     if (!token) {
       navigate('/')
     }
+    let languageId = localStorage.getItem('languageId')
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + token);
 
     const raw = JSON.stringify({
-      "seriesName": holdNewSeries
+      "seriesName": holdNewSeries,
+      "taskTime": taskTime
     });
 
     const requestOptions = {
@@ -334,7 +338,7 @@ const HomePage = () => {
       redirect: "follow"
     };
 
-    fetch(`${url}createSeries`, requestOptions)
+    fetch(`${url}createSeries?languageId=${languageId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -388,13 +392,16 @@ const HomePage = () => {
 
   const AddEditSeries = () => {
     console.log("series id -----", seriesId)
+    console.log("task time =------",taskTime)
+
     let token = localStorage.getItem('token')
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + token);
 
     const raw = JSON.stringify({
-      "updatedSeries": updatedSeries
+      "updatedSeries": updatedSeries?updatedSeries:series,
+      "taskTime":updatedTasktime?updatedTasktime:taskTime
     });
 
     const requestOptions = {
@@ -417,9 +424,10 @@ const HomePage = () => {
   }
 
 
-  const handleEditSeries = (seriesName, seriesId) => {
+  const handleEditSeries = (seriesName, seriesId,taskTime) => {
     setSeriesId(seriesId)
     setSeries(seriesName)
+    setTaskTime(taskTime)
     setOpenEditseriesModal(true)
   }
 
@@ -511,7 +519,7 @@ const HomePage = () => {
                       <div className={series.status === 'pending' ? 'series-outer-box-pending' : "series-outer-box"}>
                         {localStorage.getItem('role') === 'DEVELOPER' ? (
                           <>
-                            <MdEdit onClick={() => handleEditSeries(series.seriesName, series._id)} /> <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
+                            <MdEdit onClick={() => handleEditSeries(series.seriesName, series._id,series.taskTime)} /> <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
                           </>
                         ) : null}
                         <div key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName} ({series.status})</div>
@@ -527,6 +535,8 @@ const HomePage = () => {
             </Modal.Header>
             <Modal.Body>
               <input required className="input-field" type="text" placeholder="Enter new series" onChange={event => setHoldNewSeries(event.target.value)} />
+              <label>Time taken to complete this series test (in minuites)</label>
+              <input required className="input-field" type="number" min={0}  placeholder="Enter task time" value={taskTime} onChange={event => setTaskTime(event.target.value)} />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handlecloseAddseriesModal}>Close </Button>
@@ -540,6 +550,7 @@ const HomePage = () => {
             </Modal.Header>
             <Modal.Body>
               <input required className="input-field" type="text" defaultValue={series} placeholder="Edit series" onChange={event => setUpdatedSeries(event.target.value)} />
+              <input required className="input-field" type="number" min={0}  placeholder="Enter task time" defaultValue={taskTime} onChange={event => setUpdatedTaskTime(event.target.value)} />
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseEditSeries}> Close </Button>

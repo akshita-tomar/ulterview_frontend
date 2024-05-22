@@ -17,6 +17,7 @@ const ModalView = React.lazy(()=>import('./components/homepage/modal'))
 const RegisterCandidateModal = React.lazy(()=>import('./components/candidates/candidateRegistarModal'))
 const UpdateCandidate = React.lazy(()=>import('./components/candidates/updateCandidate'))
 const InviteCandidate = React.lazy(()=>import('./components/candidates/InviteCandidate'))
+const InterviewQuestions =  React.lazy(()=>import('./components/candidates/interviewQuestions'))
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
           <Route path='/register-candidate-modal' element={<Suspense fallback={<div>Loading...</div>}> <RegisterCandidateModal/></Suspense>}></Route>
           <Route path='/update-candidate' element={<Suspense fallback={<div>Loading...</div>}> <UpdateCandidate/></Suspense>}></Route>
           <Route path='/invite-candidate' element={<Suspense fallback={<div>Loading...</div>}> <InviteCandidate/></Suspense>}></Route>
+          <Route path='/interview-questions/:id' element={<Suspense fallback={<div>Loading...</div>}> <InterviewQuestions/></Suspense>}></Route>
         </Routes > 
       </BrowserRouter>
     </div>  
