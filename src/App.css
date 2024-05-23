@@ -861,6 +861,11 @@ h1 {
   font-size: 29px;
   color: #007bff;
 }
+
+.timer-start{
+  font-size: 29px;
+  color: rgb(5, 153, 5);
+}
 .Interview_header {
   display: flex;
   gap: 20px;
@@ -872,4 +877,29 @@ h1 {
 }
 .timer_outer{
   display: flex;
+}
+.interview-caution{
+  background: #f8f6f6;
+    padding: 10px;
+    /* border: 1px solid #00b2ff; */
+    border:1px solid #007bff;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.regards{
+  padding: 10px;
+  float: right;
+  color: #083a70;
+}
+.regards-message{
+  /* background-color: rgb(38, 180, 38); */
+  width: 500px;
+  /* color: white; */
+  margin-top: 15%;
+  margin-left: 35%;
+  padding: 10px;
+  border: 1px solid green;
+  font-size: 20px;
+  font-weight: 600;
 }

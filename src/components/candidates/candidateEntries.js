@@ -8,7 +8,7 @@ import InviteCandidate from "./InviteCandidate";
 import Swal from "sweetalert2";
 import { MdEdit, MdDelete } from "react-icons/md";
 import toast, { Toaster } from 'react-hot-toast';
-
+import { io } from 'socket.io-client';
 
 
 
@@ -25,6 +25,8 @@ const CandidateEntries = () => {
   const [handleChange, setHandleChange] = useState(0)
   const url = 'http://localhost:8000/api/v1/'
   // const url = 'http://16.171.41.223:8000/api/v1/'
+  const socketurl = "http://localhost:8000"
+  const socket = io(socketurl);
 
 
   if (!token) {
@@ -34,22 +36,36 @@ const CandidateEntries = () => {
 
  
 
-  useEffect(() => {
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + token);
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow"
+ useEffect(() => {
+    const fetchCandidates = () => {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", "Bearer " + token);
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+      };
+      fetch(`${url}getCandidates`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setCandidates(result.allCandidates);
+        })
+        .catch((error) => console.error(error));
     };
-    fetch(`${url}getCandidates`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result)
-        setCandidates(result.allCandidates)
-      })
-      .catch((error) => console.error(error));
-  }, [handleChange])
+
+    fetchCandidates(); 
+
+
+    socket.on('Interview_submitted', () => {
+      console.log("here in the socket-----")
+      fetchCandidates(); 
+    });
+
+    return () => {
+      socket.disconnect(); 
+    };
+  }, [token, url]);
 
 
 
