@@ -110,21 +110,21 @@ const UpdateCandidate = (props) => {
         <div>
             <Modal
                 {...props}
-                size="lg"
+                size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
+                    <Modal.Title id="contained-modal-title-vcenter heading">
                         Update Candidate
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <input className="candidate-register-input" placeholder="Enter candidate name" defaultValue={data.username} onChange={(e) => setUserName(e.target.value)}></input>
+                    <input className="candidate-register-input mt-3 form-control" placeholder="Enter candidate name" defaultValue={data.username} onChange={(e) => setUserName(e.target.value)}></input>
 
-                    <input className="candidate-register-input" placeholder="Enter candidate email" defaultValue={data.email} onChange={(e) => setEmail(e.target.value)}></input>
+                    <input className="candidate-register-input mt-3 form-control" placeholder="Enter candidate email" defaultValue={data.email} onChange={(e) => setEmail(e.target.value)}></input>
 
-                    <select className="candidate-register-input" defaultValue={data.profile} onChange={handleChange}>
+                    <select className="candidate-register-input mt-3 form-control" defaultValue={data.profile} onChange={handleChange}>
                         {/* <option value="">Select profile</option> */}
                         {languages?.map((ele) => (
                             <option key={ele._id} value={ele._id}>
@@ -133,11 +133,11 @@ const UpdateCandidate = (props) => {
                         ))}
                     </select>
 
-                    <input className="candidate-register-input" placeholder="Enter total experience" defaultValue={data.experience} onChange={(e) => setExprience(e.target.value)}></input>
+                    <input className="candidate-register-input mt-3 form-control" placeholder="Enter total experience" defaultValue={data.experience} onChange={(e) => setExprience(e.target.value)}></input>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => handleUpdateCandidate(data._id)}>Update</Button>
+                    <Button className="cmn_btn_color" onClick={() => handleUpdateCandidate(data._id)}>Update</Button>
                 </Modal.Footer>
             </Modal>
             <Toaster />

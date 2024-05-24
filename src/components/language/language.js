@@ -120,10 +120,10 @@ fetch(`${url}addLanguage`, requestOptions)
 
   return (
     <>
-      <div className="login-container">
-        <div className="heading">Choose your language</div>
+      <div className="language-container">
+        <h3 className="heading">Choose your language</h3>
         <form>
-          <div className="ad-language-btn">
+          <div className="ad-language-btn mt-5">
           <select className="select-role" onChange={event => setLanguage(event.target.value)}>
             <option defaultChecked value=""></option>
             {storeLanguages?.map((lang, index) => (

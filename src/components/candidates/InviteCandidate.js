@@ -7,6 +7,7 @@ import { encryptId } from '../../utils/encryption'
 
 
 const InviteCandidate = (props) => {
+
     let token = localStorage.getItem('token')
     const navigate = useNavigate()
     let url = 'http://localhost:8000/api/v1/'
@@ -16,7 +17,6 @@ const InviteCandidate = (props) => {
     const [selectedSeries, setSelectedSeries] = useState({ series: '', id: '' });
     let candidateId = props.candidateID
     let languageid = props.languageId
-
 
     useEffect(() => {
         const myHeaders = new Headers();
@@ -145,18 +145,18 @@ const InviteCandidate = (props) => {
         <div>
             <Modal
                 {...props}
-                size="lg"
+                size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
+                    <Modal.Title id="contained-modal-title-vcenter heading">
                         Invite
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <input value={language} className="candidate-register-input" ></input>
-                    <select className="candidate-register-input" onChange={handleChange}>
+                    <input value={language} className="candidate-register-input form-control mt-3" ></input>
+                    <select className="candidate-register-input form-control mt-3" onChange={handleChange}>
                         <option value="">Select series</option>
                         {series?.map((ele) => (
                             <option disabled={ele.status === "pending"} className={ele.status === 'pending' ? 'series-outer-box-pending' : "series-outer-box"} key={ele._id} value={ele._id}>
@@ -166,7 +166,7 @@ const InviteCandidate = (props) => {
                     </select>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={handleSendLink} >Send link</Button>
+                    <Button className='cmn_btn_color' onClick={handleSendLink} >Send link</Button>
                 </Modal.Footer>
             </Modal>
             <Toaster />
