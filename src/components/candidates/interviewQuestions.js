@@ -2,25 +2,48 @@ import { decryptId } from "../../utils/encryption";
 import { useEffect, useState } from "react";
 import { useAsyncError, useParams } from "react-router-dom";
 import logo from "../header/ultivic-logo.png"
-import { MdOutlineTimer } from "react-icons/md";
 import { toast, Toaster } from "react-hot-toast";
+
 
 const InterviewQuestions = () => {
   const { id } = useParams();
   let url = 'http://localhost:8000/api/v1/'
   // const url = 'http://16.171.41.223:8000/api/v1/'
-
   var candidateID
   const [decryptedCandidateId, setDecryptedCandidateId] = useState()
   const [questions, setQuestions] = useState([])
-  const [questionCopy, setQuestonCopy] = useState([])
-  const [answers, setAnswers] = useState({});
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [startTest, setStartTest] = useState(false)
   const [estimateTime, setEstimatedTime] = useState()
   const [checkComplete, setCheckComplete] = useState('')
+  const [ConfigureHandleChange, setConfigureHandleChange] = useState('content')
+  const [updatedAnswers, setUpdatedAnswers] = useState({
+    objective: [],
+    subjective: [],
+    logical: []
+  });
+
+
+  const handleChange = (questionId, quesiton, value, type,options) => {
+    setUpdatedAnswers((prev) => {
+      if (type === 'objective') {
+        const newObjectiveAnswers = prev.objective.filter(ans => ans._id !== questionId);
+        newObjectiveAnswers.push({ _id: questionId, question: quesiton,options:options, correctAnswer: value });
+        return { ...prev, objective: newObjectiveAnswers };
+      } else if (type === 'subjective') {
+        const newSubjectiveAnswers = prev.subjective.filter(ans => ans._id !== questionId);
+        newSubjectiveAnswers.push({ _id: questionId, question: quesiton, answer: value });
+        return { ...prev, subjective: newSubjectiveAnswers };
+      } else if (type === 'logical') {
+        const newObjectiveAnswers = prev.logical.filter(ans => ans._id !== questionId);
+        newObjectiveAnswers.push({ _id: questionId, question: quesiton, answer: value });
+        return { ...prev, logical: newObjectiveAnswers };
+      }
+      return prev;
+    });
+  };
 
 
 
@@ -50,18 +73,13 @@ const InterviewQuestions = () => {
   }, [id])
 
 
+  // const handleChange = (id, value) => {
+  //   setAnswers({
+  //     ...answers,
+  //     [id]: value
+  //   });
+  // };
 
-  const handleChange = (id, value) => {
-    setAnswers({
-      ...answers,
-      [id]: value
-    });
-  };
-
-  const handleSubmit = () => {
-
-    // event.preventDefault();
-  };
 
   useEffect(() => {
     let intervalId;
@@ -72,7 +90,6 @@ const InterviewQuestions = () => {
     }
     return () => clearInterval(intervalId);
   }, [startTime, endTime]);
-
 
 
 
@@ -98,41 +115,17 @@ const InterviewQuestions = () => {
           }
         })
         .catch((error) => console.error(error));
-
-    } else {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-
-      const raw = JSON.stringify({
-        "candidateId": decryptedCandidateId
-      });
-
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow"
-      };
-
-      fetch(`${url}testCompleted`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          if (result.type === 'success') {
-            submitForm();
-          }
-        })
-        .catch((error) => console.error(error));
-    }
+    } 
   };
 
-
-  const submitForm = () => {
+  const handleSubmit=(e)=>{
+    e.preventDefault()
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
       "candidateId": decryptedCandidateId,
-      "quesAns": answers
+      "quesAns": updatedAnswers
     });
 
     const requestOptions = {
@@ -144,12 +137,43 @@ const InterviewQuestions = () => {
 
     fetch(`${url}addCandidateAnswers`, requestOptions)
       .then((response) => response.json())
-      .then((result) =>{ 
-        if(result.type==='success'){
+      .then((result) => {
+        if (result.type === 'success') {
           setEndTime(Date.now());
-          toast.success(result.message,{
-            duration:3000
+          toast.success(result.message, {
+            duration: 3000
           })
+          setConfigureHandleChange('')
+        }
+      })
+      .catch((error) => console.error(error));
+  }
+
+  const submitForm = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      "candidateId": decryptedCandidateId,
+      "quesAns": updatedAnswers
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+
+    fetch(`${url}addCandidateAnswers`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.type === 'success') {
+          setEndTime(Date.now());
+          toast.success(result.message, {
+            duration: 3000
+          })
+          setConfigureHandleChange('')
         }
       })
       .catch((error) => console.error(error));
@@ -165,35 +189,26 @@ const InterviewQuestions = () => {
 
 
 
+
   return (
     <>
-      {
-        checkComplete === 'completed' ? <div className="regards-message">Your interview result will be shared with you as soon as possible. Thankyou!</div> :
+     {
+        checkComplete === 'completed' || ConfigureHandleChange === '' ?
+          <div className="regards-message">Your interview result will be shared with you as soon as possible. Thankyou!</div> :
           <section className="question-form">
-            <div className="Interview_header">
-              {
-                startTest && (
+            {
+              startTest && (
+                <div className="Interview_header">
                   <div className="d-flex align-items-center gap-3">
                     <img src={logo} height={"40px"} width={"120px"} className="logo_img" />
-                    {
-                      endTime === null ? (
-                        <h3>Good Luck for your Interview!</h3>
-                      ) : <h3>Your interview result will be shared with you as soon as possible.Thankyou!</h3>
-                    }
-
+                    <h3>Good Luck for your Interview!</h3>
                   </div>
-                )
-              }
-
-              <div className="timer_outer">
-                {formatTime(elapsedTime)}
-                {
-                  endTime === null ? (
-                    <MdOutlineTimer className={startTest === true ? 'timer-start' : 'timer'} alt="Logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }} />
-                  ) : null
-                }
-              </div>
-            </div>
+                  <div className="timer_outer">
+                    {formatTime(elapsedTime)}
+                    {/* <MdOutlineTimer className={startTest === true ? 'timer-start' : 'timer'} alt="Logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }} /> */}
+                  </div>
+                </div>
+              )}
             {
               startTest === true ? (
                 <form >
@@ -209,7 +224,7 @@ const InterviewQuestions = () => {
                               name={`question-${question._id}`}
                               value={option}
                               key={index}
-                              onChange={(e) => handleChange(question.question, index + 1)}
+                              onChange={(e) => handleChange(question._id, question.question, index + 1, 'objective', question.options)}
                               className="option-input"
                             />
                             {option}
@@ -225,7 +240,7 @@ const InterviewQuestions = () => {
                       <textarea
                         className="text-input"
                         placeholder="Your answer here"
-                        onChange={(e) => handleChange(question.question, e.target.value)}
+                        onChange={(e) => handleChange(question._id, question.question, e.target.value, 'subjective')}
                       />
                     </div>
                   ))}
@@ -236,29 +251,34 @@ const InterviewQuestions = () => {
                       <textarea
                         className="text-input"
                         placeholder="Your answer here"
-                        onChange={(e) => handleChange(question.question, e.target.value)}
+                        onChange={(e) => handleChange(question._id, question.question, e.target.value, 'logical')}
                       />
                     </div>
                   ))}
-                  {/* <div className="text-center">
-              <button type="submit" className="submit-button">Submit</button>
-            </div> */}
+                  <div className="text-center">
+                    <button type="submit" className="submit-button" onClick={handleSubmit} >Submit</button>
+                  </div>
                 </form>
               ) :
-                <div className="interview-caution">
-                  <h5>Please read carefully</h5>
-                  <ol>
-                    <li>When you will click on the timer(given above) you will see list of interview questions and your timer will start automatically.</li>
-                    <li>Try to complete your test in the predefinded estimate time. ({estimateTime} minutes) </li>
-                    <li>When you will again click on the timer your test will be submitted automatically.</li>
-                    <li>Please dont try to stop the time in between the test otherwise your test will be submitted as much you have done till that time.</li>
-                  </ol>
-                  <h6 className="regards"> Best! <br></br>Ultivic Technologies</h6>
-                </div>
+                <>
+                  <div className="interview-caution">
+                    <h5>Please read carefully</h5>
+                    <ol>
+                      <li>When you will click on the start button(given bellow) you will see list of interview questions and your timer will start automatically.</li>
+                      <li>Try to complete your test in the predefinded estimate time. ({estimateTime} minutes) </li>
+                      <li>When you will complete the test click on the submit button.</li>
+                      <li>You will get list of objective, subjective as well as logical questions</li>
+                      <li>link is one time openable you can not access it again after submitting so please be carefull during test.</li>
+                    </ol>
+                    <h6 className="regards"> Best! <br></br>Ultivic Technologies</h6>
+                  </div>
+                  <button onClick={handleLogoClick} className='timer-start'>Start</button>
+                </>
             }
             <Toaster />
           </section>
       }
+
     </>
   );
 }

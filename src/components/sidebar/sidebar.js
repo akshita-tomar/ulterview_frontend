@@ -20,9 +20,9 @@ const fetchLanguages =()=>{
           role==="HR"?<button className="sidebar-button"> Candidates</button>:null
         }
         {
-          role==='DEVELOPER'?<button className="sidebar-button" onClick={fetchLanguages}> Questionnaire</button>:null
+          role==='DEVELOPER'?<div><button className="sidebar-button" onClick={fetchLanguages}> Questionnaire</button> 
+          <button className="sidebar-button" >Candidate Results</button></div>:null
         }
-        
       </div>
       
     </>

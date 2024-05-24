@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa";
-import { useNavigate,useParams } from "react-router-dom";
-import { Row, Col, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { Table } from "react-bootstrap";
 import CandidateRegisterModal from "./candidateRegistarModal";
 import UpdateCandidate from "./updateCandidate";
 import InviteCandidate from "./InviteCandidate";
@@ -65,7 +64,7 @@ const CandidateEntries = () => {
     return () => {
       socket.disconnect(); 
     };
-  }, [token, url]);
+  }, [token, url,handleChange]);
 
 
 

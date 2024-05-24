@@ -7,7 +7,6 @@ const UpdateCandidate = (props) => {
     const [data, setData] = useState([])
     const [username, setUserName] = useState('')
     const [email, setEmail] = useState('')
-    const [profile, setProfile] = useState('')
     const [experience, setExprience] = useState('')
     const [languages, setlanguages] = useState([])
     const [selectedLanguage, setSelectedLanguage] = useState({ language: '', id: '' });

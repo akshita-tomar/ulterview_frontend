@@ -59,11 +59,9 @@ const HomePage = () => {
   }, [configureSeriesChange])
 
 
-
   useEffect(() => {
     fetchLanguages()
   }, [configurechange])
-
 
   const fetchLanguages = () => {
     let token = localStorage.getItem('token')
@@ -89,8 +87,6 @@ const HomePage = () => {
       })
       .catch((error) => console.error(error));
   };
-
-
 
   const addLanguages = async (e) => {
     e.preventDefault();
@@ -125,7 +121,6 @@ const HomePage = () => {
       })
       .catch((error) => console.error(error));
   }
-
 
   const handleLanguageClick = (language, id) => {
     let mylanguage = language
@@ -167,9 +162,6 @@ const HomePage = () => {
 
   };
 
-
-
-
   const handleDeleteLanguage = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -188,8 +180,6 @@ const HomePage = () => {
       }
     });
   }
-
-
 
   const handleDeleteLanguageYes = (id) => {
 
@@ -219,9 +209,6 @@ const HomePage = () => {
       })
       .catch((error) => console.error(error))
   }
-
-
-
 
 
   const updateLanguage = () => {
@@ -269,7 +256,6 @@ const HomePage = () => {
   }
 
 
-
   const handleAddNewLanguage = () => {
     setShowLanguageModal(false)
     setShowAddlanguageModal(true)
@@ -278,7 +264,6 @@ const HomePage = () => {
   const closeAddlanguageModal = () => {
     setShowAddlanguageModal(false)
     setShowLanguageModal(true)
-
   }
 
   const showQuestion = (seriesId) => {
@@ -346,7 +331,6 @@ const HomePage = () => {
           setConfigureSeriesChange(prev => prev + 1)
           setopenAddnewseriesModal(false)
         }
-
       })
       .catch((error) => console.error(error));
   }
@@ -391,9 +375,6 @@ const HomePage = () => {
 
 
   const AddEditSeries = () => {
-    console.log("series id -----", seriesId)
-    console.log("task time =------",taskTime)
-
     let token = localStorage.getItem('token')
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -453,11 +434,15 @@ const HomePage = () => {
     setopenAddnewseriesModal(false)
   }
 
+  const handleCandidateResults =()=>{
+    navigate('/candidates-performance')
+  }
 
   return (
     <>
       <div className="sidebar">
         <button className="sidebar-button" onClick={fetchLanguages}>Questionnaire</button>
+        <button className="sidebar-button" onClick={handleCandidateResults}>Candidate Results</button>
         <Toaster />
       </div>
       {showcreteTasksection && (
@@ -489,7 +474,6 @@ const HomePage = () => {
               <Button onClick={addLanguages} variant="primary">Add</Button>
             </Modal.Footer>
           </Modal>
-
           <Modal show={showEditBox} onHide={closeAddlanguageModal2} backdrop="static" keyboard={false} className="modal-inner" >
             <Modal.Header closeButton>
               <Modal.Title>Update language</Modal.Title>

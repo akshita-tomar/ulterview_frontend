@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 
 const Language = () => {
   const [language, setLanguage] = useState('');
   const [storeLanguages, setStoreLanguages] = useState([]);
-  const [showModal,setShowModal]=useState(false)
+  const [showModal, setShowModal] = useState(false)
   const navigate = useNavigate()
 
   const url = 'http://localhost:8000/api/v1/'
@@ -15,12 +15,12 @@ const Language = () => {
 
   useEffect(() => {
     let token = localStorage.getItem('token')
-    if(!token){
-        navigate('/')
+    if (!token) {
+      navigate('/')
     }
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer "+token);
-    
+    myHeaders.append("Authorization", "Bearer " + token);
+
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
@@ -30,7 +30,6 @@ const Language = () => {
     fetch(`${url}getAllLanguages`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result); 
         setStoreLanguages(result.data);
       })
       .catch((error) => console.error(error));
@@ -39,83 +38,83 @@ const Language = () => {
 
 
 
-const addLanguage =(e)=>{
+  const addLanguage = (e) => {
     e.preventDefault()
     setShowModal(true)
-}
-const closeModal =(e)=>{
+  }
+  const closeModal = (e) => {
     e.preventDefault()
     setShowModal(false)
-}
-
-
-
-const collectLanguage =(e)=>{
- e.preventDefault()
- let token = localStorage.getItem('token')
- const myHeaders = new Headers();
- myHeaders.append("Content-Type", "application/json");
- myHeaders.append("Authorization", "Bearer "+token);
- 
- const raw = JSON.stringify({
-   "language": language
- });
- 
- const requestOptions = {
-   method: "POST",
-   headers: myHeaders,
-   body: raw,
-   redirect: "follow"
- };
- 
- fetch(`${url}selectLanguage`, requestOptions)
-   .then((response) => response.json())
-   .then((result) => {
-    console.log(result)
-    if(result.type==='error'){
-        toast.error(result.message,{
-            duration:1000
-        })
-    }else{
-        navigate('/homepage')
-    }
-   })
-   .catch((error) => console.error(error));
-}
-
-
-const addLanguages = async(e)=>{
-  e.preventDefault();
-  let token = localStorage.getItem('token')
-  const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Authorization", "Bearer "+token);
-
-const raw = JSON.stringify({
-  "language": language
-});
-
-const requestOptions = {
-  method: "POST",
-  headers: myHeaders,
-  body: raw,
-  redirect: "follow"
-};
-
-fetch(`${url}addLanguage`, requestOptions)
-  .then((response) => response.json())
-  .then((result) =>{
-    console.log(result)
-    if(result.type==='error'){
-      toast.error(result.message,{
-          duration:1000
-      })
-  }else{
-      navigate('/homepage')
   }
-  })
-  .catch((error) => console.error(error));
-}
+
+
+
+  const collectLanguage = (e) => {
+    e.preventDefault()
+    let token = localStorage.getItem('token')
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    const raw = JSON.stringify({
+      "language": language
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+
+    fetch(`${url}selectLanguage`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.type === 'error') {
+          toast.error(result.message, {
+            duration: 1000
+          })
+        } else {
+          navigate('/homepage')
+        }
+      })
+      .catch((error) => console.error(error));
+  }
+
+
+  const addLanguages = async (e) => {
+    e.preventDefault();
+    let token = localStorage.getItem('token')
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Bearer " + token);
+
+    const raw = JSON.stringify({
+      "language": language
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+
+    fetch(`${url}addLanguage`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.type === 'error') {
+          toast.error(result.message, {
+            duration: 1000
+          })
+        } else {
+          navigate('/homepage')
+        }
+      })
+      .catch((error) => console.error(error));
+  }
 
 
   return (
@@ -124,25 +123,21 @@ fetch(`${url}addLanguage`, requestOptions)
         <div className="heading">Choose your language</div>
         <form>
           <div className="ad-language-btn">
-          <select className="select-role" onChange={event => setLanguage(event.target.value)}>
-            <option defaultChecked value=""></option>
-            {storeLanguages?.map((lang, index) => (
-              <option key={index} value={lang.language}>{lang.language}</option>
-            ))}
-          </select><button className="ad-btn" onClick={addLanguage}>+</button> 
+            <select className="select-role" onChange={event => setLanguage(event.target.value)}>
+              <option defaultChecked value=""></option>
+              {storeLanguages?.map((lang, index) => (
+                <option key={index} value={lang.language}>{lang.language}</option>
+              ))}
+            </select><button className="ad-btn" onClick={addLanguage}>+</button>
           </div>
           <button className="btn" onClick={collectLanguage}>submit</button> <br></br>
-          {/* <button className="btn" onClick={addLanguage}>Add another language</button> */}
         </form>
-       
       </div>
       {showModal && (
-        
         <div className="modal-overlay">
           <div className="modal">
-          <div><h3>Add another language</h3></div> 
-          <div className="cross-sign" onClick={closeModal}>  &#10005;</div>
-           
+            <div><h3>Add another language</h3></div>
+            <div className="cross-sign" onClick={closeModal}>  &#10005;</div>
             <div className="input-field">
               <input
                 type="text"
@@ -151,13 +146,10 @@ fetch(`${url}addLanguage`, requestOptions)
               />
               <button onClick={addLanguages} >Add</button>
             </div>
-            <Toaster/>
+            <Toaster />
           </div>
-
         </div>
-        
       )}
-     
     </>
   );
 };

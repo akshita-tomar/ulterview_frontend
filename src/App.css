@@ -857,26 +857,62 @@ h1 {
   transition: all 0.3s ease;
   margin: 30px 0px;
 }
-.timer{
+
+/* .timer{
   font-size: 29px;
   color: #007bff;
+  
+} */
+
+/* CSS */
+.timer-start {
+  background-color: #c2fbd7;
+  border-radius: 10px;
+  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+  color: green;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 150px;
+  font-size: large;
+  font-weight: 600 ;
+  margin-left: 45%;
+  margin-top: 40px;
 }
 
-.timer-start{
-  font-size: 29px;
-  color: rgb(5, 153, 5);
+.timer-start:hover {
+  box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
 }
+
+/* .timer-start{ */
+  /* font-size: 29px;
+  color: rgb(5, 153, 5);
+} */
 .Interview_header {
   display: flex;
   gap: 20px;
   align-items: center;
-    justify-content: space-between;
+  justify-content: space-between;
 }
 .submit-button:hover {
   background: #0056b3;
 }
 .timer_outer{
   display: flex;
+  /* border: 1px solid black; */
+  /* padding: 5px; */
+  width: 90px;
+  font-size: 20px;
 }
 .interview-caution{
   background: #f8f6f6;
@@ -902,4 +938,10 @@ h1 {
   border: 1px solid green;
   font-size: 20px;
   font-weight: 600;
+}
+
+
+/* **********  check results at developer side  */
+.examin-btn{
+
 }

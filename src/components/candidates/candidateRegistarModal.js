@@ -5,12 +5,12 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 const CandidateRegisterModal = (props) => {
+  
     let token = localStorage.getItem('token')
     let url = 'http://localhost:8000/api/v1/'
     // const url = 'http://16.171.41.223:8000/api/v1/'
     const [username, setUserName] = useState('')
     const [email, setEmail] = useState('')
-    const [profile, setProfile] = useState('')
     const [experience, setExprience] = useState('')
     const [languages, setlanguages] = useState([])
     const [selectedLanguage, setSelectedLanguage] = useState({ language: '', id: '' });
@@ -75,7 +75,6 @@ const CandidateRegisterModal = (props) => {
                     })
                     setUserName('')
                     setEmail('')
-                    setProfile('')
                     setExprience('')
                     props.handleChange(prev => prev + 1)
                     props.onHide(false)
@@ -118,14 +117,10 @@ const CandidateRegisterModal = (props) => {
                             </option>
                         ))}
                     </select>
-
-                    {/* <input className="candidate-register-input" placeholder="Enter candidate job profile" value={profile} onChange={(e) => setProfile(e.target.value)}></input> */}
-
                     <input className="candidate-register-input" placeholder="Enter total experience" value={experience} onChange={(e) => setExprience(e.target.value)}></input>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    {/* <Button className onClick={props.onHide}>Close</Button> */}
                     <Button onClick={handleRegisterCandidate}>Submit</Button>
                 </Modal.Footer>
             </Modal>
