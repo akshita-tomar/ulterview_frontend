@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom"; 
-
+import "./login.css"
 
 const Login = () => {
 const[email,setEmail]=useState('')
@@ -69,19 +69,24 @@ fetch(`${url}signIn`, requestOptions)
 
     return( 
       <>
-        <div class="login-container">
-          <div className="heading">Login</div>
+        <div className="login-container">
+          <div className="login_wrapper">
+          <h3 className="heading">Login</h3>
         <form>
-          <div className="input-group">
-            <input type="email" id="username" name="username" placeholder="Enter your email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+          <div className="form-group mt-3">
+            <label>E-mail</label>
+            <input className="form-control mt-2" type="email" id="username" name="username" placeholder="Enter your email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
           </div>
-          <div className="input-group">
-            <input type="password" id="password" name="password" placeholder="Enter your password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
+          <div className="form-group mt-3">
+          <label>Password</label>
+            <input className="form-control mt-2" type="password" id="password" name="password" placeholder="Enter your password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
           </div>
-          <button type="submit" className="btn" onClick={collectData}>Submit</button> <br></br>
-          <a className="forget-password" href="/">forgetpassword </a>  <br></br>
+          <a className="forget-password mt-2" href="/">Forget password?</a>  <br></br>
+          <button type="submit" className=" login-button mt-4" onClick={collectData}>Submit</button> <br></br>
          {/* <div className="register"> Don't have account? <a href="/register"> register here</a></div> */}
         </form>
+
+          </div>
         <Toaster/>
       </div>
       </>
