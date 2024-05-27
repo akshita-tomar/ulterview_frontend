@@ -1,52 +1,65 @@
 import { useEffect, useState } from "react"
 import { Table } from "react-bootstrap";
 import swal from 'sweetalert'
-import  {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { io } from 'socket.io-client'
 
 
 const CandidatesPerformance = () => {
     let url = 'http://localhost:8000/api/v1/'
     // const url = 'http://16.171.41.223:8000/api/v1/'
     let token = localStorage.getItem('token')
-    let navigate=useNavigate()
+    let navigate = useNavigate()
     const [candidates, setCandidates] = useState([])
-
+    const socketurl = "http://localhost:8000"
+    const socket = io(socketurl);
 
     useEffect(() => {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token);
+        const fetchCandidates = () => {
+            const myHeaders = new Headers();
+            myHeaders.append("Authorization", "Bearer " + token);
 
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow"
-        };
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
 
-        fetch(`${url}getCandidatebyLanguage?languageId`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                console.log(result)
-                if (result.type === 'success') {
-                    if (result.candidates.length < 1) {
-                        swal(
-                        {
-                        confirmButtonColor: "red",
-                        title: "Interview not completed by any candidate.",
-                        text: "Thanks!",
-                        icon: "success",className: "swal-button-custom",
+            fetch(`${url}getCandidatebyLanguage?languageId`, requestOptions)
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log(result)
+                    if (result.type === 'success') {
+                        if (result.candidates.length < 1) {
+                            swal(
+                                {
+                                    confirmButtonColor: "red",
+                                    title: "Interview not completed by any candidate.",
+                                    text: "Thanks!",
+                                    icon: "success", className: "swal-button-custom",
+                                }
+                            )
+                        } else {
+                            setCandidates(result.candidates)
                         }
-                    )
-                    } else {
-                        setCandidates(result.candidates)
                     }
-                }
-            })
-            .catch((error) => console.error(error));
+                })
+                .catch((error) => console.error(error));
+        }
+
+        fetchCandidates();
+        socket.on('interview_result_submitted', () => {
+            console.log("here in the socket-----")
+            fetchCandidates();
+        });
+        return () => {
+            socket.disconnect();
+        };
     }, [])
 
 
     const handleExamine = (id) => {
-      navigate(`/candidate-answers-sheet/${id}`)
+        navigate(`/candidate-answers-sheet/${id}`)
     }
 
 
@@ -70,9 +83,11 @@ const CandidatesPerformance = () => {
                                 <td>{index + 1}</td>
                                 <td>{element.username}</td>
                                 <td>{element.profile}</td>
-                                <td>{element.experience}</td>
-                                <td>{element.resultStatus}</td>
-                                <td><button className="examin-btn" onClick={()=>handleExamine(element._id)}>Examine</button></td>
+                                <td>{element.experience}</td>   
+                                <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''}>
+                                    {element.resultStatus}
+                                </td>
+                                <td><button className="examin-btn" onClick={() => handleExamine(element._id)}>Examine</button></td>
                             </tr>
                         ))}
                     </tbody>

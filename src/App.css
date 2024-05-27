@@ -829,6 +829,19 @@ height: 30px;
   font-size: large;
 }
 
+.heading-check-result{
+  /* float:left; */
+  background-color: #bb0000;
+  /* margin-top: 10px; */
+  font-size: 20px;
+  width: 150px;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 5px;
+  color: white;
+
+}
+
 
 
 
@@ -912,6 +925,7 @@ h1 {
   border: 1px solid #ddd;
   border-radius: 5px;
   height: 185px;
+  scrollbar-width: thin
 }
 
 .submit-button {
@@ -1010,7 +1024,76 @@ h1 {
 }
 
 
-/* **********  check results at developer side  */
-.examin-btn{
+/* ********** ********* COMPARE QUESTION ANSWER****  */
+.original-ques-ans{
+  background-color: #ffffff;
+  border: 1px solid rgb(247, 161, 161);
+  border-radius: 5px;
+  overflow-y: scroll;
+  height: 700px;
+  scrollbar-width: none;
+  margin-right: 10px;
 
+}
+
+.question-wrapper-check-result{
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.candidate-ques-ans{
+  border: 2px solid rgb(37, 134, 238);
+  overflow-y: scroll;
+  height: 700px;
+  scrollbar-width: none;
+  background-color: #ffffff;
+
+}
+
+.check-button{
+  margin-top: 10px;
+  border-radius: 5px;
+  font-weight:500;
+}
+.check-btn-outer{
+  display: flex;
+}
+.correct-incorrect-btn{
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.correct-opt{
+  /* margin-left: 3px; */
+  background-color: green;
+  color: white;
+  font-weight: 400;
+}
+.incorrect-opt{
+  margin-left: 3px;
+  background-color: red;
+  color: white;
+  font-weight: 400;
+}
+.done-text{
+  display: flex;
+  height: 5px;
+}
+.check-result-header{
+/* margin-top: 100px; */
+position: fixed;
+background-color: #0056b3;
+width: 100px;
+color: white;
+margin-left: 75%;
+font-weight: 700;
+}
+.rejected-candidate {
+  color: red !important;
+  font-weight: 700;
+}
+
+.selected-candidate {
+  color: green !important;
+  font-weight: 700;
 }
