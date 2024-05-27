@@ -5,7 +5,8 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Swal from "sweetalert2";
-
+import { RiQuestionnaireFill } from "react-icons/ri";
+import "./homepage.css"
 
 const HomePage = () => {
   const [languages, setLanguages] = useState([]);
@@ -168,8 +169,8 @@ const HomePage = () => {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#ce2128",
+      cancelButtonColor: "#333",
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
@@ -441,7 +442,7 @@ const HomePage = () => {
   return (
     <>
       <div className="sidebar">
-        <button className="sidebar-button" onClick={fetchLanguages}>Questionnaire</button>
+        <button className="sidebar-button" onClick={fetchLanguages}><h4 className="sidebar_content"><RiQuestionnaireFill/>Questionnaire</h4></button>
         <button className="sidebar-button" onClick={handleCandidateResults}>Candidate Results</button>
         <Toaster />
       </div>
@@ -449,42 +450,50 @@ const HomePage = () => {
         <>
           {showLanguageModal && (
             <div className="language-modal">
+              <div className="d-flex flex-wrap-wrap language-modal_outer ">
               {languages?.map((language) => (
-                <div key={language.id} className="language-card">
+                <div key={language.id} className="language-card align-items-center">
+                <h3 className="text-space" onClick={() => handleLanguageClick(language.language, language._id)}> {language.language}</h3>
+
                   {localStorage.getItem('role') === 'DEVELOPER' ? (
                     <div className="card-inner"><MdEdit onClick={() => handleEditLanguage(language._id, language.language)} /> <MdDelete onClick={() => handleDeleteLanguage(language._id)} /> </div>
                   ) : null}
-                  <div className="text-space" onClick={() => handleLanguageClick(language.language, language._id)}> {language.language}</div>
                 </div>
-              ))}{
+              ))}
+              {
                 localStorage.getItem('role') === 'DEVELOPER' ? (
                   <button className="add-more-languages-btn" onClick={handleAddNewLanguage}>Add new</button>
                 ) : null}
+
+              </div>
             </div>)}
 
-          <Modal show={showAddlanguageModal} onHide={closeAddlanguageModal} backdrop="static" keyboard={false} className="modal-inner" >
+          <Modal  centered show={showAddlanguageModal} onHide={closeAddlanguageModal} backdrop="static" keyboard={false} className="modal-inner" >
             <Modal.Header closeButton>
-              <Modal.Title>Add language</Modal.Title>
+              <Modal.Title className="heading">Add language</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <input required type="text" placeholder="language" onChange={event => setNewLanguage(event.target.value)} />
+              <input className="form-control"required type="text" placeholder="language" onChange={event => setNewLanguage(event.target.value)} />
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={closeAddlanguageModal}> Close </Button>
-              <Button onClick={addLanguages} variant="primary">Add</Button>
-            </Modal.Footer>
+            <div className="language_footer">
+            <button className="modal_close_btn"  onClick={closeAddlanguageModal}> Close </button>
+              <button className="modal_add_btn cmn_btn_color" onClick={addLanguages} >Add</button>
+            </div>
           </Modal>
-          <Modal show={showEditBox} onHide={closeAddlanguageModal2} backdrop="static" keyboard={false} className="modal-inner" >
+          <Modal centered  show={showEditBox} onHide={closeAddlanguageModal2} backdrop="static" keyboard={false} className="modal-inner" >
             <Modal.Header closeButton>
-              <Modal.Title>Update language</Modal.Title>
+              <Modal.Title className="heading">Update language</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <input required defaultValue={holdLanguage} type="text" onChange={event => setHoldLanguage(event.target.value)} />
+              <input className="form-control" required defaultValue={holdLanguage} type="text" onChange={event => setHoldLanguage(event.target.value)} />
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={closeAddlanguageModal2}> Close</Button>
-              <Button onClick={updateLanguage} variant="primary">Update</Button>
-            </Modal.Footer>
+
+            <div className="language_footer">
+            <button  onClick={closeAddlanguageModal2} className="modal_close_btn"> Close</button>
+              <button className="modal_add_btn cmn_btn_color" onClick={updateLanguage} >Update</button>
+            
+            </div>
+           
           </Modal>
           {/* ****** Series */}
           {showseries && (
@@ -492,7 +501,7 @@ const HomePage = () => {
               <div className="series-modal">
                 <div className="close-series" onClick={closeseries}> &#10005;</div>
                 <div className="modal-header">
-                  <h3>Select Series</h3>
+                  <h3 className="heading">Select Series</h3>
                 </div>
                 <div className="modal-body">{
                   localStorage.getItem('role') === 'DEVELOPER' ? (

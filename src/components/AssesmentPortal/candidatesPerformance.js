@@ -28,7 +28,14 @@ const CandidatesPerformance = () => {
                 console.log(result)
                 if (result.type === 'success') {
                     if (result.candidates.length < 1) {
-                        swal('Interview not completed by any candidate.', 'Thanks!', 'success')
+                        swal(
+                        {
+                        confirmButtonColor: "red",
+                        title: "Interview not completed by any candidate.",
+                        text: "Thanks!",
+                        icon: "success",className: "swal-button-custom",
+                        }
+                    )
                     } else {
                         setCandidates(result.candidates)
                     }

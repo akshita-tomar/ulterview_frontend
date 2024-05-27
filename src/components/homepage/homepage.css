@@ -1,0 +1,19 @@
+.language_footer {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    justify-content: flex-end;
+}
+.language_footer button{
+    border: unset;
+    color: white;
+    border-radius: 8px;
+    padding: 7px 25px;
+    min-width: 99px;
+}
+ @media screen  and (max-width:767px) {
+    .language_footer{
+    justify-content: center;
+    } 
+ }
+

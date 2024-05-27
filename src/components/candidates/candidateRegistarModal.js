@@ -95,21 +95,21 @@ const CandidateRegisterModal = (props) => {
         <div>
             <Modal
                 {...props}
-                size="lg"
+                size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
+                    <Modal.Title id="contained-modal-title-vcenter " className="heading">
                         Register Candidate
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <input className="candidate-register-input" placeholder="Enter candidate name" value={username} onChange={(e) => setUserName(e.target.value)}></input>
+                    <input className="candidate-register-input form-control mt-2" placeholder="Enter candidate name" value={username} onChange={(e) => setUserName(e.target.value)}></input>
 
-                    <input className="candidate-register-input" placeholder="Enter candidate email" value={email} onChange={(e) => setEmail(e.target.value)}></input>
+                    <input className="candidate-register-input form-control mt-2" placeholder="Enter candidate email" value={email} onChange={(e) => setEmail(e.target.value)}></input>
 
-                    <select className="candidate-register-input" onChange={handleChange}>
+                    <select className="candidate-register-input form-control mt-2" onChange={handleChange}>
                         <option value="">Select profile</option>
                         {languages?.map((ele) => (
                             <option key={ele._id} value={ele._id}>

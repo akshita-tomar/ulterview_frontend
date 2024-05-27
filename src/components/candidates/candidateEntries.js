@@ -74,8 +74,8 @@ const CandidateEntries = () => {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#ce2128",
+      cancelButtonColor: "#333",
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
@@ -149,7 +149,7 @@ const CandidateEntries = () => {
                 <td>{element.experience}</td>
                 <td>{element.testStatus}</td>
                 <td>{element.resultStatus}</td>
-                <td><button onClick={()=>handleInvite(element._id,element.languageId)}>Invite</button>  <MdEdit onClick={() => handleUpdateCandidate(element._id)} /> <MdDelete onClick={() => handleDelete(element._id)} /></td>
+                <td><button  className="invite_btn" onClick={()=>handleInvite(element._id,element.languageId)}>Invite</button>  <MdEdit className="MdEdit cursor-pointer" onClick={() => handleUpdateCandidate(element._id)} /> <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} /></td>
               </tr>
             ))}
           </tbody>
