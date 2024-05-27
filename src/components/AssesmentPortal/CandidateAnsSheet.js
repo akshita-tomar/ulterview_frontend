@@ -42,9 +42,10 @@ const CandidateAnswerSheet = () => {
             <Container>
                 <Row>
                     <Col>
-                     
+                     ogkjfdog
                     </Col>
                     <Col>
+                    fdgdfg
                     </Col>
                 </Row>
             </Container>

@@ -12,6 +12,9 @@ const fetchLanguages =()=>{
   navigate('/homepage')
 }
 
+const handleCandidateResult = ()=>{
+  navigate('/candidates-performance')
+}
 
   return (
     <>
@@ -21,7 +24,7 @@ const fetchLanguages =()=>{
         }
         {
           role==='DEVELOPER'?<div><button className="sidebar-button" onClick={fetchLanguages}> Questionnaire</button> 
-          <button className="sidebar-button" >Candidate Results</button></div>:null
+          <button className="sidebar-button" onClick={handleCandidateResult}>Candidate Results</button></div>:null
         }
       </div>
       
