@@ -21,16 +21,11 @@ const fetchLanguages =()=>{
         {/* <h3 className="bar" onClick={()=>{setShow(!show)}}>{show? <RxCross2/>:<FaBars />}</h3> */}
 
         {
-          role==="HR"?<div className="sidebar-button">
-         <h4 className="sidebar_content"><FaUser/> Candidates</h4> 
-            
-          </div>:null
+          role==="HR"?<button className="sidebar-button"><h4 className="sidebar_content"><FaUser/> Candidates</h4></button>:null
         }
         {
-          role==='DEVELOPER'?
-          <div className="sidebar-button" onClick={fetchLanguages}> <h4 className="sidebar_content"><RiQuestionnaireFill/> Questionnaire</h4></div>
-          :
-          null
+          role==='DEVELOPER'?<div><button className="sidebar-button" onClick={fetchLanguages}> <h4 className="sidebar_content"><RiQuestionnaireFill />Questionnaire</h4></button> 
+          <button className="sidebar-button" >Candidate Results</button></div>:null
         }
       </div>
       

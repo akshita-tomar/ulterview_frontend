@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { encryptId } from '../../utils/encryption'
+import loader from './ZKZg.gif'
 
 
 const InviteCandidate = (props) => {
@@ -15,6 +16,7 @@ const InviteCandidate = (props) => {
     const [series, setseries] = useState([])
     const [language, setLanguage] = useState('')
     const [selectedSeries, setSelectedSeries] = useState({ series: '', id: '' });
+    const [showLoader, setShowLoader] = useState(false)
     let candidateId = props.candidateID
     let languageid = props.languageId
 
@@ -60,8 +62,8 @@ const InviteCandidate = (props) => {
                 console.log(result)
                 if (result.type === 'success') {
                     if (result.allSeries.length < 1) {
-                        toast.error('No series is created for this language.',{
-                            duration:1000
+                        toast.error('No series is created for this language.', {
+                            duration: 1000
                         })
                     } else {
                         setseries(result.allSeries)
@@ -93,10 +95,10 @@ const InviteCandidate = (props) => {
                 if (result.type === 'success') {
                     const encryptedCandidateId = encryptId(candidateId);
                     const testLink = `http://localhost:3000/interview-questions/:${encodeURIComponent(encryptedCandidateId)}`;
-                    console.log('link--',testLink)
+                    console.log('link--', testLink)
                     const myHeaders = new Headers();
                     myHeaders.append("Content-Type", "application/json");
-                    myHeaders.append("Authorization", "Bearer "+token);
+                    myHeaders.append("Authorization", "Bearer " + token);
 
                     const raw = JSON.stringify({
                         "link": testLink
@@ -111,16 +113,17 @@ const InviteCandidate = (props) => {
 
                     fetch(`${url}sendLinkViaEmail?candidateId=${candidateId}`, requestOptions)
                         .then((response) => response.json())
-                        .then((result) =>{
+                        .then((result) => {
                             console.log(result)
-                            if(result.type==='success'){
+                            if (result.type === 'success') {
+                                setShowLoader(false)
                                 toast.success(result.message)
                                 props.handleChange(prev => prev + 1)
                                 props.onHide(false)
                             }
                         })
                         .catch((error) => console.error(error));
-                  
+
                 } else {
                     if (result.message === 'Series Id not present.') {
                         toast.error("Please select series.")
@@ -155,7 +158,8 @@ const InviteCandidate = (props) => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <input value={language} className="candidate-register-input form-control mt-3" ></input>
+
+                    <input value={language} className="candidate-register-input  form-control mt-3" ></input>
                     <select className="candidate-register-input form-control mt-3" onChange={handleChange}>
                         <option value="">Select series</option>
                         {series?.map((ele) => (

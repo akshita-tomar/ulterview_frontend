@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa";
-import { useNavigate,useParams } from "react-router-dom";
-import { Row, Col, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { Table } from "react-bootstrap";
 import CandidateRegisterModal from "./candidateRegistarModal";
 import UpdateCandidate from "./updateCandidate";
 import InviteCandidate from "./InviteCandidate";
@@ -65,7 +64,7 @@ const CandidateEntries = () => {
     return () => {
       socket.disconnect(); 
     };
-  }, [token, url]);
+  }, [token, url,handleChange]);
 
 
 
@@ -150,7 +149,7 @@ const CandidateEntries = () => {
                 <td>{element.experience}</td>
                 <td>{element.testStatus}</td>
                 <td>{element.resultStatus}</td>
-                <td><button  className="invite_btn" onClick={()=>handleInvite(element._id,element.languageId)}>Invite</button>  <MdEdit className="cursor-pointer" onClick={() => handleUpdateCandidate(element._id)} /> <MdDelete className="cursor-pointer" onClick={() => handleDelete(element._id)} /></td>
+                <td><button  className="invite_btn" onClick={()=>handleInvite(element._id,element.languageId)}>Invite</button>  <MdEdit className="MdEdit cursor-pointer" onClick={() => handleUpdateCandidate(element._id)} /> <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} /></td>
               </tr>
             ))}
           </tbody>

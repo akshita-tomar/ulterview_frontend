@@ -18,6 +18,8 @@ const RegisterCandidateModal = React.lazy(()=>import('./components/candidates/ca
 const UpdateCandidate = React.lazy(()=>import('./components/candidates/updateCandidate'))
 const InviteCandidate = React.lazy(()=>import('./components/candidates/InviteCandidate'))
 const InterviewQuestions =  React.lazy(()=>import('./components/candidates/interviewQuestions'))
+const CandidatesPerformance =  React.lazy(()=>import('./components/AssesmentPortal/candidatesPerformance'))
+const CandidateAnswerSheet =  React.lazy(()=>import('./components/AssesmentPortal/CandidateAnsSheet'))
 
 function App() {
 
@@ -39,6 +41,8 @@ function App() {
           <Route path='/update-candidate' element={<Suspense fallback={<div>Loading...</div>}> <UpdateCandidate/></Suspense>}></Route>
           <Route path='/invite-candidate' element={<Suspense fallback={<div>Loading...</div>}> <InviteCandidate/></Suspense>}></Route>
           <Route path='/interview-questions/:id' element={<Suspense fallback={<div>Loading...</div>}> <InterviewQuestions/></Suspense>}></Route>
+          <Route path='/candidates-performance' element={<Suspense fallback={<div>Loading...</div>}> <Header/><Sidebar/><CandidatesPerformance/></Suspense>}></Route>
+          <Route path='/candidate-answers-sheet/:id' element={<Suspense fallback={<div>Loading...</div>}> <Header/><Sidebar/><CandidateAnswerSheet/></Suspense>}></Route>
         </Routes > 
       </BrowserRouter>
     </div>  
