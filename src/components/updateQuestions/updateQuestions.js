@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast'
 import swal from "sweetalert";
+import { useAppContext } from "../../utils/useContext";
 
 const UpdateQuestions = () => {
     const navigate = useNavigate()
@@ -220,12 +221,14 @@ const UpdateQuestions = () => {
         navigate('/create-task')
     }
 
-
+    const{show}=useAppContext()
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${show ? "cmn_margin":""}`}>
+            <div className="cmn_container">
             <>
-                <div className="headings">
-                <h1>{localStorage.getItem('series')} ({localStorage.getItem('language')}) </h1> <button className="edit-series-button" onClick={() => handleAddQyestion()}>Add Question</button>
+         
+                <div className="add_question_wrapper">
+                <h1 className="heading">{localStorage.getItem('series')} ({localStorage.getItem('language')}) </h1> <button className="edit-series-button" onClick={() => handleAddQyestion()}>Add Question</button>
                 </div>
                 <div className="sub-obj-log-heading">
                     {
@@ -289,6 +292,7 @@ const UpdateQuestions = () => {
                     ))
                 }
             </>
+            </div>
             <Toaster />
         </div>
     )

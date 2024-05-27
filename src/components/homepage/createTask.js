@@ -187,7 +187,7 @@ const CreateTask = () => {
 
   return (
     <div className="homepage-outer-div">
-      <div className="back-btn" onClick={handleBackClick}>< MdOutlineArrowBack /></div>
+      <div className="back-btn me-2" onClick={handleBackClick}>< MdOutlineArrowBack /></div>
       {
         // openmodal || series && (
         series && (
@@ -212,12 +212,12 @@ const CreateTask = () => {
             </div>
               {questionType === "mcq" && (
                 <div className="mcq-inputs">
-                  <input className="mcq-question" type="text" placeholder="Enter question" value={question} onChange={(e) => setQuestion(e.target.value)} />
+                  <input className="mcq-question form-control mt-3" type="text" placeholder="Enter question" value={question} onChange={(e) => setQuestion(e.target.value)} />
                   {options.map((option, index) => (
-                    <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} value={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
+                    <input className="mcq-options form-control" key={index} type="text" placeholder={`Option ${index + 1}`} value={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
                   ))}
                   <label>Select correct answer:</label>
-                  <select value={correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))}>
+                  <select className="form-control mt-3" value={correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))}>
                     <option defaultChecked ></option>
                     {options.map((_, index) => (
                       <option key={index} value={index + 1}>{index + 1}</option>
@@ -227,18 +227,18 @@ const CreateTask = () => {
               )}
               {questionType === "subjective" && (
                 <div className="subjective-inputs">
-                  <input type="text" placeholder="Enter subjective question" value={question} onChange={(e) => setQuestion(e.target.value)} />
-                  <textarea className="testbox-textarea" type="text" placeholder="Enter answer" value={answer} onChange={(e) => setAnswer(e.target.value)} />
+                  <input type="text" className="form-control mt-3" placeholder="Enter subjective question" value={question} onChange={(e) => setQuestion(e.target.value)} />
+                  <textarea className="testbox-textarea form-control mt-3" type="text" placeholder="Enter answer" value={answer} onChange={(e) => setAnswer(e.target.value)} />
                 </div>
               )}
               {questionType === "logical" && (
-                <div className="logical-inputs">
-                  <textarea type="text" className="testbox-textarea-logical" placeholder="Enter logical question" value={question} onChange={(e) => setQuestion(e.target.value)} />
-                  <textarea className="testbox-textarea" type="text" placeholder="Enter answer" value={answer} onChange={(e) => setAnswer(e.target.value)} />
+                <div className="logical-inputs mt-4">
+                  <textarea type="text" className="testbox-textarea-logical form-control mt-2" placeholder="Enter logical question" value={question} onChange={(e) => setQuestion(e.target.value)} />
+                  <textarea className="testbox-textarea form-control mt-4" type="text" placeholder="Enter answer" value={answer} onChange={(e) => setAnswer(e.target.value)} />
                 </div>
               )}
               {questionType && (
-                <button onClick={handleAddQuestion} className="add-question-btn">
+                <button onClick={handleAddQuestion} className="add-question-btn cmn_btn_color ">
                   Add Question
                 </button>
               )}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Table } from "react-bootstrap";
 import swal from 'sweetalert'
 import  {useNavigate} from 'react-router-dom'
+import { useAppContext } from "../../utils/useContext";
 
 
 const CandidatesPerformance = () => {
@@ -48,11 +49,12 @@ const CandidatesPerformance = () => {
     const handleExamine = (id) => {
       navigate(`/candidate-answers-sheet/${id}`)
     }
-
+const{show}=useAppContext()
 
     return (
-        <div className="wrapper">
-            <div className="table-responsive">
+        <div className={`wrapper ${show?"cmn_margin":""}`}>
+            <div className="cmn_container">
+            <div className="table-responsive mb-0">
                 <Table striped bordered hover className="user-table">
                     <thead>
                         <tr>
@@ -77,6 +79,8 @@ const CandidatesPerformance = () => {
                         ))}
                     </tbody>
                 </Table>
+            </div>
+
             </div>
         </div>
     )

@@ -11,6 +11,12 @@
     padding: 7px 25px;
     min-width: 99px;
 }
+.new_series_label{
+    color: #8f8c8c;
+}
+.close-series{
+    cursor: pointer;
+}
  @media screen  and (max-width:767px) {
     .language_footer{
     justify-content: center;

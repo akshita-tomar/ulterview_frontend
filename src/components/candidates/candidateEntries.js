@@ -8,6 +8,8 @@ import Swal from "sweetalert2";
 import { MdEdit, MdDelete } from "react-icons/md";
 import toast, { Toaster } from 'react-hot-toast';
 import { io } from 'socket.io-client';
+import { useAppContext } from "../../utils/useContext";
+
 
 
 
@@ -117,10 +119,11 @@ const CandidateEntries = () => {
     setLanguageId(languageId)
     setShowInviteModal(true)
   }
-
+  const { show } = useAppContext();
 
   return (
-    <div className="wrapper">
+    <div className={`wrapper ${show ? "cmn_margin":""}`}>
+      <div className="cmn_container">
       <div className="text-end mb-3 pe-3">
         <button className="register-btn" onClick={() => setModalShow(true)}>Register</button>
       </div>
@@ -149,12 +152,20 @@ const CandidateEntries = () => {
                 <td>{element.experience}</td>
                 <td>{element.testStatus}</td>
                 <td>{element.resultStatus}</td>
-                <td><button  className="invite_btn" onClick={()=>handleInvite(element._id,element.languageId)}>Invite</button>  <MdEdit className="MdEdit cursor-pointer" onClick={() => handleUpdateCandidate(element._id)} /> <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} /></td>
+                <td className="d-flex justify-content-between"><button  className="invite_btn" onClick={()=>handleInvite(element._id,element.languageId)}>Invite</button> 
+                <div>
+                <MdEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} /> 
+                <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
+                  
+                </div> 
+                </td>
               </tr>
             ))}
           </tbody>
         </Table>
       </div>
+      </div>
+
       {
         modalShow && (
           <CandidateRegisterModal
