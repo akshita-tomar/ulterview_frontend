@@ -40,7 +40,7 @@ const { show, setShow } = useAppContext();
 
           </div>
           </div> 
-          <div className="sidebar-button" >
+          <div className="sidebar-button" onClick={handleCandidateResult}>
             <div className="sidebar_content">
           <PiNotebookFill className="sidebar_content"/>
             <h4 className={show? "d-none":"sidebar_content"}> Candidate Results</h4>
