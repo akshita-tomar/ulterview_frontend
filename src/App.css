@@ -312,35 +312,30 @@ position: absolute;
   gap: 10px;
  
 }
-.mcq-btn{
-  padding: 5px;
-  background-color:rgb(227, 192, 192);
+.internal-testbox button{
+  border-radius: 6px;
   border: none;
-  margin-right: 4px;
-  width: 250px;
-  font-family:Georgia, 'Times New Roman', Times, serif;
-  font-weight: 700;
+  padding: 8px;
+    margin-right: 4px;
+    width: 250px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 700;
+}
+.mcq-btn{
+  
+  background-color:rgb(227, 192, 192);
+ 
  
 }
 .subjective-btn{
-  padding: 5px;
+  
   background-color:rgb(227, 192, 192);
-  border: none;
-  margin-right: 4px;
-  width: 250px;
-  font-family:Georgia, 'Times New Roman', Times, serif;
-  font-weight: 700;
-  /* border-radius: 50px; */
+
+ 
 }
 .logical-btn{
-  padding: 5px;  
   background-color: rgb(227, 192, 192);
-  margin-right: 10px;
-  border: none;
-  width: 250px;
-  font-family:Georgia, 'Times New Roman', Times, serif;
-  font-weight: 700;
-  /* border-radius: 50px; */
+ 
 }
 
 
@@ -1037,15 +1032,14 @@ h1 {
   .internal-testbox{
     display: block
   }
-  .mcq-btn{
+  
+  .internal-testbox button{
     width: 100%;
   }
   .subjective-btn{
-    width: 100%;
     margin-top: 14px;
   }
   .logical-btn{
-    width: 100%;
     margin-top: 14px;
   }
   .test-box {
