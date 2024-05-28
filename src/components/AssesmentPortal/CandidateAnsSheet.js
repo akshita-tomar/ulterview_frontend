@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import emptylogo from './empty.gif'
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../../utils/useContext';
 
 
 
@@ -108,17 +109,20 @@ const CandidateAnswerSheet = () => {
         }
 
     }
+    
 
+const{show}=useAppContext()
 
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${show?"cmn_margin":""} `}>
             <div className='check-result-header'>
                 {OriginalQuesLength}/{correctQuesLength}
             </div>
             <Container>
                 <Row>
-                    <Col className='original-ques-ans'>
-                        <div><h3>Original Answers</h3></div>
+                    <Col lg={6} md={12} sm={12}  >
+                        <div className='original-ques-ans cmn_ques_outer'>
+                        <h3 className='heading'>Original Answers</h3>
                         <hr></hr>
                         <div className='heading-check-result'>Objective</div>
                         {originalQuesAns[0]?.objective?.map((questionAnswer, index) => (
@@ -156,10 +160,12 @@ const CandidateAnswerSheet = () => {
                                 />
                             </div>
                         ))}
+                        </div>
                     </Col>
                     {/* candidate respone ------------------- */}
-                    <Col className='candidate-ques-ans'>
-                        <div><h3>Candidate Response</h3></div>
+                    <Col lg={6} md={12} sm={12}>
+                        <div  className='candidate-ques-ans cmn_ques_outer' >
+                        <h3 className='heading'>Candidate Response</h3>
                         <hr></hr>
                         {
                             candidateResponse?.objective?.length>0? <div className='heading-check-result'>Objective</div>:null
@@ -167,12 +173,18 @@ const CandidateAnswerSheet = () => {
                         
                         {candidateResponse?.objective?.map((questionAnswer, index) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id}>
+                              <div className='d-flex align-items-center'>
+                              <h3 className="question-text">{questionAnswer.question} </h3>
                                 {doneQuestions[questionAnswer._id] && (
                                     <span className='done-text'>
                                         {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
                                     </span>
                                 )}
-                                <h3 className="question-text">{questionAnswer.question} </h3>
+
+                                
+
+                              </div>
+
                                 <div className="options-wrapper">
                                     {questionAnswer.options.map((option, index) => (
                                         <label className="option-label" key={index}>
@@ -181,13 +193,13 @@ const CandidateAnswerSheet = () => {
                                     ))}
                                 </div>
                                 Correct Answer: {questionAnswer.correctAnswer}
-                                <div className='check-btn-outer'> <button className='check-button' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
+                                <div className='check-btn-outer'> <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
                                     Check</button>
-                                    <div className='correct-incorrect-btn'>
+                                    
                                         <button className='correct-opt' onClick={() => handleMarkDone(questionAnswer._id, 'correct')}>Correct</button>
-                                        <button className='incorrect-opt' onClick={() => handleMarkDone(questionAnswer._id, 'incorrect')}>Incorrect</button>
+                                        <button className='incorrect-opt cmn_btn_color' onClick={() => handleMarkDone(questionAnswer._id, 'incorrect')}>Incorrect</button>
 
-                                    </div>
+                                    
                                 </div>
                             </div>
                         ))}
@@ -197,24 +209,29 @@ const CandidateAnswerSheet = () => {
                         
                         {candidateResponse?.subjective?.map((questionAnswer, index) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id}>
+                                <div className='d-flex align-items-center'>
+                                <h3 className="question-text">{questionAnswer.question}</h3>
                                 {doneQuestions[questionAnswer._id] && (
                                     <span className='done-text'>
                                         {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
                                     </span>
                                 )}
-                                <h3 className="question-text">{questionAnswer.question}</h3>
+                               
+
+                                </div>
                                 <textarea
                                     className="text-input"
                                     placeholder="Your answer here"
                                     value={questionAnswer.answer}
                                 />
-                                <div className='check-btn-outer'> <button className='check-button' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
+                                <div className='check-btn-outer'> 
+                                <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
                                     Check</button>
-                                    <div className='correct-incorrect-btn'>
+                                   
                                         <button className='correct-opt' onClick={() => handleMarkDone(questionAnswer._id, 'correct')}>Correct</button>
-                                        <button className='incorrect-opt' onClick={() => handleMarkDone(questionAnswer._id, 'incorrect')}>Incorrect</button>
+                                        <button className=' cmn_btn_color' onClick={() => handleMarkDone(questionAnswer._id, 'incorrect')}>Incorrect</button>
 
-                                    </div>
+                                   
                                 </div>
                             </div>
 
@@ -225,24 +242,27 @@ const CandidateAnswerSheet = () => {
                         
                         {candidateResponse?.logical?.map((questionAnswer) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id}>
+                                <div className='d-flex align-items-center'>
+                                <h3 className="question-text">{questionAnswer.question}</h3>
                                 {doneQuestions[questionAnswer._id] && (
                                     <span className='done-text'>
                                         {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
                                     </span>
                                 )}
-                                <h3 className="question-text">{questionAnswer.question}</h3>
+                              
+                                </div>
                                 <textarea
                                     className="text-input"
                                     placeholder="Your answer here"
                                     value={questionAnswer.answer}
                                 />
-                                <div className='check-btn-outer'> <button className='check-button' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
+                                <div className='check-btn-outer'> <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
                                     Check</button>
-                                    <div className='correct-incorrect-btn'>
+                                    
                                         <button className='correct-opt' onClick={() => handleMarkDone(questionAnswer._id, 'correct')}>Correct</button>
-                                        <button className='incorrect-opt' onClick={() => handleMarkDone(questionAnswer._id, 'incorrect')}>Incorrect</button>
+                                        <button className='incorrect-opt cmn_btn_color' onClick={() => handleMarkDone(questionAnswer._id, 'incorrect')}>Incorrect</button>
 
-                                    </div>
+                                   
                                 </div>
                             </div>
                         ))}
@@ -258,6 +278,7 @@ const CandidateAnswerSheet = () => {
                                 </div>
                             )
                         }
+                      </div>
                     </Col>
                 </Row>
             </Container>

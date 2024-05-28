@@ -194,12 +194,14 @@ const InterviewQuestions = () => {
     <>
      {
         checkComplete === 'completed' || ConfigureHandleChange === '' ?
-          <div className="regards-message">Your interview result will be shared with you as soon as possible. Thankyou!</div> :
+          <div className="regards-message">
+            <h3>Your interview result will be shared with you as soon as possible. <br></br> Thankyou!</h3>
+          </div> :
           <section className="question-form">
             {
               startTest && (
                 <div className="Interview_header">
-                  <div className="d-flex align-items-center gap-3">
+                  <div className="d-flex align-items-center gap-3 Interview_header_content">
                     <img src={logo} height={"40px"} width={"120px"} className="logo_img" />
                     <h3>Good Luck for your Interview!</h3>
                   </div>
@@ -238,7 +240,7 @@ const InterviewQuestions = () => {
                     <div className="question-wrapper" key={question._id}>
                       <h3 className="question-text">{question.question}</h3>
                       <textarea
-                        className="text-input"
+                        className="text-input form-control"
                         placeholder="Your answer here"
                         onChange={(e) => handleChange(question._id, question.question, e.target.value, 'subjective')}
                       />
@@ -249,7 +251,7 @@ const InterviewQuestions = () => {
                     <div className="question-wrapper" key={question._id}>
                       <h3 className="question-text">{question.question}</h3>
                       <textarea
-                        className="text-input"
+                        className="text-input form-control"
                         placeholder="Your answer here"
                         onChange={(e) => handleChange(question._id, question.question, e.target.value, 'logical')}
                       />
@@ -272,7 +274,10 @@ const InterviewQuestions = () => {
                     </ol>
                     <h6 className="regards"> Best! <br></br>Ultivic Technologies</h6>
                   </div>
+                  <div className="text-center mb-4">
                   <button onClick={handleLogoClick} className='timer-start'>Start</button>
+
+                  </div>
                 </>
             }
             <Toaster />

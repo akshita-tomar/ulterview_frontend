@@ -235,18 +235,18 @@ const UpdateQuestions = () => {
 
                         questionAnswer?.questions?.objective?.length > 0 && (
                             
-                            <div onClick={handleShowobjective}   className= { showobjective ===true?'heading-objective-active' :'heading-objective'} >Objective</div>
+                            <div onClick={handleShowobjective}   className= { `heading-objective_tab ${showobjective ===true?'heading-objective-active ' :'heading-objective'}`} >Objective</div>
                         )
                 
                     }
                     {
                         questionAnswer?.questions?.subjective?.length > 0 && (
-                            <div   className= { showsubjective ===true?'heading-objective-active' :'heading-objective'} onClick={handleShowSubjective}>Subjective</div>
+                            <div   className= { `heading-objective_tab ${showsubjective ===true?'heading-objective-active' :'heading-objective'}`} onClick={handleShowSubjective}>Subjective</div>
                         )
                     }
                     {
                         questionAnswer?.questions?.logical?.length > 0 && (
-                            <div  className= { showLogical ===true?'heading-objective-active' :'heading-objective'} onClick={handleShowLogical}>Logical</div>
+                            <div  className= {`heading-objective_tab ${showLogical ===true?'heading-objective-active' :'heading-objective'}` } onClick={handleShowLogical}>Logical</div>
                         )
                     }
                 </div>
@@ -254,40 +254,52 @@ const UpdateQuestions = () => {
                     showobjective &&
                     questionAnswer?.questions?.objective?.map((Element, index) => (
                         <>
-                            <input className="mcq-question-edit" type="text" placeholder="Enter question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
+                            <input className="mcq-question-edit form-control" type="text" placeholder="Enter question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
                             {Element?.options?.map((option, index) => (
-                                <input className="mcq-options" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} onChange={(e) => handleOptionChange(index, e.target.value, Element?.options)} />
+                                <input className="mcq-options form-control mt-4" key={index} type="text" placeholder={`Option ${index + 1}`} defaultValue={option} onChange={(e) => handleOptionChange(index, e.target.value, Element?.options)} />
                             ))}
-                            <label>Select correct answer:</label>
-                            <select defaultValue={Element.correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))} >
+                            <div className="correct_ans_outer d-flex gap-3 align-items-center justify-content-center">
+                            <label className="cmn_text">Select correct answer:</label>
+                            <select  defaultValue={Element.correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))} >
                                 {Element?.options?.map((_, index) => (
                                     <option key={index} value={index + 1}>{index + 1}</option>
                                 ))}
                             </select>
-                            <button className="Update-btn" onClick={() => delteQuestion('objective', Element._id)}>DELETE</button><button className="Update-btn" onClick={() => updateObjectiveQuestion('objective', Element._id, Element.question, Element?.options, Element.correctAnswer)} >UPDATE</button>
+
+                            </div>
+                            <div className="Update_btn_outer">
+                            <button className=" cmn_btn_color me-3" onClick={() => delteQuestion('objective', Element._id)}>DELETE</button>
+                            <button className="cmn_gray_btn" onClick={() => updateObjectiveQuestion('objective', Element._id, Element.question, Element?.options, Element.correctAnswer)} >UPDATE</button>
+                            </div>
                         </>
                     ))}
-            </> <br></br>
+            </> 
             <>
                 {
                     showsubjective &&
                     questionAnswer?.questions?.subjective?.map((Element, index) => (
                         <>
-                            <input className='mcq-question-edit' type="text" placeholder="Enter subjective question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
-                            <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} onChange={(e) => setAnswer(e.target.value)} />
-                            <button className="Update-btn" onClick={() => delteQuestion('subjective', Element._id)} >DELETE</button><button className="Update-btn" onClick={() => handleUpdateSubjectiveQuestion('subjective', Element._id, Element.question, Element.answer)} >UPDATE</button>
+                            <input className='mcq-question-edit form-control' type="text" placeholder="Enter subjective question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
+                            <textarea className="testbox-textarea form-control mt-4" type="text" placeholder="Enter answer" defaultValue={Element.answer} onChange={(e) => setAnswer(e.target.value)} />
+                            <div className="Update_btn_outer mt-4">
+                            <button className="cmn_btn_color me-3" onClick={() => delteQuestion('subjective', Element._id)} >DELETE</button>
+                            <button className="cmn_gray_btn" onClick={() => handleUpdateSubjectiveQuestion('subjective', Element._id, Element.question, Element.answer)} >UPDATE</button>
+                            </div>
                         </>
                     ))
                 }
-            </><br></br><br></br>
+            </>
             <>
                 {
                     showLogical &&
                     questionAnswer?.questions?.logical?.map((Element, index) => (
                         <>
-                            <textarea type="text" className="testbox-textarea-logical-edit" placeholder="Enter logical question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
-                            <textarea className="testbox-textarea" type="text" placeholder="Enter answer" defaultValue={Element.answer} onChange={(e) => setAnswer(e.target.value)} />
-                            <button className="Update-btn" onClick={() => delteQuestion('logical', Element._id)}>DELETE</button><button className="Update-btn" onClick={() => updateLogicalQuestion('logical', Element._id, Element.question, Element.answer)} >UPDATE</button>
+                            <textarea type="text" className="testbox-textarea-logical-edit form-control" placeholder="Enter logical question" defaultValue={Element.question} onChange={(e) => setQuestion(e.target.value)} />
+                            <textarea className="testbox-textarea form-control mt-4" type="text" placeholder="Enter answer" defaultValue={Element.answer} onChange={(e) => setAnswer(e.target.value)} />
+                            <div className="Update_btn_outer mt-4">
+                            <button className="cmn_btn_color me-3" onClick={() => delteQuestion('logical', Element._id)}>DELETE</button>
+                            <button className="cmn_gray_btn " onClick={() => updateLogicalQuestion('logical', Element._id, Element.question, Element.answer)} >UPDATE</button>
+                            </div>
                         </>
                     ))
                 }
