@@ -149,7 +149,14 @@ const CandidateEntries = () => {
                 <td>{element.experience}</td>
                 <td>{element.testStatus}</td>
                 <td>{element.resultStatus}</td>
-                <td><button  className="invite_btn" onClick={()=>handleInvite(element._id,element.languageId)}>Invite</button>  <MdEdit className="MdEdit cursor-pointer" onClick={() => handleUpdateCandidate(element._id)} /> <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} /></td>
+                <td> 
+                  {
+                    element.testStatus==='completed' ||element.testStatus==='invite_sent' || element.testStatus==='invite_accepted'?
+                    <button className="invite_btn"   onClick={()=>handleInvite(element._id,element.languageId)} >Resend</button> :
+                    <button  className="invite_btn" onClick={()=>handleInvite(element._id,element.languageId)}>Invite</button> 
+                  }
+                   <MdEdit className="MdEdit cursor-pointer" onClick={() => handleUpdateCandidate(element._id)} /> 
+                   <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} /></td>
               </tr>
             ))}
           </tbody>

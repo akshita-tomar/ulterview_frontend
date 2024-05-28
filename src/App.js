@@ -20,6 +20,8 @@ const InviteCandidate = React.lazy(()=>import('./components/candidates/InviteCan
 const InterviewQuestions =  React.lazy(()=>import('./components/candidates/interviewQuestions'))
 const CandidatesPerformance =  React.lazy(()=>import('./components/AssesmentPortal/candidatesPerformance'))
 const CandidateAnswerSheet =  React.lazy(()=>import('./components/AssesmentPortal/CandidateAnsSheet'))
+const CheckedSheet =  React.lazy(()=>import('./components/AssesmentPortal/CandidateCheckedSheet'))
+
 
 function App() {
 
@@ -43,6 +45,7 @@ function App() {
           <Route path='/interview-questions/:id' element={<Suspense fallback={<div>Loading...</div>}> <InterviewQuestions/></Suspense>}></Route>
           <Route path='/candidates-performance' element={<Suspense fallback={<div>Loading...</div>}> <Header/><Sidebar/><CandidatesPerformance/></Suspense>}></Route>
           <Route path='/candidate-answers-sheet/:id' element={<Suspense fallback={<div>Loading...</div>}> <Header/><Sidebar/><CandidateAnswerSheet/></Suspense>}></Route>
+          <Route path='/candidate-checked-sheet/:id' element={<Suspense fallback={<div>Loading...</div>}> <Header/><Sidebar/><CheckedSheet/></Suspense>}></Route>
         </Routes > 
       </BrowserRouter>
     </div>  
