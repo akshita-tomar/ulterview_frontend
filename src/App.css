@@ -107,7 +107,7 @@ select.candidate-register-input.form-control.mt-2 {
   margin-bottom: 10px;
   font-size: 29px;
   font-family: "Poppins", sans-serif;
-  font-weight: 500;
+  font-weight: 500 !important;
  
    /* font-family:Georgia, 'Times New Roman', Times, serif */
 }
@@ -260,8 +260,14 @@ position: absolute;
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 5rem;
  
+}
+.createtask_wrapper{
+
+  display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .createtest-btn{
@@ -305,23 +311,24 @@ position: absolute;
   padding: 8px;
     margin-right: 4px;
     width: 250px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: 700;
 }
 .mcq-btn{
   
-  background-color:rgb(227, 192, 192);
+  background: transparent;
+    border: 1px solid #db9586 !important;
  
  
 }
 .subjective-btn{
-  
-  background-color:rgb(227, 192, 192);
+  background: transparent;
+  border: 1px solid #db9586 !important;
 
  
 }
 .logical-btn{
-  background-color: rgb(227, 192, 192);
+  background: transparent;
+  border: 1px solid #db9586 !important;
  
 }
 .mcq-inputs, .subjective-inputs, .logical-inputs {
@@ -393,8 +400,8 @@ input.mcq-question-edit{
   padding: 10px;
   width: 95%;
   height: 180px;
-  /* min-height: 180px; */
-  
+  color: #898181 !important;
+
 }
 .testbox-textarea-logical{
   padding: 10px;
@@ -436,7 +443,8 @@ svg.MdEdit {
   cursor: pointer;
 }
 .user-table thead tr th {
-  font-size: 16px;
+  font-size: 17px;
+  font-weight: 500;
 }
 
 .sidebar-button {
@@ -492,17 +500,18 @@ svg.MdEdit {
   overflow-y: scroll;
   scrollbar-width: thin; */
   /* box-shadow: 1px 1px 3px 2px #c22e0a; */
-
+  background-color: #fff6f4;
   display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 .language-modal_outer {
-  max-height: 400px;
+  height: 250px;
   overflow-y: scroll;
-  gap: 20px;
-  width: 40%;
+  background-color: white;
+  justify-content: space-between;
+  width: 42%;
   display: flex;
   flex-wrap: wrap;
   border: 1px solid #ddd;
@@ -514,7 +523,7 @@ svg.MdEdit {
 .language-card {
   min-width: 154px;
   background-color: #f0f0f0;
-
+  margin-top: 10px;
   height: 52px;
   cursor: pointer;
     display: flex;
@@ -534,6 +543,8 @@ svg.MdEdit {
 }
 .user-table tbody tr td{
   color: #464444;
+  font-weight: 500;
+    font-size: 15px;
 }
 .cmn_container{
   background: white;
@@ -571,6 +582,7 @@ div:where(.swal2-container) h2:where(.swal2-title) {
   border-radius: 5px;
   cursor: pointer;
   margin-left: 10px;
+  margin-top: 10px;
   height: 42px;
   background-color: #ce2128;
   border: unset;
@@ -582,7 +594,7 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 /* Modal */
 .series-modal-overlay {
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #fff6f4;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -617,7 +629,7 @@ div:where(.swal2-container) h2:where(.swal2-title) {
   cursor: pointer;
   border-radius: 5px;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 
@@ -661,7 +673,7 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 }
 
 .series-option-new{
-  padding: 10px;
+  padding: 8px;
   margin-bottom: 5px;
   cursor: pointer;
   border-radius: 5px;
@@ -675,12 +687,12 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 
 
 .series-outer-box{
-  background-color: rgb(150, 230, 148);
-  border-radius: 10px;
- 
+  background-color: #eebfb5;
+    color: #333 !important;
+   
 }
 .series-outer-box-pending{
-  border-radius: 10px;
+  border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -713,7 +725,7 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 
 .heading-objective-active{
   background-color: #f05050;
-  box-shadow: 2px 2px 10px #7f7c7c;
+  box-shadow: 2px 2px 10px #ffc3c3;
 }
 .heading-objective_tab{
     width: 100%;
@@ -726,11 +738,11 @@ div:where(.swal2-container) h2:where(.swal2-title) {
     max-width: 325px;
 }
 .heading-objective{
-  background-color: #6b6969;
+  background-color: #878787;
 }
 .question-wrapper {
   box-shadow: 2px 2px 12px #dbd3d3;
-  padding: 10px 20px;
+  padding:  20px;
   border-radius: 10px;
   margin-top: 25px;
 }
@@ -797,7 +809,8 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 }
 
 .active-btn{
-  background-color: rgb(191, 130, 140)
+  background-color: #f56445;
+  color: white;
 }
 
 .active-pathname{
@@ -807,7 +820,7 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 
 /* *************  CANDIDATES DETAILS  */
 .wrapper {
-  background: #ddd;
+  background: #fff6f4;
   margin-left: 200px;
   padding: 80px 20px 0px;
   height: 100%;
@@ -840,13 +853,10 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 }
 
 .heading-check-result{
-  background-color: #bb0000;
+  text-align: left;
   font-size: 20px;
-  width: 150px;
-  text-align: center;
   font-weight: 700;
-  border-radius: 5px;
-  color: white;
+  color: #333;
   padding: 5px;
 }
 
@@ -896,7 +906,7 @@ h1 {
     box-shadow: 2px 2px 10px #b1e1f6;
 }
 .submit-button{
-  background: #00b2ff;
+  background: #35833e;
     color: white;
     width: 200px;
     padding: 10px 20px;
@@ -908,10 +918,11 @@ h1 {
 }
 .submit-button:hover{
   box-shadow: 2px 2px 10px #9da4a7;
-  background-color: #00b2ff;
+  background-color: #35833e;
 }
 .logo_img{
-  background-color: #aaa4a4;
+  background-color: #333;
+  object-fit: contain;
 }
 
 
@@ -919,7 +930,7 @@ h1 {
   margin-bottom: 12px;
   color: #333;
   font-size: 19px;
-  margin-top: 12px;
+
 
 }
 
@@ -1033,8 +1044,7 @@ h1 {
 
 /* ********** ********* COMPARE QUESTION ANSWER****  */
 .original-ques-ans{
-  border: 2px solid rgb(241 49 49);
-  
+  border: 2px solid #cb4a2f;
 
 }
 
@@ -1045,7 +1055,7 @@ h1 {
 }
 
 .candidate-ques-ans{
-  border: 2px solid #20831f;
+  border: 2px solid #cb4a2f;
   
 
 }
@@ -1079,7 +1089,7 @@ h1 {
 
 .correct-opt{
 
-  background-color: #20831f;
+  background-color: #3c873c;
 
 }
 .incorrect-opt{
@@ -1109,7 +1119,10 @@ font-weight: 700;
   color: green !important;
   font-weight: 700;
 }
-
+.candidate_entry_table tbody tr td:last-child{
+  display: flex;
+  justify-content: space-between;
+}
 
 @media screen and (min-width:1499px){
   .wrapper{
@@ -1141,7 +1154,7 @@ font-weight: 700;
       margin-left: 12rem;
       width: 60%;
     }
-    .user-table tbody tr td:last-child{
+    .candidate_entry_table tbody tr td:last-child{
       display:  block !important;
     }
     .series-modal {
@@ -1283,7 +1296,7 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
     margin-left: 42px;
     padding: 80px 10px 0px;
   }
-  .user-table tbody tr td:last-child {
+  .candidate_entry_table tbody tr td:last-child {
     display: block !important;
   }
 }

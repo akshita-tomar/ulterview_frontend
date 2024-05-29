@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { toast, Toaster } from 'react-hot-toast'
+import { useAppContext } from "../../utils/useContext";
 
 
 const CheckedSheet = () => {
@@ -58,18 +59,22 @@ const CheckedSheet = () => {
 
     }, [])
 
+    const{show}=useAppContext()
 
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${show ? "cmn_margin":""}`}>
             <div className='check-result-header'>
                 {OriginalQuesLength}/{correctQuesLength} checked by: {checkedBy}
             </div>
             <Container>
                 <Row>
-                    <Col className='original-ques-ans'>
+                    <Col lg={6} md={12} sm={12} >
+                        <div className="original-ques-ans p-3 cmn_ques_outer">
+
+                        
                         <div><h3>Original Answers</h3></div>
                         <hr></hr>
-                        <div className='heading-check-result'>Objective</div>
+                        <h3 className='heading-check-result'>Objective</h3>
                         {originalQuesAns[0]?.objective?.map((questionAnswer, index) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)} >
                                 <h3 className="question-text">{questionAnswer.question}</h3>
@@ -83,7 +88,7 @@ const CheckedSheet = () => {
                                 Correct Answer: {questionAnswer.correctAnswer}
                             </div>
                         ))}
-                        <div className='heading-check-result'>Subjective</div>
+                        <h3 className='heading-check-result'>Subjective</h3>
                         {originalQuesAns[0]?.subjective?.map((questionAnswer, index) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)}>
                                 <h3 className="question-text">{questionAnswer.question}</h3>
@@ -94,7 +99,7 @@ const CheckedSheet = () => {
                                 />
                             </div>
                         ))}
-                        <div className='heading-check-result'>Logical</div>
+                        <h3 className='heading-check-result'>Logical</h3>
                         {originalQuesAns[0]?.logical?.map((questionAnswer, index) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)}>
                                 <h3 className="question-text">{questionAnswer.question}</h3>
@@ -105,23 +110,28 @@ const CheckedSheet = () => {
                                 />
                             </div>
                         ))}
+                        </div>
                     </Col>
                     {/* candidate respone ------------------- */}
-                    <Col className='candidate-ques-ans'>
+                    <Col lg={6} md={12} sm={12}>
+                        <div className='candidate-ques-ans p-3 cmn_ques_outer'> 
                         <div><h3>Candidate Response</h3></div>
                         <hr></hr>
                         {
-                            candidateResponse?.objective?.length > 0 ? <div className='heading-check-result'>Objective</div> : null
+                            candidateResponse?.objective?.length > 0 ? <h3 className='heading-check-result'>Objective</h3> : null
                         }
 
                         {candidateResponse?.objective?.map((questionAnswer, index) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id}>
+                                <div className="d-flex align-items-center'">
+                                <h3 className="question-text">{questionAnswer.question} </h3>
                                 {doneQuestions[questionAnswer._id] && (
                                     <span className='done-text'>
                                         {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
                                     </span>
                                 )}
-                                <h3 className="question-text">{questionAnswer.question} </h3>
+                                
+                                </div>
                                 <div className="options-wrapper">
                                     {questionAnswer.options.map((option, index) => (
                                         <label className="option-label" key={index}>
@@ -130,30 +140,33 @@ const CheckedSheet = () => {
                                     ))}
                                 </div>
                                 Correct Answer: {questionAnswer.correctAnswer}
-                                <div className='check-btn-outer'> <button className='check-button' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
+                                <div className='check-btn-outer'> <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
                                     Check</button>
 
                                 </div>
                             </div>
                         ))}
                         {
-                            candidateResponse?.subjective?.length > 0 ? <div className='heading-check-result'>Subjective</div> : null
+                            candidateResponse?.subjective?.length > 0 ? <h3 className='heading-check-result'>Subjective</h3> : null
                         }
 
                         {candidateResponse?.subjective?.map((questionAnswer, index) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id}>
+                                <div className="d-flex align-items-center">
+                                <h3 className="question-text">{questionAnswer.question}</h3>
                                 {doneQuestions[questionAnswer._id] && (
                                     <span className='done-text'>
                                         {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
                                     </span>
                                 )}
-                                <h3 className="question-text">{questionAnswer.question}</h3>
+                                
+                                </div>
                                 <textarea
                                     className="text-input"
                                     placeholder="Your answer here"
                                     value={questionAnswer.answer}
                                 />
-                                <div className='check-btn-outer'> <button className='check-button' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
+                                <div className='check-btn-outer'> <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
                                     Check</button>
 
                                 </div>
@@ -161,29 +174,32 @@ const CheckedSheet = () => {
 
                         ))}
                         {
-                            candidateResponse?.logical?.length > 0 ? <div className='heading-check-result'>Logical</div> : null
+                            candidateResponse?.logical?.length > 0 ? <h3 className='heading-check-result'>Logical</h3> : null
                         }
 
                         {candidateResponse?.logical?.map((questionAnswer) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id}>
+                                <div className="d-flex align-items-center">
+                                <h3 className="question-text">{questionAnswer.question}</h3>
                                 {doneQuestions[questionAnswer._id] && (
                                     <span className='done-text'>
                                         {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
                                     </span>
                                 )}
-                                <h3 className="question-text">{questionAnswer.question}</h3>
+                                
+                                </div>
                                 <textarea
                                     className="text-input"
                                     placeholder="Your answer here"
                                     value={questionAnswer.answer}
                                 />
-                                <div className='check-btn-outer'> <button className='check-button' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
+                                <div className='check-btn-outer'> <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
                                     Check</button>
 
                                 </div>
                             </div>
                         ))}
-
+                     </div>
                     </Col>
                 </Row>
             </Container>
