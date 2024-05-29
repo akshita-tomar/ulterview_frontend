@@ -160,7 +160,7 @@ const InterviewQuestions = () => {
 
     const handleKeyDown = (e) => {
       console.log("inside the handle key down")
-      if (e.key === 'F5' || (e.ctrlKey && e.key === 'r' ||e.key === 'Shift' )) {
+      if (e.key === 'F5' || (e.ctrlKey && e.key === 'r' ||e.key === 'C' )) {
         e.preventDefault();
       }};
 

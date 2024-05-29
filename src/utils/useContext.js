@@ -17,7 +17,6 @@ export const AppProvider  = ({children}) => {
             setShow(false)
           }
           };
- 
            window.addEventListener('resize', handleResize);
            
            handleResize();

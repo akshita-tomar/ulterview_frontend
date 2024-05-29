@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 const CandidateRegisterModal = (props) => {
-  
+
     let token = localStorage.getItem('token')
     let url = 'http://localhost:8000/api/v1/'
     // const url = 'http://16.171.41.223:8000/api/v1/'
@@ -19,13 +19,11 @@ const CandidateRegisterModal = (props) => {
     useEffect(() => {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);
-
         const requestOptions = {
             method: "GET",
             headers: myHeaders,
             redirect: "follow"
         };
-
         fetch(`${url}getAllLanguages`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
@@ -40,11 +38,9 @@ const CandidateRegisterModal = (props) => {
 
 
     const handleRegisterCandidate = () => {
-
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
-
         const raw = JSON.stringify({
             "username": username,
             "email": email,
@@ -52,14 +48,12 @@ const CandidateRegisterModal = (props) => {
             "experience": experience,
             'languageId': selectedLanguage.id
         });
-
         const requestOptions = {
             method: "POST",
             headers: myHeaders,
             body: raw,
             redirect: "follow"
         };
-
         fetch(`${url}registerCandidate`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
@@ -89,7 +83,9 @@ const CandidateRegisterModal = (props) => {
         const selectedLanguage = e.target.options[selectedIndex].text;
         const selectedId = e.target.value;
         setSelectedLanguage({ language: selectedLanguage, id: selectedId });
-      };
+    };
+
+
 
     return (
         <div>
@@ -106,9 +102,7 @@ const CandidateRegisterModal = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <input className="candidate-register-input form-control mt-2" placeholder="Enter candidate name" value={username} onChange={(e) => setUserName(e.target.value)}></input>
-
                     <input className="candidate-register-input form-control mt-2" placeholder="Enter candidate email" value={email} onChange={(e) => setEmail(e.target.value)}></input>
-
                     <select className="candidate-register-input form-control mt-2" onChange={handleChange}>
                         <option value="">Select profile</option>
                         {languages?.map((ele) => (
@@ -118,7 +112,6 @@ const CandidateRegisterModal = (props) => {
                         ))}
                     </select>
                     <input className="candidate-register-input form-control mt-2" placeholder="Enter total experience" value={experience} onChange={(e) => setExprience(e.target.value)}></input>
-
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={handleRegisterCandidate} className="cmn_btn_color">Submit</Button>
