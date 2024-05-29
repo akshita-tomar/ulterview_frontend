@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Swal from "sweetalert2";
 import { RiQuestionnaireFill } from "react-icons/ri";
 import "./homepage.css"
-import {PiNotebookFill} from "react-icons/pi"
+import { PiNotebookFill } from "react-icons/pi"
 import { useAppContext } from "../../utils/useContext";
 import { RxCross2 } from "react-icons/rx";
 import { FaBars } from "react-icons/fa";
@@ -18,7 +18,7 @@ const HomePage = () => {
   const [showAddlanguageModal, setShowAddlanguageModal] = useState(false)
   const [newlanguage, setNewLanguage] = useState('')
   const [showseries, setShowSeries] = useState(false)
-  
+
   const [seriesOptions, setSeriesOptions] = useState([])
   const [series, setSeries] = useState('')
   const [showcreteTasksection, setShowcreteTasksection] = useState(false)
@@ -32,8 +32,8 @@ const HomePage = () => {
   const [openEditseriesModal, setOpenEditseriesModal] = useState(false)
   const [seriesId, setSeriesId] = useState('')
   const [updatedSeries, setUpdatedSeries] = useState('')
-  const [taskTime,setTaskTime]=useState(0)
-  const [updatedTasktime,setUpdatedTaskTime]=useState(0)
+  const [taskTime, setTaskTime] = useState(0)
+  const [updatedTasktime, setUpdatedTaskTime] = useState(0)
   const navigate = useNavigate();
   let token = localStorage.getItem('token')
 
@@ -294,8 +294,8 @@ const HomePage = () => {
           setShowLanguageModal(false);
           if (localStorage.getItem('role') === 'DEVELOPER') {
             navigate('/updateQuestions')
-          } 
-          if(localStorage.getItem('role'==='HR')){
+          }
+          if (localStorage.getItem('role' === 'HR')) {
             navigate('/candidates')
           }
         }
@@ -355,7 +355,9 @@ const HomePage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         delteSeriesyes(id, seriesName)
-      } })}
+      }
+    })
+  }
 
   const delteSeriesyes = (id, seriesName) => {
     let token = localStorage.getItem('token')
@@ -387,8 +389,8 @@ const HomePage = () => {
     myHeaders.append("Authorization", "Bearer " + token);
 
     const raw = JSON.stringify({
-      "updatedSeries": updatedSeries?updatedSeries:series,
-      "taskTime":updatedTasktime?updatedTasktime:taskTime
+      "updatedSeries": updatedSeries ? updatedSeries : series,
+      "taskTime": updatedTasktime ? updatedTasktime : taskTime
     });
 
     const requestOptions = {
@@ -405,13 +407,14 @@ const HomePage = () => {
         if (result.type === 'success') {
           console.log('here--', result)
           setConfigureSeriesChange(prev => prev + 1)
-          setOpenEditseriesModal(false)}
+          setOpenEditseriesModal(false)
+        }
       })
       .catch((error) => console.error(error));
   }
 
 
-  const handleEditSeries = (seriesName, seriesId,taskTime) => {
+  const handleEditSeries = (seriesName, seriesId, taskTime) => {
     setSeriesId(seriesId)
     setSeries(seriesName)
     setTaskTime(taskTime)
@@ -440,25 +443,25 @@ const HomePage = () => {
     setopenAddnewseriesModal(false)
   }
 
-  const handleCandidateResults =()=>{
+  const handleCandidateResults = () => {
     navigate('/candidates-performance')
   }
-  const { show,setShow } = useAppContext();
+  const { show, setShow } = useAppContext();
 
   const path=useLocation()
 
   return (
     <>
-      <div className={`sidebar ${show? "cmn_width":""}`}>
-      <h3 className="bar" onClick={()=>{setShow(!show)}}>{show? <RxCross2 className="p-0 text-center"/>:<FaBars />}</h3>
+      <div className={`sidebar ${show ? "cmn_width" : ""}`}>
+        <h3 className="bar" onClick={() => { setShow(!show) }}>{show ? <RxCross2 className="p-0 text-center" /> : <FaBars />}</h3>
 
         <div className={`sidebar-button mt-4 ${path.pathname==="/homepage" ? "active-pathname":""}`}  onClick={fetchLanguages}>
           <div className="sidebar_content"><RiQuestionnaireFill/><h4 className={show? "d-none":"sidebar_content"}>Questionnaire</h4></div>
         </div>
         <div className={`sidebar-button mt-2 ${path.pathname==="/candidates-performance" ? "active-pathname":""}`} onClick={handleCandidateResults}>
           <div className="sidebar_content">
-          <PiNotebookFill />
-        <h4 className={show? "d-none":"sidebar_content"}>Candidate Results</h4>
+            <PiNotebookFill />
+            <h4 className={show ? "d-none" : "sidebar_content"}>Candidate Results</h4>
 
           </div>
         </div>
@@ -468,39 +471,39 @@ const HomePage = () => {
         <>
           {showLanguageModal && (
             <div className="language-modal">
-              <div className={`d-flex flex-wrap-wrap language-modal_outer  ${show? "" :"margin"}`}>
-              {languages?.map((language) => (
-                <div key={language.id} className="language-card align-items-center">
-                <h3 className="text-space" onClick={() => handleLanguageClick(language.language, language._id)}> {language.language}</h3>
+              <div className={`d-flex flex-wrap-wrap language-modal_outer  ${show ? "" : "margin"}`}>
+                {languages?.map((language) => (
+                  <div key={language.id} className="language-card align-items-center">
+                    <h3 className="text-space" onClick={() => handleLanguageClick(language.language, language._id)}> {language.language}</h3>
 
-                  {localStorage.getItem('role') === 'DEVELOPER' ? (
-                    <div className="card-inner"><MdEdit onClick={() => handleEditLanguage(language._id, language.language)} /> <MdDelete onClick={() => handleDeleteLanguage(language._id)} /> </div>
+                    {localStorage.getItem('role') === 'DEVELOPER' ? (
+                      <div className="card-inner"><MdEdit onClick={() => handleEditLanguage(language._id, language.language)} /> <MdDelete onClick={() => handleDeleteLanguage(language._id)} /> </div>
+                    ) : null}
+                  </div>
+                ))}
+                {
+                  localStorage.getItem('role') === 'DEVELOPER' ? (
+                    <button className="add-more-languages-btn" onClick={handleAddNewLanguage}>Add new</button>
                   ) : null}
-                </div>
-              ))}
-              {
-                localStorage.getItem('role') === 'DEVELOPER' ? (
-                  <button className="add-more-languages-btn" onClick={handleAddNewLanguage}>Add new</button>
-                ) : null}
 
               </div>
             </div>
-         
+
           )}
 
-          <Modal  centered show={showAddlanguageModal} onHide={closeAddlanguageModal} backdrop="static" keyboard={false} className="modal-inner" >
+          <Modal centered show={showAddlanguageModal} onHide={closeAddlanguageModal} backdrop="static" keyboard={false} className="modal-inner" >
             <Modal.Header closeButton>
               <Modal.Title className="heading">Add language</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <input className="form-control"required type="text" placeholder="language" onChange={event => setNewLanguage(event.target.value)} />
+              <input className="form-control" required type="text" placeholder="language" onChange={event => setNewLanguage(event.target.value)} />
             </Modal.Body>
             <div className="language_footer">
-            <button className="modal_close_btn"  onClick={closeAddlanguageModal}> Close </button>
+              <button className="modal_close_btn" onClick={closeAddlanguageModal}> Close </button>
               <button className="modal_add_btn cmn_btn_color" onClick={addLanguages} >Add</button>
             </div>
           </Modal>
-          <Modal centered  show={showEditBox} onHide={closeAddlanguageModal2} backdrop="static" keyboard={false} className="modal-inner" >
+          <Modal centered show={showEditBox} onHide={closeAddlanguageModal2} backdrop="static" keyboard={false} className="modal-inner" >
             <Modal.Header closeButton>
               <Modal.Title className="heading">Update language</Modal.Title>
             </Modal.Header>
@@ -513,31 +516,31 @@ const HomePage = () => {
             <button className="modal_add_btn cmn_btn_color" onClick={updateLanguage} >Update</button>
             
             </div>
-           
+
           </Modal>
           {/* ****** Series */}
           {showseries && (
             <div className="series-modal-overlay">
               <div className="series-modal">
-                <h3 className="close-series" onClick={closeseries}> <RxCross2/></h3>
+                <h3 className="close-series" onClick={closeseries}> <RxCross2 /></h3>
                 <div className="modal-header">
                   <h3 className="heading">Select Series</h3>
                 </div>
                 <div className="modal-body">{
                   localStorage.getItem('role') === 'DEVELOPER' ? (
                     <div className="series-option-new" onClick={openAddseries} >Add new series</div>
-                  ) : null }
+                  ) : null}
                   {seriesOptions.map((series, index) => (
                     <>
                       <div className={series.status === 'pending' ? 'series-outer-box-pending mt-3' : "series-outer-box mt-3 series-outer-box-pending"}>
-                      <h4 key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName} ({series.status})</h4>
+                        <h4 key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName} ({series.status})</h4>
                         {localStorage.getItem('role') === 'DEVELOPER' ? (
                           <div className="edit_series_outer">
-                            <MdEdit className="me-2" onClick={() => handleEditSeries(series.seriesName, series._id,series.taskTime)} />
-                             <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
+                            <MdEdit className="me-2" onClick={() => handleEditSeries(series.seriesName, series._id, series.taskTime)} />
+                            <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
                           </div>
                         ) : null}
-                       
+
                       </div></>
                   ))}
                 </div>
@@ -551,14 +554,14 @@ const HomePage = () => {
             <Modal.Body>
               <input required className="input-field form-control" type="text" placeholder="Enter new series" onChange={event => setHoldNewSeries(event.target.value)} />
               <label className="mb-3 new_series_label">Time taken to complete this series test (in minuites)</label>
-              <input required className="input-field form-control" type="number" min={0}  placeholder="Enter task time" value={taskTime} onChange={event => setTaskTime(event.target.value)} />
+              <input required className="input-field form-control" type="number" min={0} placeholder="Enter task time" value={taskTime} onChange={event => setTaskTime(event.target.value)} />
             </Modal.Body>
             <div className="language_footer">
-            <button  onClick={handlecloseAddseriesModal} className="modal_close_btn"> Close</button>
-            <button className="modal_add_btn cmn_btn_color" onClick={AddNewSeries} >Add</button>
-            
+              <button onClick={handlecloseAddseriesModal} className="modal_close_btn"> Close</button>
+              <button className="modal_add_btn cmn_btn_color" onClick={AddNewSeries} >Add</button>
+
             </div>
-          
+
           </Modal>
 
           <Modal centered show={openEditseriesModal} onHide={handleCloseEditSeries} backdrop="static" keyboard={false} className="modal-inner" >
@@ -567,17 +570,18 @@ const HomePage = () => {
             </Modal.Header>
             <Modal.Body>
               <input required className="input-field form-control " type="text" defaultValue={series} placeholder="Edit series" onChange={event => setUpdatedSeries(event.target.value)} />
-              <input required className="input-field form-control" type="number" min={0}  placeholder="Enter task time" defaultValue={taskTime} onChange={event => setUpdatedTaskTime(event.target.value)} />
+              <input required className="input-field form-control" type="number" min={0} placeholder="Enter task time" defaultValue={taskTime} onChange={event => setUpdatedTaskTime(event.target.value)} />
             </Modal.Body>
             <div className="language_footer">
-            <button  onClick={handleCloseEditSeries} className="modal_close_btn"> Close</button>
-            <button className="modal_add_btn cmn_btn_color" onClick={AddEditSeries} >Submit</button>
-            
+              <button onClick={handleCloseEditSeries} className="modal_close_btn"> Close</button>
+              <button className="modal_add_btn cmn_btn_color" onClick={AddEditSeries} >Submit</button>
+
             </div>
-            
+
           </Modal>
         </>)}
-    </>)}
+    </>)
+}
 
 export default HomePage;
 
