@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import toast, { Toaster } from 'react-hot-toast';
-import { useAsyncError, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { encryptId } from '../../utils/encryption'
 import loader from '../../assets/loading.gif'
 
@@ -17,7 +17,7 @@ const InviteCandidate = (props) => {
     const [language, setLanguage] = useState('')
     const [selectedSeries, setSelectedSeries] = useState({ series: '', id: '' });
     const [showLoader, setShowLoader] = useState(false)
-    const [handleResendInvite,setHandleResendInvite]=useState(false)
+    // const [handleResendInvite,setHandleResendInvite]=useState(false)
     let candidateId = props.candidateID
     let languageid = props.languageId
 
@@ -34,11 +34,11 @@ const InviteCandidate = (props) => {
         fetch(`${url}getSingleCandidate?candidateId=${candidateId}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log('invite candidate mofule ------',result)
+                // console.log('invite candidate mofule ------',result)
                 if (result.type === 'success') {
                     setLanguage(result.isCandidateExist.profile)
                     if(result.isCandidateExist.testStatus==="completed"||result.isCandidateExist.testStatus==="invite_accepted" ||result.isCandidateExist.testStatus==="invite_sent"){
-                        setHandleResendInvite(true)  
+                        // setHandleResendInvite(true)  
                         handleResendLink()
                     }
                 }
@@ -47,10 +47,10 @@ const InviteCandidate = (props) => {
     }, [])
 
 
-console.log("check state -------------",handleResendInvite)
+
 
    const handleResendLink =()=>{
-        console.log("in this function-----------")
+        // console.log("in this function-----------")
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer "+token);
@@ -67,8 +67,10 @@ console.log("check state -------------",handleResendInvite)
         };
         
         fetch(`${url}handleResendLink`, requestOptions)
-          .then((response) => response.text())
-          .then((result) => console.log(result))
+          .then((response) => response.json())
+          .then((result) => 
+            console.log(result)
+        )
           .catch((error) => console.error(error));
     }
 
@@ -109,6 +111,7 @@ console.log("check state -------------",handleResendInvite)
 
 
     const handleSendLink = () => {
+        // console.log("herer-----")
         const myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);
 
@@ -125,6 +128,7 @@ console.log("check state -------------",handleResendInvite)
                 if (result.type === 'success') {
                     const encryptedCandidateId = encryptId(candidateId);
                     const testLink = `http://localhost:3000/interview-questions/:${encodeURIComponent(encryptedCandidateId)}`;
+                    setShowLoader(true)
                     console.log('link--', testLink)
                     const myHeaders = new Headers();
                     myHeaders.append("Content-Type", "application/json");
@@ -150,6 +154,7 @@ console.log("check state -------------",handleResendInvite)
                                 toast.success(result.message)
                                 props.handleChange(prev => prev + 1)
                                 props.onHide(false)
+                                setShowLoader(false)
                             }
                         })
                         .catch((error) => console.error(error));
@@ -186,10 +191,15 @@ console.log("check state -------------",handleResendInvite)
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter heading">
+                        
                         Invite
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                <div className='loader_outer_wrapper'>
+
+{showLoader && (<img src={loader} height={"50px"} width={"50px"}/> )}
+</div>
 
                     <input value={language} className="candidate-register-input  form-control mt-3" ></input>
                     <select className="candidate-register-input form-control mt-3" onChange={handleChange}>

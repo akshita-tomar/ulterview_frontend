@@ -222,31 +222,36 @@ const UpdateQuestions = () => {
     }
 
     const{show}=useAppContext()
+    
     return (
         <div className={`wrapper ${show ? "cmn_margin":""}`}>
             <div className="cmn_container">
             <>
          
                 <div className="add_question_wrapper">
-                <h1 className="heading">{localStorage.getItem('series')} ({localStorage.getItem('language')}) </h1> <button className="edit-series-button" onClick={() => handleAddQyestion()}>Add Question</button>
+                <h1 className="heading">{localStorage.getItem('series')} ({localStorage.getItem('language')}) </h1>  <button className="edit-series-button" onClick={() => handleAddQyestion()}>Add Question</button>
                 </div>
+                {
+                    (questionAnswer?.questions?.objective?.length<3 && questionAnswer?.questions?.subjective?.length<2 && questionAnswer?.questions?.logical?.length<2)?
+                    <h6 className="message"> Your have to add minimum 3 objective, 2 subjective and 2 logical to complete this series</h6>:null
+                }
                 <div className="sub-obj-log-heading">
                     {
 
                         questionAnswer?.questions?.objective?.length > 0 && (
                             
-                            <div onClick={handleShowobjective}   className= { `heading-objective_tab ${showobjective ===true?'heading-objective-active ' :'heading-objective'}`} >Objective</div>
+                            <div onClick={handleShowobjective}   className= { `heading-objective_tab ${showobjective ===true?'heading-objective-active ' :'heading-objective'}`} >Objective {questionAnswer?.questions?.objective?.length}</div>
                         )
                 
                     }
                     {
                         questionAnswer?.questions?.subjective?.length > 0 && (
-                            <div   className= { `heading-objective_tab ${showsubjective ===true?'heading-objective-active' :'heading-objective'}`} onClick={handleShowSubjective}>Subjective</div>
+                            <div   className= { `heading-objective_tab ${showsubjective ===true?'heading-objective-active' :'heading-objective'}`} onClick={handleShowSubjective}>Subjective {questionAnswer?.questions?.subjective?.length}</div>
                         )
                     }
                     {
                         questionAnswer?.questions?.logical?.length > 0 && (
-                            <div  className= {`heading-objective_tab ${showLogical ===true?'heading-objective-active' :'heading-objective'}` } onClick={handleShowLogical}>Logical</div>
+                            <div  className= {`heading-objective_tab ${showLogical ===true?'heading-objective-active' :'heading-objective'}` } onClick={handleShowLogical}>Logical { questionAnswer?.questions?.logical?.length}</div>
                         )
                     }
                 </div>

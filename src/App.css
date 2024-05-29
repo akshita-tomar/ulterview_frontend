@@ -1034,6 +1034,7 @@ h1 {
 /* ********** ********* COMPARE QUESTION ANSWER****  */
 .original-ques-ans{
   border: 2px solid rgb(241 49 49);
+  
 
 }
 
@@ -1054,9 +1055,15 @@ h1 {
   padding: 20px;
   scrollbar-width: none;
   background-color: #ffffff;
+  
 }
-
-
+.loader_outer_wrapper{
+  text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 .check-btn-outer{
   display: flex;
   gap: 14px;
@@ -1279,4 +1286,9 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
   .user-table tbody tr td:last-child {
     display: block !important;
   }
+}
+.message{
+  /* background-color: rgb(232, 220, 220); */
+  text-align: left;
+  width: auto;
 }
