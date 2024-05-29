@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import { MdEdit, MdDelete } from "react-icons/md";
 import Button from 'react-bootstrap/Button';
@@ -175,7 +175,7 @@ const HomePage = () => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#ce2128",
-      cancelButtonColor: "#ddd",
+      cancelButtonColor: "#333",
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
@@ -448,15 +448,17 @@ const HomePage = () => {
   }
   const { show, setShow } = useAppContext();
 
+  const path=useLocation()
+
   return (
     <>
       <div className={`sidebar ${show ? "cmn_width" : ""}`}>
         <h3 className="bar" onClick={() => { setShow(!show) }}>{show ? <RxCross2 className="p-0 text-center" /> : <FaBars />}</h3>
 
-        <div className="sidebar-button mt-4" onClick={fetchLanguages}>
-          <div className="sidebar_content"><RiQuestionnaireFill /><h4 className={show ? "d-none" : "sidebar_content"}>Questionnaire</h4></div>
+        <div className={`sidebar-button mt-4 ${path.pathname==="/homepage" ? "active-pathname":""}`}  onClick={fetchLanguages}>
+          <div className="sidebar_content"><RiQuestionnaireFill/><h4 className={show? "d-none":"sidebar_content"}>Questionnaire</h4></div>
         </div>
-        <div className="sidebar-button" onClick={handleCandidateResults}>
+        <div className={`sidebar-button mt-2 ${path.pathname==="/candidates-performance" ? "active-pathname":""}`} onClick={handleCandidateResults}>
           <div className="sidebar_content">
             <PiNotebookFill />
             <h4 className={show ? "d-none" : "sidebar_content"}>Candidate Results</h4>
@@ -510,9 +512,9 @@ const HomePage = () => {
             </Modal.Body>
 
             <div className="language_footer">
-              <button onClick={closeAddlanguageModal2} className="modal_close_btn"> Close</button>
-              <button className="modal_add_btn cmn_btn_color" onClick={updateLanguage} >Update</button>
-
+            <button  onClick={closeAddlanguageModal2} className="modal_close_btn"> Close</button>
+            <button className="modal_add_btn cmn_btn_color" onClick={updateLanguage} >Update</button>
+            
             </div>
 
           </Modal>

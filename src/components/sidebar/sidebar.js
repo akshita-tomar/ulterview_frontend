@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaBars, FaUser } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { RiQuestionnaireFill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import {PiNotebookFill} from "react-icons/pi"
@@ -18,6 +18,7 @@ const fetchLanguages =()=>{
 const handleCandidateResult = ()=>{
   navigate('/candidates-performance')
 }
+const path=useLocation()
 
 const { show, setShow } = useAppContext();
   return (
@@ -27,20 +28,21 @@ const { show, setShow } = useAppContext();
         <h3 className="bar" onClick={()=>{setShow(!show)}}>{show? <RxCross2 className="p-0 text-center"/>:<FaBars />}</h3>
 
         {
-          role==="HR"?<div className="sidebar-button mt-4">
+          role==="HR"?<div className={`sidebar-button mt-4 ${path.pathname==="/candidates" ? "active-pathname":""}`}>
             <div className="sidebar_content"><FaUser/> 
           <h4 className={show? "d-none":"sidebar_content"}>Candidates</h4></div></div>:null
         }
         {
           role==='DEVELOPER'?<div>
-          <div className="sidebar-button mt-4" onClick={fetchLanguages}> 
+          <div className={`sidebar-button mt-4 ${path.pathname==="/homepage" ? "active-pathname":""}`} onClick={fetchLanguages} > 
           <div className="sidebar_content">
           <RiQuestionnaireFill />
           <h4 className={show? "d-none":"sidebar_content"}>Questionnaire</h4>
 
           </div>
           </div> 
-          <div className="sidebar-button" onClick={handleCandidateResult}>
+
+          <div className={`sidebar-button ${path.pathname==="/candidates-performance" ? "active-pathname":""}`} onClick={handleCandidateResult}>
             <div className="sidebar_content">
           <PiNotebookFill className="sidebar_content"/>
             <h4 className={show? "d-none":"sidebar_content"}> Candidate Results</h4>

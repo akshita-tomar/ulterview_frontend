@@ -3,12 +3,6 @@
  
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-
 
 .App-header {
   background-color: #282c34;
@@ -21,9 +15,7 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
+
 
 @keyframes App-logo-spin {
   from {
@@ -33,7 +25,6 @@
     transform: rotate(360deg);
   }
 }
-
 
 
 .login-container {
@@ -77,7 +68,6 @@
   border-radius: 4px;
   cursor: pointer;
   width: 100%;
-  /* display: block; */
   font-size: 16px;
 }
 
@@ -136,7 +126,7 @@ button.register-btn {
 }
 
 
-/* header  */
+
 
 .header {
   position: fixed;
@@ -159,8 +149,8 @@ button.register-btn {
 }
 
 .logo-icon {
-  width: 90px; /* Adjust size as needed */
-  height: 40px; /* Adjust size as needed */
+  width: 90px; 
+  height: 40px; 
   margin-right: 10px;
 }
 
@@ -188,10 +178,7 @@ button.register-btn {
 
 /* for modal css  */
 
-.modal-inner{
-   
-  /* position: absolute; */
-}
+
 
 .modal-overlay {
   position: fixed;
@@ -200,7 +187,7 @@ button.register-btn {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4); 
-  /* background-color: #ed6b4a; */
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -229,7 +216,7 @@ position: absolute;
 }
 
 .input-field input {
-  width: calc(100% - 70px); /* Adjust width */
+  width: calc(100% - 70px);
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -337,8 +324,6 @@ position: absolute;
   background-color: rgb(227, 192, 192);
  
 }
-
-
 .mcq-inputs, .subjective-inputs, .logical-inputs {
   margin-bottom: 20px;
 
@@ -358,10 +343,22 @@ position: absolute;
   margin-top: 5px;
 
 }
-
+input.mcq-options{
+  color: #898181;
+    font-weight: 400;
+}
+input.mcq-question-edit{
+  color: #333;
+    font-size: 20px;
+    margin-top: 24px;
+}
 .correct-answer-label {
   display: block;
   margin-bottom: 5px;
+}
+.cmn_text{
+  color: #333;
+  font-size: 20px;
 }
 
 .correct-answer-select {
@@ -398,7 +395,6 @@ position: absolute;
   height: 180px;
   /* min-height: 180px; */
   
-  
 }
 .testbox-textarea-logical{
   padding: 10px;
@@ -421,6 +417,7 @@ svg.MdEdit {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
   background-color: #eebfb5;
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
   background-size: 100px 100px;
@@ -456,7 +453,12 @@ svg.MdEdit {
   border-radius: 5px;
   
 }
-
+.cmn_gray_btn{
+  background-color: #333;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+}
 .sidebar_content{
   font-size: 16px;
     display: flex;
@@ -547,7 +549,7 @@ svg.MdEdit {
     padding: 4px 12px;
 }
 div:where(.swal2-container) h2:where(.swal2-title) {
-  font-size: 27px;
+  font-size: 27px !important;
 }
 .modal-content{
   /* box-shadow: 3px 3px 12px 10px #efeeee; */
@@ -555,12 +557,7 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 .swal-button-custom button.swal-button.swal-button--confirm {
   background: #ce2128;
 }
-/* .card-inner{
-  background-color:#787777;
- 
-  color: white;
-  
-} */
+
 .text-space{
   font-size: 15px;
   margin-bottom: 0px;
@@ -653,16 +650,15 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 .edit-series-button{
  height: 35px;
  width: 150px;
- /* margin-top: 12px; */
+
  border: none;
  font-size: medium;
  border-radius: 4px;
  background-color: #ff5733;
  color: white;
  cursor: pointer;
- margin-left: 40%;
-}
 
+}
 
 .series-option-new{
   padding: 10px;
@@ -672,7 +668,7 @@ div:where(.swal2-container) h2:where(.swal2-title) {
   box-shadow: 3px 3px 10px rgb(250, 245, 245);
   color:  white;
   background-color: #ce2128;
-  font-size: large;
+  font-size: 20px;
   font-weight: 400;
 
 }
@@ -715,28 +711,34 @@ div:where(.swal2-container) h2:where(.swal2-title) {
   background-color: pink
 }
 
-
-.heading-objective{
-  background-color: #0056b3;
-  width: 390px;
-  margin-left: 19px;
-  padding: 2px;
-  color: white;
-  border-radius: 50px;
-  /* text-align: left; */
-}
-
 .heading-objective-active{
-  background-color: #7db5fe;
-  width: 390px;
-  margin-left: 19px;
-  padding: 2px;
-  color: black;
-  border-radius: 50px;
+  background-color: #f05050;
+  box-shadow: 2px 2px 10px #7f7c7c;
 }
-
+.heading-objective_tab{
+    width: 100%;
+    color: white;
+    padding: 8px;
+    border-radius: 26px;
+    border: 1px solid white;
+    margin-top: 14px;
+    cursor: pointer;
+    max-width: 325px;
+}
+.heading-objective{
+  background-color: #6b6969;
+}
+.question-wrapper {
+  box-shadow: 2px 2px 12px #dbd3d3;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-top: 25px;
+}
+.correct_ans_outer select{
+  min-width: 84px;
+  padding: 3px;
+}
 .outer-edit-question-div{
-  /* margin-top: 2%; */
   width: 85%;
   margin-left: 15%;
   height: 550px;
@@ -745,11 +747,13 @@ div:where(.swal2-container) h2:where(.swal2-title) {
   scrollbar-width: thin;
 }
 
-.Update-btn{
-  float: right;
-  background-color: #0056b3;
-  margin-right: 20px;
+.Update_btn_outer{
+  text-align: right;
+}
+.Update_btn_outer button{
   color: white;
+  border-radius: 10px;
+  padding: 6px 19px
 }
 
 .testbox-textarea-logical-edit{
@@ -768,6 +772,7 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 /* *************\  SERIES HEADING */
 .sub-obj-log-heading{
   display: flex;
+ gap: 3rem;
 }
 
 
@@ -789,22 +794,24 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 .questionnarie-heading{
   display: flex;
   margin-left: 30%;
-  /* justify-content: center; */
 }
 
 .active-btn{
   background-color: rgb(191, 130, 140)
 }
 
-
+.active-pathname{
+  color: #c22e0a;
+  background-color: #fff2f2;
+}
 
 /* *************  CANDIDATES DETAILS  */
 .wrapper {
   background: #ddd;
-  /* background-color: ffeeee; */
   margin-left: 200px;
   padding: 80px 20px 0px;
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
 }
 
 
@@ -833,16 +840,14 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 }
 
 .heading-check-result{
-  /* float:left; */
   background-color: #bb0000;
-  /* margin-top: 10px; */
   font-size: 20px;
   width: 150px;
   text-align: center;
   font-weight: 700;
   border-radius: 5px;
   color: white;
-
+  padding: 5px;
 }
 
 
@@ -887,6 +892,23 @@ h1 {
     border: 1px solid #00b2ff;
     font-size: 24px;
     margin-top: 20px;
+    border-radius: 6px;
+    box-shadow: 2px 2px 10px #b1e1f6;
+}
+.submit-button{
+  background: #00b2ff;
+    color: white;
+    width: 200px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 30px 0px;
+}
+.submit-button:hover{
+  box-shadow: 2px 2px 10px #9da4a7;
+  background-color: #00b2ff;
 }
 .logo_img{
   background-color: #aaa4a4;
@@ -904,7 +926,6 @@ h1 {
 .options-wrapper {
   display: flex;
   flex-direction: column;
-  /* background-color: rgb(231, 240, 243); */
   border-radius: 5px;
 }
 
@@ -931,24 +952,9 @@ h1 {
   scrollbar-width: thin
 }
 
-.submit-button {
-  background: #007bff;
-  color: white;
-  width: 200px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 30px 0px;
-}
 
-/* .timer{
-  font-size: 29px;
-  color: #007bff;
-  
-} */
+
+
 
 /* CSS */
 .timer-start {
@@ -957,21 +963,12 @@ h1 {
   box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
   color: green;
   cursor: pointer;
-  display: inline-block;
-  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
   padding: 7px 20px;
-  text-align: center;
-  text-decoration: none;
-  transition: all 250ms;
   border: 0;
   font-size: 16px;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
   width: 150px;
-  font-size: large;
   font-weight: 600 ;
-  margin-left: 45%;
+
   margin-top: 40px;
 }
 
@@ -980,19 +977,14 @@ h1 {
   transform: scale(1.05) rotate(-1deg);
 }
 
-/* .timer-start{ */
-  /* font-size: 29px;
-  color: rgb(5, 153, 5);
-} */
+
 .Interview_header {
   display: flex;
   gap: 20px;
   align-items: center;
   justify-content: space-between;
 }
-.submit-button:hover {
-  background: #0056b3;
-}
+
 .timer_outer{
   display: flex;
   width: 90px;
@@ -1004,44 +996,254 @@ h1 {
     border:1px solid #007bff;
     font-size: 18px;
     margin-top: 20px;
+    border-radius: 6px;
 }
-
+.interview-caution ol li {
+  line-height: 29px;
+  font-size: 18px;
+  margin-top: 7px;
+  color: #5d5656;
+  font-weight: 500;
+}
+.interview-caution h5{
+  font-size: 22px;
+}
 .regards{
   padding: 10px;
   float: right;
   color: #083a70;
 }
 .regards-message{
-  width: 500px;
-  margin-top: 15%;
-  margin-left: 35%;
-  padding: 10px;
-  border: 1px solid green;
-  font-size: 20px;
-  font-weight: 600;
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
+.regards-message h3{
+  padding: 20px; 
+    border: 1px solid #e61f1f;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: #edc9c5;
+    line-height: 29px;
+    /* background-color: #ddf3d5; */
+}
+
+
+/* ********** ********* COMPARE QUESTION ANSWER****  */
+.original-ques-ans{
+  border: 2px solid rgb(241 49 49);
+
+}
+
+.question-wrapper-check-result{
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.candidate-ques-ans{
+  border: 2px solid #20831f;
+  
+
+}
+.cmn_ques_outer{
+  overflow-y: scroll;
+  height: 700px;
+  padding: 20px;
+  scrollbar-width: none;
+  background-color: #ffffff;
+}
+
+
+.check-btn-outer{
+  display: flex;
+  gap: 14px;
+  margin-top: 14px;
+}
+.check-btn-outer button{
+  color: white;
+    font-weight: 400;
+    border: none;
+    padding: 7px 20px;
+    border-radius: 6px;
+}
+
+.correct-opt{
+
+  background-color: #20831f;
+
+}
+.incorrect-opt{
+ 
+  background-color: red;
+ 
+}
+.done-text p{
+  margin-bottom: 0px !important;
+}
+.check-result-header{
+
+position: fixed;
+background-color: #0056b3;
+width: 100px;
+color: white;
+margin-left: auto;
+right: 33px;
+font-weight: 700;
+}
+.rejected-candidate {
+  color: red !important;
+  font-weight: 700;
+}
+
+.selected-candidate {
+  color: green !important;
+  font-weight: 700;
+}
+
+
 @media screen and (min-width:1499px){
   .wrapper{
     padding: 97px 50px 0px;
   }
+  .heading-objective_tab {
+    padding: 15px;
+  }
 }
-  
-  @media screen and (max-width:991px){
-    .language-modal{
-      margin-top: 4rem;
-      height: 100%;
-      
+@media screen and (max-width:1280px){
+  div:where(.swal2-container) h2:where(.swal2-title) {
+    font-size: 24px !important;
+  }
+}
+  @media screen and (max-width:1024px){
+    .heading{
+      font-size: 21px;
     }
+    .Update_btn_outer{
+   margin-top: 20px;
+    }
+    .heading-check-result {
+      font-size: 17px;
+    }
+  }
+  @media screen and (max-width:991px){
+    
     .language-modal_outer {
       margin-left: 12rem;
       width: 60%;
     }
+    .user-table tbody tr td:last-child{
+      display:  block !important;
+    }
+    .series-modal {
+      margin-left: 4rem;
+    }
+    input.mcq-question-edit{
+      font-size: 16px
+    }
+    .swal-title {
+      font-size: 23px;
+    }
+    h2#swal2-title {
+      font-size: 18px !important;
+  }
+  button.swal2-confirm.swal2-styled.swal2-default-outline {
+    font-size: 14px;
+}
+button.swal2-cancel.swal2-styled.swal2-default-outline {
+  font-size: 14px;
+}
+  
+  div#swal2-html-container {
+      font-size: 15px;
+  }
+  .candidate-ques-ans {
+    margin-top: 15px;
+    padding: 15px;
+  }
+  
   }
 
 @media (max-width: 767px) {
   .language-card {
     width: calc(50% - 10px); 
   }
+  .series-option-new {
+    font-size: 15px;
+    padding: 9px;
+  }
+  .check-btn-outer button {
+    padding: 5px 19px;
+  }
+  .check-btn-outer{
+    flex-wrap: wrap;
+  }
+  .text-input {
+    font-size: 14px;
+  }
+  .interview-caution ol li {
+    font-size: 14px;
+  }
+  .interview-caution  h5{
+    font-size: 18px;
+  }
+  .Interview_header_content{
+    flex-wrap: wrap;
+  }
+  .Interview_header{
+    align-items: start;
+  }
+  .Interview_header_content h3{
+    font-size: 15px;
+  }
+  .swal-title {
+    font-size: 17px;
+  }
+  .question-form h2 {
+    font-size: 18px;
+  }
+  .submit-button {
+    width: 150px;
+  }
+  .option-label {
+    font-size: 13px;
+  }
+  .question-text {
+    font-size: 14px;
+  }
+  .regards-message h3 {
+    font-size: 14px;
+    margin: 0px 12px;
+  }
+  .correct_ans_outer select{
+    width: 100%;
+    margin-top: 11px;
+ 
+  }
+  div.correct_ans_outer {
+    display: block !important;
+  }
+  .series-modal{
+    margin-left: 45px;
+    width: 75%;
+  }
+  .add_question_wrapper, .sub-obj-log-heading{
+    display: block;
+  }
+  .Update_btn_outer{
+    display: flex;
+    justify-content: center;
+  }
+  .cmn_text {
+    font-size: 16px;
+  }
+  .input.mcq-question-edit {
+    margin-top: 22px;
+  }
+  
+
   .internal-testbox{
     display: block
   }
@@ -1071,83 +1273,10 @@ h1 {
     margin-left: 3rem;
   }
   .wrapper{
-    margin-left: 0px;
+    margin-left: 42px;
+    padding: 80px 10px 0px;
   }
   .user-table tbody tr td:last-child {
     display: block !important;
   }
-}
-
-/* ********** ********* COMPARE QUESTION ANSWER****  */
-.original-ques-ans{
-  background-color: #ffffff;
-  border: 1px solid rgb(247, 161, 161);
-  border-radius: 5px;
-  overflow-y: scroll;
-  height: 700px;
-  scrollbar-width: none;
-  margin-right: 10px;
-
-}
-
-.question-wrapper-check-result{
-  text-align: left;
-  margin-top: 20px;
-  margin-bottom: 40px;
-}
-
-.candidate-ques-ans{
-  border: 2px solid rgb(37, 134, 238);
-  overflow-y: scroll;
-  height: 700px;
-  scrollbar-width: none;
-  background-color: #ffffff;
-
-}
-
-.check-button{
-  margin-top: 10px;
-  border-radius: 5px;
-  font-weight:500;
-}
-.check-btn-outer{
-  display: flex;
-}
-.correct-incorrect-btn{
-  margin-top: 10px;
-  margin-left: 10px;
-}
-.correct-opt{
-  /* margin-left: 3px; */
-  background-color: green;
-  color: white;
-  font-weight: 400;
-}
-.incorrect-opt{
-  margin-left: 3px;
-  background-color: red;
-  color: white;
-  font-weight: 400;
-}
-.done-text{
-  display: flex;
-  height: 5px;
-}
-.check-result-header{
-/* margin-top: 100px; */
-position: fixed;
-background-color: #0056b3;
-width: 100px;
-color: white;
-margin-left: 75%;
-font-weight: 700;
-}
-.rejected-candidate {
-  color: red !important;
-  font-weight: 700;
-}
-
-.selected-candidate {
-  color: green !important;
-  font-weight: 700;
 }

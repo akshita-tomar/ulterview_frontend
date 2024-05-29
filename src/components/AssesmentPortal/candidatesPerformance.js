@@ -95,7 +95,7 @@ const{show}=useAppContext()
                                 <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''}>
                                     {element.resultStatus}
                                 </td>
-                                <td><button className="examin-btn" onClick={() => handleExamine(element._id,element.resultStatus)}>Examine</button></td>
+                                <td><button className="examin-btn invite_btn"  onClick={() => handleExamine(element._id,element.resultStatus)}>Examine</button></td>
                             </tr>
                         ))}
                     </tbody>
