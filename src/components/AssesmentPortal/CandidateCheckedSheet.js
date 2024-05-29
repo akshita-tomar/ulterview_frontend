@@ -18,6 +18,7 @@ const CheckedSheet = () => {
     const [correctQuesLength, setCorrectQuesLength] = useState(0)
     const [doneQuestions, setDoneQuestions] = useState({});
     const [candidateQuesAnsLength, setCandidateQuesAnsLength] = useState(0)
+    const [checkedBy, setCheckedBy]=useState('')
 
     const scrollToDiv = (id) => {
         divRefs.current[id]?.scrollIntoView({ behavior: 'smooth' });
@@ -43,9 +44,8 @@ const CheckedSheet = () => {
                 setOriginalQuesLength(result.quesAns.providedQuesAns[0].logical.length + result.quesAns.providedQuesAns[0].objective.length + result.quesAns.providedQuesAns[0].subjective.length)
                 setCandidateQuesAnsLength(result.quesAns.retrivedQuesAns.logical.length + result.quesAns.retrivedQuesAns.objective.length + result.quesAns.retrivedQuesAns.subjective.length)
                 setDoneQuestions(result.quesAns.checkedAnswerSheet)
+                setCheckedBy(result.quesAns.checkedBy)
                 const checkedAnswerSheet = result.quesAns.checkedAnswerSheet; 
-
-                
                 const correctAnswersCount = Object.values(checkedAnswerSheet)
                     .filter(answer => answer === 'correct') 
                     .length;
@@ -62,7 +62,7 @@ const CheckedSheet = () => {
     return (
         <div className="wrapper">
             <div className='check-result-header'>
-                {OriginalQuesLength}/{correctQuesLength}
+                {OriginalQuesLength}/{correctQuesLength} checked by: {checkedBy}
             </div>
             <Container>
                 <Row>

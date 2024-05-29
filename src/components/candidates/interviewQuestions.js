@@ -152,11 +152,11 @@ const InterviewQuestions = () => {
 
 
   useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      // e.preventDefault()
-      setEndTime(Date.now())
-      handleSubmit(e)
-    };
+    // const handleBeforeUnload = (e) => {
+    //   // e.preventDefault()
+    //   setEndTime(Date.now())
+    //   handleSubmit(e)
+    // };
 
     const handleKeyDown = (e) => {
       console.log("inside the handle key down")
@@ -169,12 +169,12 @@ const InterviewQuestions = () => {
       e.preventDefault();
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    // window.addEventListener('beforeunload', handleBeforeUnload);
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('contextmenu', handleContextMenu);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // window.removeEventListener('beforeunload', handleBeforeUnload);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('contextmenu', handleContextMenu);
     };
