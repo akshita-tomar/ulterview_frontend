@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import toast, { Toaster } from 'react-hot-toast';
 import { useAsyncError, useNavigate } from 'react-router-dom';
 import { encryptId } from '../../utils/encryption'
-// import loader from './ZKZg.gif'
+import loader from '../../assets/loading.gif'
 
 
 const InviteCandidate = (props) => {
@@ -181,7 +181,7 @@ console.log("check state -------------",handleResendInvite)
             <Modal
                 {...props}
                 size="md"
-                aria-labelledby="contained-modal-title-vcenter"
+                aria-labelledby="contained-modal-title-vcenter Invite_candidate_modal"
                 centered
             >
                 <Modal.Header closeButton>

@@ -4,6 +4,8 @@ import { Suspense } from 'react';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 
+import Loader from './utils/loader';
+
 const Login = React.lazy(() => import('./components/auth/login'));
 // const Register = React.lazy(() => import('./components/auth/register'));
 const Header = React.lazy(() => import('./components/header/header'));

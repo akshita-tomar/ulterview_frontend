@@ -37,7 +37,7 @@ const CheckedSheet = () => {
         fetch(`${url}get-dev-candidate-answers?candidatId=${id}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log('result -----', result)
+                
                 setOriginalQuesAns(result.quesAns.providedQuesAns)
                 setCandidateResponse(result.quesAns.retrivedQuesAns)
                 setOriginalQuesLength(result.quesAns.providedQuesAns[0].logical.length + result.quesAns.providedQuesAns[0].objective.length + result.quesAns.providedQuesAns[0].subjective.length)

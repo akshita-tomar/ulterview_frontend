@@ -7,6 +7,10 @@ import Modal from 'react-bootstrap/Modal';
 import Swal from "sweetalert2";
 import { RiQuestionnaireFill } from "react-icons/ri";
 import "./homepage.css"
+import {PiNotebookFill} from "react-icons/pi"
+import { useAppContext } from "../../utils/useContext";
+import { RxCross2 } from "react-icons/rx";
+import { FaBars } from "react-icons/fa";
 
 const HomePage = () => {
   const [languages, setLanguages] = useState([]);
@@ -14,6 +18,7 @@ const HomePage = () => {
   const [showAddlanguageModal, setShowAddlanguageModal] = useState(false)
   const [newlanguage, setNewLanguage] = useState('')
   const [showseries, setShowSeries] = useState(false)
+  
   const [seriesOptions, setSeriesOptions] = useState([])
   const [series, setSeries] = useState('')
   const [showcreteTasksection, setShowcreteTasksection] = useState(false)
@@ -170,7 +175,7 @@ const HomePage = () => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#ce2128",
-      cancelButtonColor: "#333",
+      cancelButtonColor: "#ddd",
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
@@ -344,8 +349,8 @@ const HomePage = () => {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#ce2128",
+      cancelButtonColor: "#333",
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
@@ -438,19 +443,30 @@ const HomePage = () => {
   const handleCandidateResults =()=>{
     navigate('/candidates-performance')
   }
+  const { show,setShow } = useAppContext();
 
   return (
     <>
-      <div className="sidebar">
-        <button className="sidebar-button" onClick={fetchLanguages}><h4 className="sidebar_content"><RiQuestionnaireFill/>Questionnaire</h4></button>
-        <button className="sidebar-button" onClick={handleCandidateResults}>Candidate Results</button>
+      <div className={`sidebar ${show? "cmn_width":""}`}>
+      <h3 className="bar" onClick={()=>{setShow(!show)}}>{show? <RxCross2 className="p-0 text-center"/>:<FaBars />}</h3>
+
+        <div className="sidebar-button mt-4" onClick={fetchLanguages}>
+          <div className="sidebar_content"><RiQuestionnaireFill/><h4 className={show? "d-none":"sidebar_content"}>Questionnaire</h4></div>
+        </div>
+        <div className="sidebar-button" onClick={handleCandidateResults}>
+          <div className="sidebar_content">
+          <PiNotebookFill />
+        <h4 className={show? "d-none":"sidebar_content"}>Candidate Results</h4>
+
+          </div>
+        </div>
         <Toaster />
       </div>
       {showcreteTasksection && (
         <>
           {showLanguageModal && (
             <div className="language-modal">
-              <div className="d-flex flex-wrap-wrap language-modal_outer ">
+              <div className={`d-flex flex-wrap-wrap language-modal_outer  ${show? "" :"margin"}`}>
               {languages?.map((language) => (
                 <div key={language.id} className="language-card align-items-center">
                 <h3 className="text-space" onClick={() => handleLanguageClick(language.language, language._id)}> {language.language}</h3>
@@ -466,7 +482,9 @@ const HomePage = () => {
                 ) : null}
 
               </div>
-            </div>)}
+            </div>
+         
+          )}
 
           <Modal  centered show={showAddlanguageModal} onHide={closeAddlanguageModal} backdrop="static" keyboard={false} className="modal-inner" >
             <Modal.Header closeButton>
@@ -499,7 +517,7 @@ const HomePage = () => {
           {showseries && (
             <div className="series-modal-overlay">
               <div className="series-modal">
-                <div className="close-series" onClick={closeseries}> &#10005;</div>
+                <h3 className="close-series" onClick={closeseries}> <RxCross2/></h3>
                 <div className="modal-header">
                   <h3 className="heading">Select Series</h3>
                 </div>
@@ -509,14 +527,16 @@ const HomePage = () => {
                   ) : null }
                   {seriesOptions.map((series, index) => (
                     <>
-                      <div className={series.status === 'pending' ? 'series-outer-box-pending' : "series-outer-box"}>
+                      <div className={series.status === 'pending' ? 'series-outer-box-pending mt-3' : "series-outer-box mt-3"}>
+                      <h4 key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName} ({series.status})</h4>
                         {localStorage.getItem('role') === 'DEVELOPER' ? (
-                          <>
-                            <MdEdit onClick={() => handleEditSeries(series.seriesName, series._id,series.taskTime)} /> <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
-                          </>
+                          <div className="edit_series_outer">
+                            <MdEdit className="me-2" onClick={() => handleEditSeries(series.seriesName, series._id,series.taskTime)} />
+                             <MdDelete onClick={() => delteSeries(series._id, series.seriesName)} />
+                          </div>
                         ) : null}
-                        <div key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName} ({series.status})</div>
-                      </div> <br></br></>
+                       
+                      </div></>
                   ))}
                 </div>
               </div>
@@ -524,31 +544,35 @@ const HomePage = () => {
           )}
           <Modal show={openAddnewseriesModal} onHide={handlecloseAddseriesModal} backdrop="static" keyboard={false} className="modal-inner" >
             <Modal.Header closeButton>
-              <Modal.Title>Add new series</Modal.Title>
+              <Modal.Title className="heading">Add new series</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <input required className="input-field" type="text" placeholder="Enter new series" onChange={event => setHoldNewSeries(event.target.value)} />
-              <label>Time taken to complete this series test (in minuites)</label>
-              <input required className="input-field" type="number" min={0}  placeholder="Enter task time" value={taskTime} onChange={event => setTaskTime(event.target.value)} />
+              <input required className="input-field form-control" type="text" placeholder="Enter new series" onChange={event => setHoldNewSeries(event.target.value)} />
+              <label className="mb-3 new_series_label">Time taken to complete this series test (in minuites)</label>
+              <input required className="input-field form-control" type="number" min={0}  placeholder="Enter task time" value={taskTime} onChange={event => setTaskTime(event.target.value)} />
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handlecloseAddseriesModal}>Close </Button>
-              <Button onClick={AddNewSeries} variant="primary">Add</Button>
-            </Modal.Footer>
+            <div className="language_footer">
+            <button  onClick={handlecloseAddseriesModal} className="modal_close_btn"> Close</button>
+            <button className="modal_add_btn cmn_btn_color" onClick={AddNewSeries} >Add</button>
+            
+            </div>
+          
           </Modal>
 
           <Modal show={openEditseriesModal} onHide={handleCloseEditSeries} backdrop="static" keyboard={false} className="modal-inner" >
             <Modal.Header closeButton>
-              <Modal.Title>Edit series</Modal.Title>
+              <Modal.Title className="heading">Edit series</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <input required className="input-field" type="text" defaultValue={series} placeholder="Edit series" onChange={event => setUpdatedSeries(event.target.value)} />
-              <input required className="input-field" type="number" min={0}  placeholder="Enter task time" defaultValue={taskTime} onChange={event => setUpdatedTaskTime(event.target.value)} />
+              <input required className="input-field form-control " type="text" defaultValue={series} placeholder="Edit series" onChange={event => setUpdatedSeries(event.target.value)} />
+              <input required className="input-field form-control" type="number" min={0}  placeholder="Enter task time" defaultValue={taskTime} onChange={event => setUpdatedTaskTime(event.target.value)} />
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseEditSeries}> Close </Button>
-              <Button onClick={AddEditSeries} variant="primary">Sumit</Button>
-            </Modal.Footer>
+            <div className="language_footer">
+            <button  onClick={handleCloseEditSeries} className="modal_close_btn"> Close</button>
+            <button className="modal_add_btn cmn_btn_color" onClick={AddEditSeries} >Submit</button>
+            
+            </div>
+            
           </Modal>
         </>)}
     </>)}

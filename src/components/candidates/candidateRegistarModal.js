@@ -117,11 +117,11 @@ const CandidateRegisterModal = (props) => {
                             </option>
                         ))}
                     </select>
-                    <input className="candidate-register-input" placeholder="Enter total experience" value={experience} onChange={(e) => setExprience(e.target.value)}></input>
+                    <input className="candidate-register-input form-control mt-2" placeholder="Enter total experience" value={experience} onChange={(e) => setExprience(e.target.value)}></input>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={handleRegisterCandidate}>Submit</Button>
+                    <Button onClick={handleRegisterCandidate} className="cmn_btn_color">Submit</Button>
                 </Modal.Footer>
             </Modal>
             <Toaster />
