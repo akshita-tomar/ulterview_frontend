@@ -59,8 +59,14 @@ const CandidatesPerformance = () => {
     }, [])
 
 
-    const handleExamine = (id) => {
-        navigate(`/candidate-answers-sheet/${id}`)
+    const handleExamine = (id,resultStatus) => {
+        if(resultStatus==='selected'||resultStatus ==='rejected'){
+            navigate(`/candidate-checked-sheet/${id}`)
+        }else{
+            navigate(`/candidate-answers-sheet/${id}`)
+        }
+        
+
     }
 const{show}=useAppContext()
 
@@ -89,7 +95,7 @@ const{show}=useAppContext()
                                 <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''}>
                                     {element.resultStatus}
                                 </td>
-                                <td><button className="examin-btn invite_btn" onClick={() => handleExamine(element._id)}>Examine</button></td>
+                                <td><button className="examin-btn invite_btn"  onClick={() => handleExamine(element._id,element.resultStatus)}>Examine</button></td>
                             </tr>
                         ))}
                     </tbody>

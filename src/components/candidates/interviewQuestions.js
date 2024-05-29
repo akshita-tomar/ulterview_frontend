@@ -125,10 +125,11 @@ const InterviewQuestions = () => {
 
     const raw = JSON.stringify({
       "candidateId": decryptedCandidateId,
-      "quesAns": updatedAnswers
+      "quesAns": updatedAnswers,
+      "endTime":endTime
     });
 
-    const requestOptions = {
+    const requestOptions = {  
       method: "POST",
       headers: myHeaders,
       body: raw,
@@ -149,35 +150,35 @@ const InterviewQuestions = () => {
       .catch((error) => console.error(error));
   }
 
-  const submitForm = () => {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
 
-    const raw = JSON.stringify({
-      "candidateId": decryptedCandidateId,
-      "quesAns": updatedAnswers
-    });
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow"
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      // e.preventDefault()
+      setEndTime(Date.now())
+      handleSubmit(e)
     };
 
-    fetch(`${url}addCandidateAnswers`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.type === 'success') {
-          setEndTime(Date.now());
-          toast.success(result.message, {
-            duration: 3000
-          })
-          setConfigureHandleChange('')
-        }
-      })
-      .catch((error) => console.error(error));
-  };
+    const handleKeyDown = (e) => {
+      console.log("inside the handle key down")
+      if (e.key === 'F5' || (e.ctrlKey && e.key === 'r' ||e.key === 'C' )) {
+        e.preventDefault();
+      }};
+
+    const handleContextMenu = (e) => {
+      console.log("inside the handle context")
+      e.preventDefault();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('contextmenu', handleContextMenu);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('contextmenu', handleContextMenu);
+    };
+  }, []);
 
   const formatTime = (time) => {
     const hours = Math.floor(time / 3600000);
@@ -186,8 +187,15 @@ const InterviewQuestions = () => {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
+  const handleCopy = (e) => {
+    console.log("here in the handlecopy ---------")
+    e.preventDefault();
+  };
 
-
+  const handlePaste =(e)=>{
+    console.log(' in the handle paste')
+    e.preventDefault()
+  }
 
 
   return (
@@ -213,11 +221,11 @@ const InterviewQuestions = () => {
               )}
             {
               startTest === true ? (
-                <form >
+                <form>
                   <h2 >Objective Questions</h2>
                   {questions[0]?.objective?.map((question) => (
                     <div className="question-wrapper" key={question._id}>
-                      <h3 className="question-text">{question.question}</h3>
+                      <h3 onCopy={handleCopy} className="question-text">{question.question}</h3>
                       <div className="options-wrapper">
                         {question.options.map((option, index) => (
                           <label className="option-label" key={index}>
@@ -238,22 +246,24 @@ const InterviewQuestions = () => {
                   <h2>Subjective Questions</h2>
                   {questions[0]?.subjective?.map((question) => (
                     <div className="question-wrapper" key={question._id}>
-                      <h3 className="question-text">{question.question}</h3>
+                      <h3 onCopy={handleCopy} className="question-text">{question.question}</h3>
                       <textarea
                         className="text-input form-control"
                         placeholder="Your answer here"
                         onChange={(e) => handleChange(question._id, question.question, e.target.value, 'subjective')}
+                        onPaste={handlePaste}
                       />
                     </div>
                   ))}
                   <h2>Logical Questions</h2>
                   {questions[0]?.logical?.map((question) => (
                     <div className="question-wrapper" key={question._id}>
-                      <h3 className="question-text">{question.question}</h3>
+                      <h3 onCopy={handleCopy} className="question-text">{question.question}</h3>
                       <textarea
                         className="text-input form-control"
                         placeholder="Your answer here"
                         onChange={(e) => handleChange(question._id, question.question, e.target.value, 'logical')}
+                        onPaste={handlePaste}
                       />
                     </div>
                   ))}

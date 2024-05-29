@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useAsyncError, useNavigate } from 'react-router-dom';
 import { encryptId } from '../../utils/encryption'
 import loader from '../../assets/loading.gif'
 
@@ -17,6 +17,7 @@ const InviteCandidate = (props) => {
     const [language, setLanguage] = useState('')
     const [selectedSeries, setSelectedSeries] = useState({ series: '', id: '' });
     const [showLoader, setShowLoader] = useState(false)
+    const [handleResendInvite,setHandleResendInvite]=useState(false)
     let candidateId = props.candidateID
     let languageid = props.languageId
 
@@ -33,14 +34,43 @@ const InviteCandidate = (props) => {
         fetch(`${url}getSingleCandidate?candidateId=${candidateId}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                console.log('invite candidate mofule ------',result)
                 if (result.type === 'success') {
                     setLanguage(result.isCandidateExist.profile)
+                    if(result.isCandidateExist.testStatus==="completed"||result.isCandidateExist.testStatus==="invite_accepted" ||result.isCandidateExist.testStatus==="invite_sent"){
+                        setHandleResendInvite(true)  
+                        handleResendLink()
+                    }
                 }
             })
             .catch((error) => console.error(error));
     }, [])
 
+
+console.log("check state -------------",handleResendInvite)
+
+   const handleResendLink =()=>{
+        console.log("in this function-----------")
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer "+token);
+        
+        const raw = JSON.stringify({
+          "candidateId": candidateId
+        });
+        
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow"
+        };
+        
+        fetch(`${url}handleResendLink`, requestOptions)
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.error(error));
+    }
 
 
     useEffect(() => {
@@ -116,7 +146,7 @@ const InviteCandidate = (props) => {
                         .then((result) => {
                             console.log(result)
                             if (result.type === 'success') {
-                                setShowLoader(false)
+                                // setShowLoader(false)
                                 toast.success(result.message)
                                 props.handleChange(prev => prev + 1)
                                 props.onHide(false)
@@ -142,6 +172,8 @@ const InviteCandidate = (props) => {
         const selectedId = e.target.value;
         setSelectedSeries({ language: selectedSeries, id: selectedId });
     };
+
+    
 
 
     return (
