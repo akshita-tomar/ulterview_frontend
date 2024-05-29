@@ -31,23 +31,23 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Suspense fallback={<div>Loading...</div>}><Login /></Suspense>}></Route>
-          {/* <Route path='/register' element={<Suspense fallback={<div>Loading...</div>}><Register /></Suspense>}></Route> */}
-          <Route path='/header' element={<Suspense fallback={<div>Loading...</div>}><Header /></Suspense>}></Route>
-          <Route path='/language' element={<Suspense fallback={<div>Loading...</div>}><Header /><Language /></Suspense>}></Route>
-          <Route path='/homepage' element={<Suspense fallback={<div>Loading...</div>}><Header /> <Suspense fallback={<div>Loading...</div>}><HomePage /></Suspense></Suspense>}></Route>
-          <Route path='/create-task' element={<Suspense fallback={<div>Loading...</div>}><Header/><Sidebar/><CreateTask /></Suspense>}></Route>
-          <Route path='/sidebar' element={<Suspense fallback={<div>Loading...</div>}><Sidebar /></Suspense>}></Route>
-          <Route path='/updateQuestions' element={<Suspense fallback={<div>Loading...</div>}><Header/><Sidebar/><UpdateQuestions/></Suspense>}></Route>
-          <Route path='/candidates' element={<Suspense fallback={<div>Loading...</div>}> <Header/><Sidebar/><CandidateEntries/></Suspense>}></Route>
-          <Route path='/modalview' element={<Suspense fallback={<div>Loading...</div>}> <ModalView/></Suspense>}></Route>
-          <Route path='/register-candidate-modal' element={<Suspense fallback={<div>Loading...</div>}> <RegisterCandidateModal/></Suspense>}></Route>
-          <Route path='/update-candidate' element={<Suspense fallback={<div>Loading...</div>}> <UpdateCandidate/></Suspense>}></Route>
-          <Route path='/invite-candidate' element={<Suspense fallback={<div>Loading...</div>}> <InviteCandidate/></Suspense>}></Route>
-          <Route path='/interview-questions/:id' element={<Suspense fallback={<div>Loading...</div>}> <InterviewQuestions/></Suspense>}></Route>
-          <Route path='/candidates-performance' element={<Suspense fallback={<div>Loading...</div>}> <Header/><Sidebar/><CandidatesPerformance/></Suspense>}></Route>
-          <Route path='/candidate-answers-sheet/:id' element={<Suspense fallback={<div>Loading...</div>}> <Header/><Sidebar/><CandidateAnswerSheet/></Suspense>}></Route>
-          <Route path='/candidate-checked-sheet/:id' element={<Suspense fallback={<div>Loading...</div>}> <Header/><Sidebar/><CheckedSheet/></Suspense>}></Route>
+          <Route path='/' element={<Suspense fallback={<Loader/>}><Login /></Suspense>}></Route>
+          {/* <Route path='/register' element={<Suspense fallback={<Loader/>}><Register /></Suspense>}></Route> */}
+          <Route path='/header' element={<Suspense fallback={<Loader/>}><Header /></Suspense>}></Route>
+          <Route path='/language' element={<Suspense fallback={<Loader/>}><Header /><Language /></Suspense>}></Route>
+          <Route path='/homepage' element={<Suspense fallback={<Loader/>}><Header /> <Suspense fallback={<Loader/>}><HomePage /></Suspense></Suspense>}></Route>
+          <Route path='/create-task' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><CreateTask /></Suspense>}></Route>
+          <Route path='/sidebar' element={<Suspense fallback={<Loader/>}><Sidebar /></Suspense>}></Route>
+          <Route path='/updateQuestions' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><UpdateQuestions/></Suspense>}></Route>
+          <Route path='/candidates' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CandidateEntries/></Suspense>}></Route>
+          <Route path='/modalview' element={<Suspense fallback={<Loader/>}> <ModalView/></Suspense>}></Route>
+          <Route path='/register-candidate-modal' element={<Suspense fallback={<Loader/>}> <RegisterCandidateModal/></Suspense>}></Route>
+          <Route path='/update-candidate' element={<Suspense fallback={<Loader/>}> <UpdateCandidate/></Suspense>}></Route>
+          <Route path='/invite-candidate' element={<Suspense fallback={<Loader/>}> <InviteCandidate/></Suspense>}></Route>
+          <Route path='/interview-questions/:id' element={<Suspense fallback={<Loader/>}> <InterviewQuestions/></Suspense>}></Route>
+          <Route path='/candidates-performance' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CandidatesPerformance/></Suspense>}></Route>
+          <Route path='/candidate-answers-sheet/:id' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CandidateAnswerSheet/></Suspense>}></Route>
+          <Route path='/candidate-checked-sheet/:id' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CheckedSheet/></Suspense>}></Route>
         </Routes > 
       </BrowserRouter>
     </div>  

@@ -186,6 +186,7 @@ const CreateTask = () => {
 
 
   return (
+    <section className="createtask_wrapper wrapper">
     <div className="homepage-outer-div">
       <div className="back-btn me-2" onClick={handleBackClick}>< MdOutlineArrowBack /></div>
       {
@@ -216,7 +217,7 @@ const CreateTask = () => {
                   {options.map((option, index) => (
                     <input className="mcq-options form-control" key={index} type="text" placeholder={`Option ${index + 1}`} value={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
                   ))}
-                  <label>Select correct answer:</label>
+                  <label className="new_series_label">Select correct answer:</label>
                   <select className="form-control mt-3" value={correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))}>
                     <option defaultChecked ></option>
                     {options.map((_, index) => (
@@ -246,6 +247,8 @@ const CreateTask = () => {
         )}
       <Toaster />
     </div>
+
+    </section>
   );
 };
 

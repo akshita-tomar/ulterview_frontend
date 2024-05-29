@@ -529,7 +529,7 @@ const HomePage = () => {
                   ) : null }
                   {seriesOptions.map((series, index) => (
                     <>
-                      <div className={series.status === 'pending' ? 'series-outer-box-pending mt-3' : "series-outer-box mt-3"}>
+                      <div className={series.status === 'pending' ? 'series-outer-box-pending mt-3' : "series-outer-box mt-3 series-outer-box-pending"}>
                       <h4 key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName} ({series.status})</h4>
                         {localStorage.getItem('role') === 'DEVELOPER' ? (
                           <div className="edit_series_outer">
@@ -544,7 +544,7 @@ const HomePage = () => {
               </div>
             </div>
           )}
-          <Modal show={openAddnewseriesModal} onHide={handlecloseAddseriesModal} backdrop="static" keyboard={false} className="modal-inner" >
+          <Modal centered show={openAddnewseriesModal} onHide={handlecloseAddseriesModal} backdrop="static" keyboard={false} className="modal-inner" >
             <Modal.Header closeButton>
               <Modal.Title className="heading">Add new series</Modal.Title>
             </Modal.Header>
@@ -561,7 +561,7 @@ const HomePage = () => {
           
           </Modal>
 
-          <Modal show={openEditseriesModal} onHide={handleCloseEditSeries} backdrop="static" keyboard={false} className="modal-inner" >
+          <Modal centered show={openEditseriesModal} onHide={handleCloseEditSeries} backdrop="static" keyboard={false} className="modal-inner" >
             <Modal.Header closeButton>
               <Modal.Title className="heading">Edit series</Modal.Title>
             </Modal.Header>

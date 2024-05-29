@@ -125,7 +125,7 @@ const{show}=useAppContext()
                         <div className='original-ques-ans cmn_ques_outer'>
                         <h3 className='heading'>Original Answers</h3>
                         <hr></hr>
-                        <div className='heading-check-result'>Objective</div>
+                        <h3 className='heading-check-result'>Objective</h3>
                         {originalQuesAns[0]?.objective?.map((questionAnswer, index) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)} >
                                 <h3 className="question-text">{questionAnswer.question}</h3>
@@ -139,7 +139,7 @@ const{show}=useAppContext()
                                 Correct Answer: {questionAnswer.correctAnswer}
                             </div>
                         ))}
-                        <div className='heading-check-result'>Subjective</div>
+                        <h3 className='heading-check-result'>Subjective</h3>
                         {originalQuesAns[0]?.subjective?.map((questionAnswer, index) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)}>
                                 <h3 className="question-text">{questionAnswer.question}</h3>
@@ -150,7 +150,7 @@ const{show}=useAppContext()
                                 />
                             </div>
                         ))}
-                        <div className='heading-check-result'>Logical</div>
+                        <h3 className='heading-check-result'>Logical</h3>
                         {originalQuesAns[0]?.logical?.map((questionAnswer, index) => (
                             <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)}>
                                 <h3 className="question-text">{questionAnswer.question}</h3>
@@ -169,7 +169,7 @@ const{show}=useAppContext()
                         <h3 className='heading'>Candidate Response</h3>
                         <hr></hr>
                         {
-                            candidateResponse?.objective?.length>0? <div className='heading-check-result'>Objective</div>:null
+                            candidateResponse?.objective?.length>0? <h3 className='heading-check-result'>Objective</h3>:null
                         }
                         
                         {candidateResponse?.objective?.map((questionAnswer, index) => (
@@ -205,7 +205,7 @@ const{show}=useAppContext()
                             </div>
                         ))}
                          {
-                            candidateResponse?.subjective?.length>0? <div className='heading-check-result'>Subjective</div>:null
+                            candidateResponse?.subjective?.length>0? <h3 className='heading-check-result'>Subjective</h3>:null
                         }
                         
                         {candidateResponse?.subjective?.map((questionAnswer, index) => (
@@ -238,7 +238,7 @@ const{show}=useAppContext()
 
                         ))}
                          {
-                            candidateResponse?.logical?.length>0? <div className='heading-check-result'>Logical</div>:null
+                            candidateResponse?.logical?.length>0? <h3 className='heading-check-result'>Logical</h3>:null
                         }
                         
                         {candidateResponse?.logical?.map((questionAnswer) => (
