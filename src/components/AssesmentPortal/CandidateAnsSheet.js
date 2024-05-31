@@ -108,7 +108,6 @@ const CandidateAnswerSheet = () => {
                 })
                 .catch((error) => console.error(error));
         }
-
     }
     
 

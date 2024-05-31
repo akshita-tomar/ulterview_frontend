@@ -7,7 +7,6 @@ export const AppProvider  = ({children}) => {
   const [show,setShow]=useState(false)
 
   useEffect(() => {
-    
     const handleResize = () => {
       const innerwidth =window.innerWidth
 
@@ -15,8 +14,7 @@ export const AppProvider  = ({children}) => {
             setShow(true)
           }else{
             setShow(false)
-          }
-          };
+          }};
            window.addEventListener('resize', handleResize);
            
            handleResize();

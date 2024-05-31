@@ -1305,3 +1305,6 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
   text-align: left;
   width: auto;
 }
+.focus-visible{
+  outline: none;
+}

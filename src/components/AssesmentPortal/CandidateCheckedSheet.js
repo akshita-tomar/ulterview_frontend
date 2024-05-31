@@ -50,10 +50,7 @@ const CheckedSheet = () => {
                 const correctAnswersCount = Object.values(checkedAnswerSheet)
                     .filter(answer => answer === 'correct') 
                     .length;
-                
-               
                 setCorrectQuesLength(correctAnswersCount)
-
             })
             .catch((error) => console.error(error));
 

@@ -19,11 +19,13 @@ const InterviewQuestions = () => {
   const [estimateTime, setEstimatedTime] = useState()
   const [checkComplete, setCheckComplete] = useState('')
   const [ConfigureHandleChange, setConfigureHandleChange] = useState('content')
+  const [linkClickedCount,setLinkClickedCount]= useState(0)
   const [updatedAnswers, setUpdatedAnswers] = useState({
     objective: [],
     subjective: [],
     logical: []
   });
+  
 
 
   const handleChange = (questionId, quesiton, value, type,options) => {
@@ -65,9 +67,11 @@ const InterviewQuestions = () => {
     fetch(`${url}getInterviewQuestions?candidateId=${candidateID}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        // console.log("get interview details ----------",result)
         setEstimatedTime(result.time)
         setCheckComplete(result.completedStatus)
         setQuestions(result.questions)
+        
       })
       .catch((error) => console.error(error));
   }, [id])
@@ -94,7 +98,8 @@ const InterviewQuestions = () => {
 
 
   const handleLogoClick = () => {
-    if (!startTime) {
+    // if (!startTime) {
+      
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
       const raw = JSON.stringify({
@@ -110,12 +115,15 @@ const InterviewQuestions = () => {
         .then((response) => response.json())
         .then((result) => {
           if (result.type === 'success') {
-            setStartTime(Date.now());
-            setStartTest(true)
-          }
+            if(result.linkClickedCount>1){             
+              setLinkClickedCount((prev)=>prev+1)
+            }else{
+              setStartTime(Date.now());
+              setStartTest(true)
+            }}
         })
         .catch((error) => console.error(error));
-    } 
+    // } 
   };
 
   const handleSubmit=(e)=>{
@@ -165,8 +173,8 @@ const InterviewQuestions = () => {
       }};
 
     const handleContextMenu = (e) => {
-      console.log("inside the handle context")
-      e.preventDefault();
+      // console.log("inside the handle context")
+      // e.preventDefault();
     };
 
     // window.addEventListener('beforeunload', handleBeforeUnload);
@@ -201,7 +209,7 @@ const InterviewQuestions = () => {
   return (
     <>
      {
-        checkComplete === 'completed' || ConfigureHandleChange === '' ?
+        checkComplete === 'completed' || ConfigureHandleChange === '' ||linkClickedCount >1?
           <div className="regards-message">
             <h3>Your interview result will be shared with you as soon as possible. <br></br> Thankyou!</h3>
           </div> :

@@ -129,7 +129,7 @@ const InviteCandidate = (props) => {
                     const encryptedCandidateId = encryptId(candidateId);
                     const testLink = `http://localhost:3000/interview-questions/:${encodeURIComponent(encryptedCandidateId)}`;
                     setShowLoader(true)
-                    console.log('link--', testLink)
+                    console.log('link----', testLink)
                     const myHeaders = new Headers();
                     myHeaders.append("Content-Type", "application/json");
                     myHeaders.append("Authorization", "Bearer " + token);

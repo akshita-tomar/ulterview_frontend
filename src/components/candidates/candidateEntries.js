@@ -34,7 +34,6 @@ const CandidateEntries = () => {
   }
 
 
- 
 
  useEffect(() => {
     const fetchCandidates = () => {
@@ -48,7 +47,7 @@ const CandidateEntries = () => {
       fetch(`${url}getCandidates`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          console.log(result);
+          // console.log(result);
           setCandidates(result.allCandidates);
         })
         .catch((error) => console.error(error));
@@ -96,7 +95,7 @@ const CandidateEntries = () => {
     fetch(`${url}deleteCandidate?candidateId=${id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.type === 'success') {
           toast.success(result.message, {
             duration: 800
@@ -149,7 +148,7 @@ const{show}=useAppContext()
                 <td>{element.profile}</td>
                 <td>{element.experience}</td>
                 <td>{element.testStatus}</td>
-                <td>{element.resultStatus}</td>
+                <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus}</td>
                 <td> 
                   {
                     element.testStatus==='completed' ||element.testStatus==='invite_sent' || element.testStatus==='invite_accepted'?
