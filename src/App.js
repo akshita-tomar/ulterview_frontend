@@ -23,7 +23,9 @@ const InterviewQuestions =  React.lazy(()=>import('./components/candidates/inter
 const CandidatesPerformance =  React.lazy(()=>import('./components/AssesmentPortal/candidatesPerformance'))
 const CandidateAnswerSheet =  React.lazy(()=>import('./components/AssesmentPortal/CandidateAnsSheet'))
 const CheckedSheet =  React.lazy(()=>import('./components/AssesmentPortal/CandidateCheckedSheet'))
-
+const Developers =  React.lazy(()=>import('./components/TeamHub/team'))
+const RegistrationModal = React.lazy(()=>import('./components/TeamHub/registrationModal'))
+const ChangePassword = React.lazy(()=>import('./components/header/changePassword'))
 
 function App() {
 
@@ -48,6 +50,9 @@ function App() {
           <Route path='/candidates-performance' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CandidatesPerformance/></Suspense>}></Route>
           <Route path='/candidate-answers-sheet/:id' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CandidateAnswerSheet/></Suspense>}></Route>
           <Route path='/candidate-checked-sheet/:id' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CheckedSheet/></Suspense>}></Route>
+          <Route path='/developers' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><Developers/></Suspense>}></Route>
+          <Route path='/registration' element={<Suspense fallback={<Loader/>}><RegistrationModal/></Suspense>}></Route>
+          <Route path='/change-password' element={<Suspense fallback={<Loader/>}><ChangePassword/></Suspense>}></Route>
         </Routes > 
       </BrowserRouter>
     </div>  

@@ -70,7 +70,7 @@ const CandidateEntries = () => {
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Are you sure to detlete this Candidate?",
+      title: "Are you sure to delete this Candidate?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,

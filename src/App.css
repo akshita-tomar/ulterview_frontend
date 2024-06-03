@@ -160,17 +160,19 @@ button.register-btn {
 }
 
 .logout-button {
-  padding: 8px 16px;
+  /* padding: 8px 16px; */
+  padding: 5px;
   border: none;
   border-radius: 4px;
   background-color: #ce2128;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-right: 5px;
 }
 
 .logout-button:hover {
-  background-color: #ce2128;
+  background-color: #ff0004;
 }
 
 
@@ -562,9 +564,10 @@ svg.MdEdit {
 div:where(.swal2-container) h2:where(.swal2-title) {
   font-size: 27px !important;
 }
-.modal-content{
+/* .modal-content{ */
   /* box-shadow: 3px 3px 12px 10px #efeeee; */
-}
+/* } */
+
 .swal-button-custom button.swal-button.swal-button--confirm {
   background: #ce2128;
 }
@@ -1307,4 +1310,11 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
 }
 .focus-visible{
   outline: none;
+}
+
+
+/* *********************  Team hub */
+#justify-tab-example{
+  font-weight: 700;
+
 }
