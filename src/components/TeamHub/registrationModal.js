@@ -2,24 +2,29 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { toast, Toaster } from 'react-hot-toast'
 import { useState } from 'react';
+import loader from '../../assets/loading.gif'
 
 
 
 
 const RegistrationModal = (props) => {
     const url = 'http://localhost:8000/api/v1/';
-// const url = 'http://16.171.41.223:8000/api/v1/'
+    // const url = 'http://16.171.41.223:8000/api/v1/'
     let token = localStorage.getItem('token')
-    const [username,setUserName]=useState('')
-    const [email,setEmail]=useState('')
-    const [password,setPassword]=useState('')
-    const [profile,setProfile]=useState('')
-    const [experience,setExprience]=useState('')
+    const [username, setUserName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [profile, setProfile] = useState('')
+    const [experience, setExprience] = useState('')
+    const [showLoader, setShowLoader] = useState(false)
 
+
+    
     const handleSubmit = () => {
+        setShowLoader(true)
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer "+token);
+        myHeaders.append("Authorization", "Bearer " + token);
 
         const raw = JSON.stringify({
             "userName": username,
@@ -41,12 +46,13 @@ const RegistrationModal = (props) => {
             .then((response) => response.json())
             .then((result) => {
                 console.log(result)
-                if(result.type==='error'){
+                if (result.type === 'error') {
+                    setShowLoader(false)
                     toast.error(result.message)
-                }else{
-                    props.configureChange((prev=>prev+1))
+                } else {
+                    setShowLoader(false)
+                    props.configureChange((prev => prev + 1))
                     props.onHide(false)
-
                 }
             })
             .catch((error) => console.error(error));
@@ -67,11 +73,14 @@ const RegistrationModal = (props) => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter username" value={username} onChange={(e)=>setUserName(e.target.value)} ></input>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter email" value={email} onChange={(e)=>setEmail(e.target.value)} ></input>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter password" value={password} onChange={(e)=>setPassword(e.target.value)} ></input>
-                    {props.role === "developer" ? <input className="candidate-register-input form-control mt-2" value={profile} onChange={(e)=>setProfile(e.target.value)} placeholder="Enter developer's profile" ></input> : null}
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter total experience" value={experience} onChange={(e)=>setExprience(e.target.value)}></input>
+                    <div className='loader_outer_wrapper'>
+                        {showLoader && (<> <img src={loader} height={"50px"} width={"50px"} /><br></br> <h4>Sending email ....</h4></>)}
+                    </div>
+                    <input className="candidate-register-input form-control mt-2" placeholder="Enter username" value={username} onChange={(e) => setUserName(e.target.value)} ></input>
+                    <input className="candidate-register-input form-control mt-2" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} ></input>
+                    <input className="candidate-register-input form-control mt-2" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} ></input>
+                    {props.role === "developer" ? <input className="candidate-register-input form-control mt-2" value={profile} onChange={(e) => setProfile(e.target.value)} placeholder="Enter developer's profile" ></input> : null}
+                    <input className="candidate-register-input form-control mt-2" placeholder="Enter total experience" value={experience} onChange={(e) => setExprience(e.target.value)}></input>
 
                 </Modal.Body>
                 <Modal.Footer>

@@ -37,7 +37,7 @@ const InviteCandidate = (props) => {
                 // console.log('invite candidate mofule ------',result)
                 if (result.type === 'success') {
                     setLanguage(result.isCandidateExist.profile)
-                    if(result.isCandidateExist.testStatus==="completed"||result.isCandidateExist.testStatus==="invite_accepted" ||result.isCandidateExist.testStatus==="invite_sent"){
+                    if (result.isCandidateExist.testStatus === "completed" || result.isCandidateExist.testStatus === "invite_accepted" || result.isCandidateExist.testStatus === "invite_sent") {
                         // setHandleResendInvite(true)  
                         handleResendLink()
                     }
@@ -49,29 +49,29 @@ const InviteCandidate = (props) => {
 
 
 
-   const handleResendLink =()=>{
+    const handleResendLink = () => {
         // console.log("in this function-----------")
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer "+token);
-        
+        myHeaders.append("Authorization", "Bearer " + token);
+
         const raw = JSON.stringify({
-          "candidateId": candidateId
+            "candidateId": candidateId
         });
-        
+
         const requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          body: raw,
-          redirect: "follow"
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
         };
-        
+
         fetch(`${url}handleResendLink`, requestOptions)
-          .then((response) => response.json())
-          .then((result) => 
-            console.log(result)
-        )
-          .catch((error) => console.error(error));
+            .then((response) => response.json())
+            .then((result) =>
+                console.log(result)
+            )
+            .catch((error) => console.error(error));
     }
 
 
@@ -178,7 +178,7 @@ const InviteCandidate = (props) => {
         setSelectedSeries({ language: selectedSeries, id: selectedId });
     };
 
-    
+
 
 
     return (
@@ -191,15 +191,15 @@ const InviteCandidate = (props) => {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter heading">
-                        
+
                         Invite
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <div className='loader_outer_wrapper'>
+                    <div className='loader_outer_wrapper'>
 
-{showLoader && (<img src={loader} height={"50px"} width={"50px"}/> )}
-</div>
+                        {showLoader && (<img src={loader} height={"50px"} width={"50px"} />)}
+                    </div>
 
                     <input value={language} className="candidate-register-input  form-control mt-3" ></input>
                     <select className="candidate-register-input form-control mt-3" onChange={handleChange}>

@@ -23,9 +23,13 @@ const InterviewQuestions =  React.lazy(()=>import('./components/candidates/inter
 const CandidatesPerformance =  React.lazy(()=>import('./components/AssesmentPortal/candidatesPerformance'))
 const CandidateAnswerSheet =  React.lazy(()=>import('./components/AssesmentPortal/CandidateAnsSheet'))
 const CheckedSheet =  React.lazy(()=>import('./components/AssesmentPortal/CandidateCheckedSheet'))
-const Developers =  React.lazy(()=>import('./components/TeamHub/team'))
+const Team =  React.lazy(()=>import('./components/TeamHub/team'))
 const RegistrationModal = React.lazy(()=>import('./components/TeamHub/registrationModal'))
 const ChangePassword = React.lazy(()=>import('./components/header/changePassword'))
+const UpdateUser = React.lazy(()=>import('./components/TeamHub/updateModal'))
+const HrRound = React.lazy(()=>import('./components/hrScreening/HrRound'))
+const HrRoundSeries = React.lazy(()=>import('./components/hrScreening/addSeriesModal'))
+const UpdateHrRoundSeries = React.lazy(()=>import('./components/hrScreening/updateSeriesModal'))
 
 function App() {
 
@@ -50,9 +54,13 @@ function App() {
           <Route path='/candidates-performance' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CandidatesPerformance/></Suspense>}></Route>
           <Route path='/candidate-answers-sheet/:id' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CandidateAnswerSheet/></Suspense>}></Route>
           <Route path='/candidate-checked-sheet/:id' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CheckedSheet/></Suspense>}></Route>
-          <Route path='/developers' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><Developers/></Suspense>}></Route>
+          <Route path='/ultivic-team' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><Team/></Suspense>}></Route>
           <Route path='/registration' element={<Suspense fallback={<Loader/>}><RegistrationModal/></Suspense>}></Route>
           <Route path='/change-password' element={<Suspense fallback={<Loader/>}><ChangePassword/></Suspense>}></Route>
+          <Route path='/update-user' element={<Suspense fallback={<Loader/>}><UpdateUser/></Suspense>}></Route>
+          <Route path='/hr-screening' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><HrRound/></Suspense>}></Route>
+          <Route path='/hr-round-series' element={<Suspense fallback={<Loader/>}><HrRoundSeries/></Suspense>}></Route>
+          <Route path='/hr-round-update-series' element={<Suspense fallback={<Loader/>}><UpdateHrRoundSeries/></Suspense>}></Route>
         </Routes > 
       </BrowserRouter>
     </div>  

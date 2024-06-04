@@ -3,10 +3,13 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Table } from "react-bootstrap";
 import RegistrationModal from './registrationModal';
+import UpdateUser from './updateModal';
 import { MdEdit, MdDelete } from "react-icons/md";
 import Swal from 'sweetalert2';
+import { useAppContext } from "../../utils/useContext";
 
-const Developers = () => {
+
+const Team = () => {
   const token = localStorage.getItem("token");
   const url = 'http://localhost:8000/api/v1/';
   // const url = 'http://16.171.41.223:8000/api/v1/'
@@ -14,8 +17,13 @@ const Developers = () => {
   const [userDetails, setUserDetails] = useState([]);
   const [showRegistraionModel, setShowRegistrationModal] = useState(false)
   const [configureChange, setConfigureChange] = useState(0)
+  const [showUpdateModal,setShowUpdateModal]= useState(false)
+  const [userId,setUserId]=useState('')
+  const [user,setUser]=useState('')
+  const [userProfile,setUserProfile]=useState('')
+  const [userExperience,setUserExperience]=useState('')
 
-
+  const{show}=useAppContext()
 
   useEffect(() => {
     const myHeaders = new Headers();
@@ -33,6 +41,7 @@ const Developers = () => {
       .then(result => {
         // console.log(result);
         setUserDetails(result.details);
+        
       })
       .catch(error => console.error(error));
   }, [role, token, configureChange]);
@@ -79,6 +88,16 @@ const Developers = () => {
       .catch((error) => console.error(error));
   }
 
+
+  const handleEdit =(id,user,experience,profile)=>{
+    setShowUpdateModal(true)
+    setUserId(id)
+    setUser(user)
+    setUserExperience(experience)
+    setUserProfile(profile)
+  }
+
+
   const handleChange = (teamRole) => {
     // console.log("Changing role to:", teamRole);
     setRole(teamRole);
@@ -88,8 +107,9 @@ const Developers = () => {
     setShowRegistrationModal(true)
   }
 
+  
   return (
-    <div className="wrapper">
+    <div className={`wrapper ${show?"cmn_margin":""} `}>
       <div className="text-end mb-3 pe-3">
         <button className="register-btn" onClick={handleRegistration}>ADD {role.toUpperCase()}</button>
       </div>
@@ -122,7 +142,7 @@ const Developers = () => {
                     <td>{element.email}</td>
                     <td>{element.profile}</td>
                     <td>{element.experience}</td>
-                    <td><MdEdit /><MdDelete onClick={() => handleDelete(element._id,element.userName)} /> </td>
+                    <td><MdEdit onClick={()=>handleEdit(element._id,element.userName,element.experience,element.profile)}/><MdDelete onClick={() => handleDelete(element._id,element.userName)} /> </td>
                   </tr>
                 ))}
               </tbody>
@@ -148,7 +168,7 @@ const Developers = () => {
                     <td>{element.userName}</td>
                     <td>{element.email}</td>
                     <td>{element.experience}</td>
-                    <td><MdEdit /><MdDelete onClick={() => handleDelete(element._id,element.userName)} /> </td>
+                    <td><MdEdit onClick={()=>handleEdit(element._id,element.userName,element.experience)}/><MdDelete onClick={() => handleDelete(element._id,element.userName)} /> </td>
                   </tr>
                 ))}
               </tbody>
@@ -166,8 +186,22 @@ const Developers = () => {
           />
         )
       }
+      {
+        showUpdateModal && (
+          <UpdateUser
+          show={showUpdateModal}
+          onHide={()=>setShowUpdateModal(false)}
+          userId={userId}
+          configureChange={setConfigureChange}
+          user={user}
+          role={role}
+          userExperience={userExperience}
+          userProfile={userProfile}
+          />
+        )
+      }
     </div>
   );
 };
 
-export default Developers;
+export default Team;
