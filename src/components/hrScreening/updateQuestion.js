@@ -1,23 +1,25 @@
+import { updateData } from '@syncfusion/ej2-react-grids';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const UpdateHrRoundSeries =(props)=>{
-    let url = 'http://localhost:8000/api/v1/'
+const UpdateHrRoundQuestions = (props) => {
+    const url = 'http://localhost:8000/api/v1/';
     // const url = 'http://16.171.41.223:8000/api/v1/'
-    const token = localStorage.getItem('token')
-    const [seriesName, setSeriesName] = useState('')
-    
+    let token = localStorage.getItem('token')
+    const [updatedQuestion, setUpdatedQuestion] = useState('')
 
-    const handleSubmit =()=>{
+
+    const handleSubmit = () => {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer "+token);
         
         const raw = JSON.stringify({
-          "seriesId": props.seriesId,
-          "seriesName": seriesName?seriesName:props.series
+          "questionSeriesId": props.seriesId,
+          "question": updatedQuestion?updatedQuestion:props.question,
+          "questionId": props.questionId
         });
         
         const requestOptions = {
@@ -27,21 +29,25 @@ const UpdateHrRoundSeries =(props)=>{
           redirect: "follow"
         };
         
-        fetch(`${url}updateHrRoundSeries`, requestOptions)
+        fetch(`${url}updateQuesiton`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             // console.log(result)
             if(result.type==='success'){
                 props.handleChange(prev=>prev+1)
-                props.onHide(false)
+                props.onHide(false) 
             }
           })
-          .catch((error) => console.error(error)); 
+          .catch((error) => console.error(error));
     }
+
+
+
+
 
     return (
         <div>
-             <Modal
+            <Modal
                 {...props}
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter"
@@ -49,11 +55,11 @@ const UpdateHrRoundSeries =(props)=>{
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter " className="heading">
-                        Update Series
+                        Update Question
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter series" defaultValue={props.series} onChange={(e)=>setSeriesName(e.target.value)}></input>
+                    <input className="candidate-register-input form-control mt-2" placeholder="Enter series" defaultValue={props.question} onChange={(e) => setUpdatedQuestion(e.target.value)}></input>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={handleSubmit}>Submit</Button>
@@ -62,4 +68,5 @@ const UpdateHrRoundSeries =(props)=>{
         </div>
     )
 }
-export default UpdateHrRoundSeries
+
+export default UpdateHrRoundQuestions

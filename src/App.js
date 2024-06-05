@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Suspense } from 'react';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-
 import Loader from './utils/loader';
+
 
 const Login = React.lazy(() => import('./components/auth/login'));
 // const Register = React.lazy(() => import('./components/auth/register'));
@@ -30,9 +30,13 @@ const UpdateUser = React.lazy(()=>import('./components/TeamHub/updateModal'))
 const HrRound = React.lazy(()=>import('./components/hrScreening/HrRound'))
 const HrRoundSeries = React.lazy(()=>import('./components/hrScreening/addSeriesModal'))
 const UpdateHrRoundSeries = React.lazy(()=>import('./components/hrScreening/updateSeriesModal'))
+const HrRoundQuestions = React.lazy(()=>import('./components/hrScreening/HrRoundQuestions'))
+const AddHrRoundQuestion = React.lazy(()=>import('./components/hrScreening/addQuestionModal'))
+const UpdateHrRoundQuestions = React.lazy(()=>import('./components/hrScreening/updateQuestion'))
+const TestData = React.lazy(()=>import('./components/hrScreening/testData'))
+
 
 function App() {
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -61,7 +65,11 @@ function App() {
           <Route path='/hr-screening' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><HrRound/></Suspense>}></Route>
           <Route path='/hr-round-series' element={<Suspense fallback={<Loader/>}><HrRoundSeries/></Suspense>}></Route>
           <Route path='/hr-round-update-series' element={<Suspense fallback={<Loader/>}><UpdateHrRoundSeries/></Suspense>}></Route>
-        </Routes > 
+          <Route path='/hr-round-questions/:id' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><HrRoundQuestions/></Suspense>}></Route>
+          <Route path='/hr-round-add-question' element={<Suspense fallback={<Loader/>}><AddHrRoundQuestion/></Suspense>}></Route>
+          <Route path='/hr-round-update-question' element={<Suspense fallback={<Loader/>}><UpdateHrRoundQuestions/></Suspense>}></Route>
+          <Route path='/test-data' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/> <TestData/></Suspense>}></Route>
+        </Routes> 
       </BrowserRouter>
     </div>  
   );

@@ -6,12 +6,17 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import HrRoundSeries from "./addSeriesModal";
 import UpdateHrRoundSeries from "./updateSeriesModal";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const HrRound = () => {
   const token = localStorage.getItem('token')
   const { show } = useAppContext()
   const url = 'http://localhost:8000/api/v1/';
   // const url = 'http://16.171.41.223:8000/api/v1/'
+  const navigate = useNavigate()
   const [showHrRoundSeries, setShowHrRoundSeries] = useState(false)
   const [data, setData] = useState([])
   const [handleChange, setHandleChange] = useState(0)
@@ -22,6 +27,9 @@ const HrRound = () => {
   const addHrRoundSeries = () => {
     setShowHrRoundSeries(true)
   }
+
+  
+
 
   useEffect(() => {
     const myHeaders = new Headers();
@@ -87,17 +95,21 @@ const HrRound = () => {
         console.log(result)
         if (result.type === 'success') {
           setHandleChange(prev => prev + 1)
-        }})
+        }
+      })
       .catch((error) => console.error(error));
   }
 
 
-  const handleEditSeries = (id,seriesName) => {
+  const handleEditSeries = (id, seriesName) => {
     setSeriesId(id)
     setSeries(seriesName)
     setShowEditModal(true)
   }
 
+  const handleShowQuestions = (id) => {
+    navigate(`/hr-round-questions/${id}`)
+  }
 
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
@@ -118,7 +130,7 @@ const HrRound = () => {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{element.questionSeries}</td>
-                <td><button>Show </button> <MdEdit onClick={() => handleEditSeries(element._id,element.questionSeries)} /> <MdDelete onClick={() => handleSeriesDelete(element._id)} /></td>
+                <td><button onClick={() => handleShowQuestions(element._id)}>Show </button> <MdEdit onClick={() => handleEditSeries(element._id, element.questionSeries)} /> <MdDelete onClick={() => handleSeriesDelete(element._id)} /></td>
               </tr>
             ))}
           </tbody>

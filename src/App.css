@@ -1318,3 +1318,42 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
   font-weight: 700;
 }
 
+
+
+/* *********************** HR ROUND */
+.hrRound-seriesname{
+ /* background-color: #c8d9ec; */
+ text-align: left;
+ font-weight: 700;
+}
+
+
+.hr-question-outer{
+  /* background-color: #563f3f; */
+  text-align: left;
+}
+
+.hr-question-input{
+  padding: 10px;
+  margin-top: 20px;
+  width: 100%;
+  border-radius: 5px;
+}
+.hrQuestion-update-delete-btn{
+  text-align: right;
+  margin-top: 2px;
+}
+.hrQuestion-update-btn{
+  border-radius: 3px;
+  margin-right: 5px;
+  background-color:#3c873c;
+  color: white;
+  font-weight: 600;
+}
+.hrQuestion-delete-btn{
+  border-radius: 3px;
+  margin-right: 5px;
+  background-color: red;
+  color: white;
+  font-weight: 600;
+}

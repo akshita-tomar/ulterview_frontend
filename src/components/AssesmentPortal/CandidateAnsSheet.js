@@ -31,7 +31,6 @@ const CandidateAnswerSheet = () => {
     };
 
     const handleMarkDone = (id, type) => {
-
         setDoneQuestions((prev) => ({ ...prev, [id]: type }));
     };
 
@@ -61,7 +60,7 @@ const CandidateAnswerSheet = () => {
                     setCandidateResponse(result.quesAns.retrivedQuesAns)
                     setOriginalQuesLength(result.quesAns.providedQuesAns[0].logical.length + result.quesAns.providedQuesAns[0].objective.length + result.quesAns.providedQuesAns[0].subjective.length)
                     setCandidateQuesAnsLength(result.quesAns.retrivedQuesAns.logical.length + result.quesAns.retrivedQuesAns.objective.length + result.quesAns.retrivedQuesAns.subjective.length)
-                    
+
                 }
                 if (result.quesAns.retrivedQuesAns.logical.length < 1 &&
                     result.quesAns.retrivedQuesAns.objective.length < 1 &&
@@ -73,7 +72,7 @@ const CandidateAnswerSheet = () => {
             .catch((error) => console.error(error));
     }, [])
 
-    
+
     const handleSubmit = () => {
 
         const arrFromObj = Object.keys(doneQuestions);
@@ -102,19 +101,19 @@ const CandidateAnswerSheet = () => {
                 .then((response) => response.json())
                 .then((result) => {
                     console.log(result)
-                    if(result.type==='success'){
+                    if (result.type === 'success') {
                         navigate('/candidates-performance')
                     }
                 })
                 .catch((error) => console.error(error));
         }
     }
-    
 
-const{show}=useAppContext()
+
+    const { show } = useAppContext()
 
     return (
-        <div className={`wrapper ${show?"cmn_margin":""} `}>
+        <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
             <div className='check-result-header'>
                 {OriginalQuesLength}/{correctQuesLength}
             </div>
@@ -122,163 +121,151 @@ const{show}=useAppContext()
                 <Row>
                     <Col lg={6} md={12} sm={12}  >
                         <div className='original-ques-ans cmn_ques_outer'>
-                        <h3 className='heading'>Original Answers</h3>
-                        <hr></hr>
-                        <h3 className='heading-check-result'>Objective</h3>
-                        {originalQuesAns[0]?.objective?.map((questionAnswer, index) => (
-                            <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)} >
-                                <h3 className="question-text">{questionAnswer.question}</h3>
-                                <div className="options-wrapper">
-                                    {questionAnswer.options.map((option, index) => (
-                                        <label className="option-label" key={index}>
-                                            {option}
-                                        </label>
-                                    ))}
+                            <h3 className='heading'>Original Answers</h3>
+                            <hr></hr>
+                            <h3 className='heading-check-result'>Objective</h3>
+                            {originalQuesAns[0]?.objective?.map((questionAnswer, index) => (
+                                <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)} >
+                                    <h3 className="question-text">{questionAnswer.question}</h3>
+                                    <div className="options-wrapper">
+                                        {questionAnswer.options.map((option, index) => (
+                                            <label className="option-label" key={index}>
+                                                {option}
+                                            </label>
+                                        ))}
+                                    </div>
+                                    Correct Answer: {questionAnswer.correctAnswer}
                                 </div>
-                                Correct Answer: {questionAnswer.correctAnswer}
-                            </div>
-                        ))}
-                        <h3 className='heading-check-result'>Subjective</h3>
-                        {originalQuesAns[0]?.subjective?.map((questionAnswer, index) => (
-                            <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)}>
-                                <h3 className="question-text">{questionAnswer.question}</h3>
-                                <textarea
-                                    className="text-input"
-                                    placeholder="Your answer here"
-                                    value={questionAnswer.answer}
-                                />
-                            </div>
-                        ))}
-                        <h3 className='heading-check-result'>Logical</h3>
-                        {originalQuesAns[0]?.logical?.map((questionAnswer, index) => (
-                            <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)}>
-                                <h3 className="question-text">{questionAnswer.question}</h3>
-                                <textarea
-                                    className="text-input"
-                                    placeholder="Your answer here"
-                                    value={questionAnswer.answer}
-                                />
-                            </div>
-                        ))}
+                            ))}
+                            <h3 className='heading-check-result'>Subjective</h3>
+                            {originalQuesAns[0]?.subjective?.map((questionAnswer, index) => (
+                                <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)}>
+                                    <h3 className="question-text">{questionAnswer.question}</h3>
+                                    <textarea
+                                        className="text-input"
+                                        placeholder="Your answer here"
+                                        value={questionAnswer.answer}
+                                    />
+                                </div>
+                            ))}
+                            <h3 className='heading-check-result'>Logical</h3>
+                            {originalQuesAns[0]?.logical?.map((questionAnswer, index) => (
+                                <div className="question-wrapper-check-result" key={questionAnswer._id} ref={(el) => (divRefs.current[questionAnswer._id] = el)}>
+                                    <h3 className="question-text">{questionAnswer.question}</h3>
+                                    <textarea
+                                        className="text-input"
+                                        placeholder="Your answer here"
+                                        value={questionAnswer.answer}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </Col>
                     {/* candidate respone ------------------- */}
                     <Col lg={6} md={12} sm={12}>
-                        <div  className='candidate-ques-ans cmn_ques_outer' >
-                        <h3 className='heading'>Candidate Response</h3>
-                        <hr></hr>
-                        {
-                            candidateResponse?.objective?.length>0? <h3 className='heading-check-result'>Objective</h3>:null
-                        }
-                        
-                        {candidateResponse?.objective?.map((questionAnswer, index) => (
-                            <div className="question-wrapper-check-result" key={questionAnswer._id}>
-                              <div className='d-flex align-items-center'>
-                              <h3 className="question-text">{questionAnswer.question} </h3>
-                                {doneQuestions[questionAnswer._id] && (
-                                    <span className='done-text'>
-                                        {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
-                                    </span>
-                                )}
-
-                                
-
-                              </div>
-
-                                <div className="options-wrapper">
-                                    {questionAnswer.options.map((option, index) => (
-                                        <label className="option-label" key={index}>
-                                            {option}
-                                        </label>
-                                    ))}
-                                </div>
-                                Correct Answer: {questionAnswer.correctAnswer}
-                                <div className='check-btn-outer'> <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
-                                    Check</button>
-                                    
+                        <div className='candidate-ques-ans cmn_ques_outer' >
+                            <h3 className='heading'>Candidate Response</h3>
+                            <hr></hr>
+                            {
+                                candidateResponse?.objective?.length > 0 ? <h3 className='heading-check-result'>Objective</h3> : null
+                            }
+                            {candidateResponse?.objective?.map((questionAnswer, index) => (
+                                <div className="question-wrapper-check-result" key={questionAnswer._id}>
+                                    <div className='d-flex align-items-center'>
+                                        <h3 className="question-text">{questionAnswer.question} </h3>
+                                        {doneQuestions[questionAnswer._id] && (
+                                            <span className='done-text'>
+                                                {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="options-wrapper">
+                                        {questionAnswer.options.map((option, index) => (
+                                            <label className="option-label" key={index}>
+                                                {option}
+                                            </label>
+                                        ))}
+                                    </div>
+                                    Correct Answer: {questionAnswer.correctAnswer}
+                                    <div className='check-btn-outer'> <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>Check</button>
                                         <button className='correct-opt' onClick={() => handleMarkDone(questionAnswer._id, 'correct')}>Correct</button>
                                         <button className='incorrect-opt cmn_btn_color' onClick={() => handleMarkDone(questionAnswer._id, 'incorrect')}>Incorrect</button>
-
-                                    
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                         {
-                            candidateResponse?.subjective?.length>0? <h3 className='heading-check-result'>Subjective</h3>:null
-                        }
-                        
-                        {candidateResponse?.subjective?.map((questionAnswer, index) => (
-                            <div className="question-wrapper-check-result" key={questionAnswer._id}>
-                                <div className='d-flex align-items-center'>
-                                <h3 className="question-text">{questionAnswer.question}</h3>
-                                {doneQuestions[questionAnswer._id] && (
-                                    <span className='done-text'>
-                                        {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
-                                    </span>
-                                )}
-                               
+                            ))}
+                            {
+                                candidateResponse?.subjective?.length > 0 ? <h3 className='heading-check-result'>Subjective</h3> : null
+                            }
 
-                                </div>
-                                <textarea
-                                    className="text-input"
-                                    placeholder="Your answer here"
-                                    value={questionAnswer.answer}
-                                />
-                                <div className='check-btn-outer'> 
-                                <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
-                                    Check</button>
-                                   
+                            {candidateResponse?.subjective?.map((questionAnswer, index) => (
+                                <div className="question-wrapper-check-result" key={questionAnswer._id}>
+                                    <div className='d-flex align-items-center'>
+                                        <h3 className="question-text">{questionAnswer.question}</h3>
+                                        {doneQuestions[questionAnswer._id] && (
+                                            <span className='done-text'>
+                                                {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
+                                            </span>
+                                        )}
+
+
+                                    </div>
+                                    <textarea
+                                        className="text-input"
+                                        placeholder="Your answer here"
+                                        value={questionAnswer.answer}
+                                    />
+                                    <div className='check-btn-outer'>
+                                        <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
+                                            Check</button>
+
                                         <button className='correct-opt' onClick={() => handleMarkDone(questionAnswer._id, 'correct')}>Correct</button>
                                         <button className=' cmn_btn_color' onClick={() => handleMarkDone(questionAnswer._id, 'incorrect')}>Incorrect</button>
 
-                                   
-                                </div>
-                            </div>
 
-                        ))}
-                         {
-                            candidateResponse?.logical?.length>0? <h3 className='heading-check-result'>Logical</h3>:null
-                        }
-                        
-                        {candidateResponse?.logical?.map((questionAnswer) => (
-                            <div className="question-wrapper-check-result" key={questionAnswer._id}>
-                                <div className='d-flex align-items-center'>
-                                <h3 className="question-text">{questionAnswer.question}</h3>
-                                {doneQuestions[questionAnswer._id] && (
-                                    <span className='done-text'>
-                                        {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
-                                    </span>
-                                )}
-                              
+                                    </div>
                                 </div>
-                                <textarea
-                                    className="text-input"
-                                    placeholder="Your answer here"
-                                    value={questionAnswer.answer}
-                                />
-                                <div className='check-btn-outer'> <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>
-                                    Check</button>
-                                    
+
+                            ))}
+                            {
+                                candidateResponse?.logical?.length > 0 ? <h3 className='heading-check-result'>Logical</h3> : null
+                            }
+
+                            {candidateResponse?.logical?.map((questionAnswer) => (
+                                <div className="question-wrapper-check-result" key={questionAnswer._id}>
+                                    <div className='d-flex align-items-center'>
+                                        <h3 className="question-text">{questionAnswer.question}</h3>
+                                        {doneQuestions[questionAnswer._id] && (
+                                            <span className='done-text'>
+                                                {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
+                                            </span>
+                                        )}
+
+                                    </div>
+                                    <textarea
+                                        className="text-input"
+                                        placeholder="Your answer here"
+                                        value={questionAnswer.answer}
+                                    />
+                                    <div className='check-btn-outer'>
+                                        <button className='check-button cmn_gray_btn' key={questionAnswer._id} onClick={() => scrollToDiv(questionAnswer._id)}>Check</button>
                                         <button className='correct-opt' onClick={() => handleMarkDone(questionAnswer._id, 'correct')}>Correct</button>
                                         <button className='incorrect-opt cmn_btn_color' onClick={() => handleMarkDone(questionAnswer._id, 'incorrect')}>Incorrect</button>
+                                    </div>
+                                </div>
+                            ))}
+                            {
+                                candidateQuesAnsLength > 0 ? <button type="submit" className="submit-button" onClick={handleSubmit}>submit</button> : null
+                            }
 
-                                   
-                                </div>
-                            </div>
-                        ))}
-                        {
-                            candidateQuesAnsLength >0? <button type="submit" className="submit-button" onClick={handleSubmit}>submit</button> :null
-                        }
-                       
-                        {
-                            noResponse && (
-                                <div>
-                                    <img src={emptylogo} alt='loading...' height={'200px'} width={'200px'} />
-                                    <h5>This candidate not respond any question.</h5>
-                                </div>
-                            )
-                        }
-                      </div>
+                            {
+                                noResponse && (
+                                    <div>
+                                        <img src={emptylogo} alt='loading...' height={'200px'} width={'200px'} />
+                                        <h5>This candidate not respond any question.</h5>
+                                    </div>
+                                )
+                            }
+                        </div>
                     </Col>
                 </Row>
             </Container>
