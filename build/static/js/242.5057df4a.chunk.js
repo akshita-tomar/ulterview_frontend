@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkulterview_frontend=self.webpackChunkulterview_frontend||[]).push([[242],{242:(e,n,s)=>{s.r(n),s.d(n,{default:()=>a});s(43);var r=s(216),t=s(579);const a=()=>{const e=(0,r.Zp)();return(0,t.jsx)(t.Fragment,{children:(0,t.jsx)("div",{className:"sidebar",children:(0,t.jsx)("button",{className:"sidebar-button",onClick:()=>{e("/homepage")},children:" Questionnaire"})})})}}}]);
-//# sourceMappingURL=242.5057df4a.chunk.js.map

@@ -22,7 +22,7 @@ const TestData=()=>{
         fetch("https://api.traderphd.com:1000/app/v1/posts/phdagnews/list", requestOptions)
           .then((response) => response.json())
           .then((result) =>{
-            console.log('api response result ------',result)
+            // console.log('api response result ------',result)
             setData(result.edata)
           })
           .catch((error) => console.error(error));
