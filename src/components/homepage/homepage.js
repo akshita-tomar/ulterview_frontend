@@ -336,6 +336,8 @@ const HomePage = () => {
         if (result.type === 'success') {
           setConfigureSeriesChange(prev => prev + 1)
           setopenAddnewseriesModal(false)
+        }else{
+          toast.error(result.message)
         }
       })
       .catch((error) => console.error(error));
