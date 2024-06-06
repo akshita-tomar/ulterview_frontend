@@ -7,8 +7,8 @@ import { toast, Toaster } from "react-hot-toast";
 
 const InterviewQuestions = () => {
   const { id } = useParams();
-  let url = 'http://localhost:8000/api/v1/'
-  // const url = 'http://16.171.41.223:8000/api/v1/'
+  // let url = 'http://localhost:8000/api/v1/'
+  const url = 'http://16.171.41.223:8000/api/v1/'
   var candidateID
   const [decryptedCandidateId, setDecryptedCandidateId] = useState()
   const [questions, setQuestions] = useState([])

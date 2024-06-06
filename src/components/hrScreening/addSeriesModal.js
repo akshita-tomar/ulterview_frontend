@@ -5,8 +5,8 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 const HrRoundSeries = (props) => {
-    const url = 'http://localhost:8000/api/v1/';
-    // const url = 'http://16.171.41.223:8000/api/v1/'
+    // const url = 'http://localhost:8000/api/v1/';
+    const url = 'http://16.171.41.223:8000/api/v1/'
     let token = localStorage.getItem('token')
     const [series, setSeries] = useState('')
 

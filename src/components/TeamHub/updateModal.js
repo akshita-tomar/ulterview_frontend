@@ -6,8 +6,8 @@ import { useState } from 'react';
 
 const UpdateUser = (props) => {
     let token = localStorage.getItem('token')
-    const url = 'http://localhost:8000/api/v1/';
-    // const url = 'http://16.171.41.223:8000/api/v1/'
+    // const url = 'http://localhost:8000/api/v1/';
+    const url = 'http://16.171.41.223:8000/api/v1/'
     const [username,setUsername]=useState('')
     const [profile,setProfile]=useState('')
     const [experience,setExprience]=useState('')

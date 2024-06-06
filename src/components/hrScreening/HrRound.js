@@ -14,8 +14,8 @@ import { useNavigate } from "react-router-dom";
 const HrRound = () => {
   const token = localStorage.getItem('token')
   const { show } = useAppContext()
-  const url = 'http://localhost:8000/api/v1/';
-  // const url = 'http://16.171.41.223:8000/api/v1/'
+  // const url = 'http://localhost:8000/api/v1/';
+  const url = 'http://16.171.41.223:8000/api/v1/'
   const navigate = useNavigate()
   const [showHrRoundSeries, setShowHrRoundSeries] = useState(false)
   const [data, setData] = useState([])

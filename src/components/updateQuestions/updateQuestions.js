@@ -17,8 +17,8 @@ const UpdateQuestions = () => {
     const [showLogical, setShowLogical] = useState(false)
     let series = localStorage.getItem('seriesId')
     let token = localStorage.getItem('token')
-    const url = 'http://localhost:8000/api/v1/'
-    // const url = 'http://16.171.41.223:8000/api/v1/'
+    // const url = 'http://localhost:8000/api/v1/'
+    const url = 'http://16.171.41.223:8000/api/v1/'
 
 
     useEffect(() => {

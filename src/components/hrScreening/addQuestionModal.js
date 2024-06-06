@@ -4,8 +4,8 @@ import Modal from 'react-bootstrap/Modal';
 
 const AddHrRoundQuestion = (props) => {
     let token = localStorage.getItem('token')
-    const url = 'http://localhost:8000/api/v1/';
-    // const url = 'http://16.171.41.223:8000/api/v1/'
+    // const url = 'http://localhost:8000/api/v1/';
+    const url = 'http://16.171.41.223:8000/api/v1/'
     const [question, setQuestion] = useState('')
     const id = props.seriesId
 

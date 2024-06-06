@@ -9,8 +9,8 @@ const ChangePassword = (props) => {
     const [newPassword, setNewPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const token = localStorage.getItem('token')
-    const url = 'http://localhost:8000/api/v1/'
-    // const url = 'http://16.171.41.223:8000/api/v1/'
+    // const url = 'http://localhost:8000/api/v1/'
+    const url = 'http://16.171.41.223:8000/api/v1/'
 
     const handleChangePassword = () => {
         const myHeaders = new Headers();

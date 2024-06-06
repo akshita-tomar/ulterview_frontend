@@ -11,8 +11,8 @@ const InviteCandidate = (props) => {
 
     let token = localStorage.getItem('token')
     const navigate = useNavigate()
-    let url = 'http://localhost:8000/api/v1/'
-    // const url = 'http://16.171.41.223:8000/api/v1/'
+    // let url = 'http://localhost:8000/api/v1/'
+    const url = 'http://16.171.41.223:8000/api/v1/'
     const [series, setseries] = useState([])
     const [language, setLanguage] = useState('')
     const [selectedSeries, setSelectedSeries] = useState({ series: '', id: '' });

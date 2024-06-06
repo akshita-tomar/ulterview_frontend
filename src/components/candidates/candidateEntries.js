@@ -25,7 +25,8 @@ const CandidateEntries = () => {
   const [handleChange, setHandleChange] = useState(0)
   const url = 'http://localhost:8000/api/v1/'
   // const url = 'http://16.171.41.223:8000/api/v1/'
-  const socketurl = "http://localhost:8000"
+  // const socketurl = "http://localhost:8000"
+  const socketurl = 'http://16.171.41.223:8000'
   const socket = io(socketurl);
 
 
