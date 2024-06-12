@@ -11,7 +11,7 @@ const CandidatesPerformance = () => {
     let token = localStorage.getItem('token')
     let navigate = useNavigate()
     const [candidates, setCandidates] = useState([])
-    const socketurl = "http://localhost:8000"
+    const socketurl = process.env.REACT_APP_SOCKET_URL
     //  const socketurl = 'http://16.171.41.223:8000'
     const socket = io(socketurl);
 

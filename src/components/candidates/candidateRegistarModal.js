@@ -26,7 +26,7 @@ const CandidateRegisterModal = (props) => {
         fetch(`${url}getAllLanguages`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 if (result.type === 'success') {
                     setlanguages(result.data)
                 }
@@ -56,7 +56,7 @@ const CandidateRegisterModal = (props) => {
         fetch(`${url}registerCandidate`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log("result---", result)
+                // console.log("result---", result)
                 if (result.type === 'error') {
                     toast.error(result.message, {
                         duration: 1000
