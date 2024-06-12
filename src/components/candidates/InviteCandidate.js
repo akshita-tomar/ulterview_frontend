@@ -125,7 +125,7 @@ const InviteCandidate = (props) => {
                 if (result.type === 'success') {
                     const encryptedCandidateId = encryptId(candidateId);
                     console.log("invite candidate id ---", encryptedCandidateId)
-                    const testLink = `http://localhost:3000/interview-questions/:${encodeURIComponent(encryptedCandidateId)}`;
+                    const testLink = `http://16.171.41.223/interview-questions/:${encodeURIComponent(encryptedCandidateId)}`;
                     setShowLoader(true)
                     console.log('link----', testLink)
                     const myHeaders = new Headers();

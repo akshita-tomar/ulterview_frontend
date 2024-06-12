@@ -55,7 +55,7 @@ const HomePage = () => {
     fetch(`${url}/getAllSeries?languageId=${languageId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log("series---", result)
+        // console.log("series---", result)
         if (result.type === 'success') {
           setSeriesOptions(result.allSeries)
         }
@@ -114,7 +114,7 @@ const HomePage = () => {
     fetch(`${url}addLanguage`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.type === 'error') {
           toast.error(result.message, {
             duration: 1000
@@ -205,7 +205,7 @@ const HomePage = () => {
     fetch(`${url}deleteLanguage?languageId=${id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.type === 'error') {
           toast.error(result.message)
         } else {
@@ -239,7 +239,7 @@ const HomePage = () => {
     fetch(`${url}updateLanguage?languageId=${languageId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.type === 'error') {
           toast.error(result.message)
         } else {
@@ -284,7 +284,7 @@ const HomePage = () => {
     fetch(`${url}getSeries?seriesId=${seriesId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.type === 'success') {
           localStorage.setItem('series', result.series.seriesName)
           localStorage.setItem('seriesId', result.series._id)
@@ -331,7 +331,7 @@ const HomePage = () => {
     fetch(`${url}createSeries?languageId=${languageId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.type === 'success') {
           setConfigureSeriesChange(prev => prev + 1)
           setopenAddnewseriesModal(false)
@@ -374,7 +374,7 @@ const HomePage = () => {
     fetch(`${url}deleteSeries?seriesId=${id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         setConfigureSeriesChange(prev => prev + 1)
         // swal(seriesName + " deleted successfully!", "", "success");
       })
@@ -404,9 +404,8 @@ const HomePage = () => {
     fetch(`${url}updateSeries?updateSeriesId=${seriesId}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.type === 'success') {
-          console.log('here--', result)
           setConfigureSeriesChange(prev => prev + 1)
           setOpenEditseriesModal(false)
         }

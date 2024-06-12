@@ -35,7 +35,8 @@ const InviteHrRound = (props) => {
 
     const handleSendLink = () => {
         const encryptedCandidateId = encryptId(props.candidateID);
-        const testLink = `http://localhost:3000/hr-round/:${encodeURIComponent(encryptedCandidateId)}`;
+        // const testLink = `http://localhost:3000/hr-round/:${encodeURIComponent(encryptedCandidateId)}`;
+        const testLink = `http://16.171.41.223/hr-round/:${encodeURIComponent(encryptedCandidateId)}`;
         console.log('test link ---', testLink)
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
