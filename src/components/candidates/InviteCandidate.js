@@ -11,8 +11,7 @@ const InviteCandidate = (props) => {
 
     let token = localStorage.getItem('token')
     const navigate = useNavigate()
-    // let url = 'http://localhost:8000/api/v1/'
-    const url = 'http://16.171.41.223:8000/api/v1/'
+    let url = process.env.REACT_APP_BACKEND_URL
     const [series, setseries] = useState([])
     const [language, setLanguage] = useState('')
     const [selectedSeries, setSelectedSeries] = useState({ series: '', id: '' });
@@ -91,7 +90,7 @@ const InviteCandidate = (props) => {
         fetch(`${url}getAllSeries?languageId=${languageid}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 if (result.type === 'success') {
                     if (result.allSeries.length < 1) {
                         toast.error('No series is created for this language.', {
@@ -103,15 +102,13 @@ const InviteCandidate = (props) => {
                 } else {
                     toast.error(result.message)
                 }
-
-
             })
             .catch((error) => console.error(error));
     }, [])
 
 
     const handleSendLink = () => {
-        // console.log("herer-----")
+
         const myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);
 
@@ -127,6 +124,7 @@ const InviteCandidate = (props) => {
                 console.log(result)
                 if (result.type === 'success') {
                     const encryptedCandidateId = encryptId(candidateId);
+                    console.log("invite candidate id ---", encryptedCandidateId)
                     const testLink = `http://localhost:3000/interview-questions/:${encodeURIComponent(encryptedCandidateId)}`;
                     setShowLoader(true)
                     console.log('link----', testLink)

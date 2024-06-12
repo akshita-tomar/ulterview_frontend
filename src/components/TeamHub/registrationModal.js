@@ -8,8 +8,7 @@ import loader from '../../assets/loading.gif'
 
 
 const RegistrationModal = (props) => {
-    // const url = 'http://localhost:8000/api/v1/';
-    const url = 'http://16.171.41.223:8000/api/v1/'
+    const url = process.env.REACT_APP_BACKEND_URL
     let token = localStorage.getItem('token')
     const [username, setUserName] = useState('')
     const [email, setEmail] = useState('')
@@ -45,7 +44,7 @@ const RegistrationModal = (props) => {
         fetch(`${url}signUp`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 if (result.type === 'error') {
                     setShowLoader(false)
                     toast.error(result.message)

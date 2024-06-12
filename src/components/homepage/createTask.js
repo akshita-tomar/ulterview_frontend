@@ -18,8 +18,7 @@ const CreateTask = () => {
   let series = localStorage.getItem('series')
 
 
-  // const url = 'http://localhost:8000/api/v1/'
-  const url = 'http://16.171.41.223:8000/api/v1/'
+  const url = process.env.REACT_APP_BACKEND_URL
 
 
 
@@ -39,7 +38,7 @@ const CreateTask = () => {
 
   const handleAddQuestion = (e) => {
     e.preventDefault()
-    console.log("correct answer--", correctAnswer)
+    // console.log("correct answer--", correctAnswer)
     if (question === '') {
       toast.error("Please enter question.", {
         duration: 1300
@@ -85,7 +84,7 @@ const CreateTask = () => {
         fetch(`${url}addObjective?seriesId=${seriesId}`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
-            console.log(result)
+            // console.log(result)
             if (result.type === 'success') {
               setQuestion('')
               setOptions(["", "", "", ""]);
@@ -105,7 +104,7 @@ const CreateTask = () => {
         fetch(`${url}addSubjective?seriesId=${seriesId}`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
-            console.log(result)
+            // console.log(result)
             if (result.type === 'success') {
               setQuestion('')
               setAnswer('')
@@ -123,7 +122,7 @@ const CreateTask = () => {
         fetch(`${url}addLogical?seriesId=${seriesId}`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
-            console.log(result)
+            // console.log(result)
             if (result.type === 'success') {
               setQuestion('')
               setAnswer('')
@@ -163,7 +162,7 @@ const CreateTask = () => {
     fetch(`${url}getQuestionsSeriesWise?seriesId=${series}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.type === 'error') {
           // toast.error(result.message)
         }

@@ -9,24 +9,25 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import toast, { Toaster } from 'react-hot-toast';
 import { io } from 'socket.io-client';
 import { useAppContext } from "../../utils/useContext";
+import InviteHrRound from "./hrRoundInvite";
 
 
 
 const CandidateEntries = () => {
-
+  // console.log('env credetials -------',process.env.REACT_APP_BACKEND_URL)
   const token = localStorage.getItem('token')
   const navigate = useNavigate()
   const [candidates, setCandidates] = useState([])
   const [modalShow, setModalShow] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false)
-  const [showInviteModal,setShowInviteModal]=useState(false)
+  const [showInviteModal, setShowInviteModal] = useState(false)
   const [candidateID, setCandidateID] = useState('')
-  const [LanguageId,setLanguageId] = useState('')
+  const [LanguageId, setLanguageId] = useState('')
   const [handleChange, setHandleChange] = useState(0)
-  const url = 'http://localhost:8000/api/v1/'
-  // const url = 'http://16.171.41.223:8000/api/v1/'
-  // const socketurl = "http://localhost:8000"
-  const socketurl = 'http://16.171.41.223:8000'
+  const [showHrRoundSentLink, setShowHrRoundSentLink] = useState(false)
+  const url = process.env.REACT_APP_BACKEND_URL
+  const socketurl = "http://localhost:8000"
+  // const socketurl = 'http://16.171.41.223:8000'
   const socket = io(socketurl);
 
 
@@ -36,7 +37,7 @@ const CandidateEntries = () => {
 
 
 
- useEffect(() => {
+  useEffect(() => {
     const fetchCandidates = () => {
       const myHeaders = new Headers();
       myHeaders.append("Authorization", "Bearer " + token);
@@ -54,18 +55,18 @@ const CandidateEntries = () => {
         .catch((error) => console.error(error));
     };
 
-    fetchCandidates(); 
+    fetchCandidates();
 
 
     socket.on('Interview_submitted', () => {
       console.log("here in the socket-----")
-      fetchCandidates(); 
+      fetchCandidates();
     });
 
     return () => {
-      socket.disconnect(); 
+      socket.disconnect();
     };
-  }, [token, url,handleChange]);
+  }, [token, url, handleChange]);
 
 
 
@@ -113,15 +114,20 @@ const CandidateEntries = () => {
     setShowUpdateModal(true)
   }
 
-  const handleInvite = (id,languageId)=>{
+  const handleInvite = (id, languageId) => {
     setCandidateID(id)
     setLanguageId(languageId)
     setShowInviteModal(true)
   }
-const{show}=useAppContext()
+
+  const handleHrRoundInvite = (candidateid) => {
+    setCandidateID(candidateid)
+    setShowHrRoundSentLink(true)
+  }
+  const { show } = useAppContext()
 
   return (
-    <div className={`wrapper ${show?"cmn_margin":""} `}>
+    <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
       <div className="text-end mb-3 pe-3">
         <button className="register-btn" onClick={() => setModalShow(true)}>Register</button>
       </div>
@@ -135,9 +141,12 @@ const{show}=useAppContext()
               <th>Email</th>
               <th>Profile</th>
               <th>Experience</th>
-              <th>Test status</th>
+              <th>HR round</th>
+              <th>Invite(HR round)</th>
+              <th>Technical round</th>
+              <th>Invite(Tech round)</th>
               <th>Result Status</th>
-              <th>Invite</th>
+
             </tr>
           </thead>
           <tbody>
@@ -148,20 +157,28 @@ const{show}=useAppContext()
                 <td>{element.email}</td>
                 <td>{element.profile}</td>
                 <td>{element.experience}</td>
-                <td>{element.testStatus}</td>
-                <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus}</td>
-                <td> 
+                <td>{element.hrRoundStatus}</td>
+                <td>
                   {
-                    element.testStatus==='completed' ||element.testStatus==='invite_sent' || element.testStatus==='invite_accepted'?
-                    <button className="invite_btn"   onClick={()=>handleInvite(element._id,element.languageId)} >Resend</button> :
-                    <button  className="invite_btn" onClick={()=>handleInvite(element._id,element.languageId)}>Invite</button> 
+                    element.hrRoundStatus === 'invite_sent' || element.hrRoundStatus === 'invite_accepted' || element.hrRoundStatus === 'completed' || element.hrRoundStatus === 'selected' || element.hrRoundStatus === 'rejected' ?
+                      <button className="invite_btn" onClick={() => handleHrRoundInvite(element._id)} >Resend</button> :
+                      <button className="invite_btn" onClick={() => handleHrRoundInvite(element._id)}>Invite</button>
                   }
+                </td>
+                <td>{element.testStatus}</td>
+                <td>
+                  {
+                    element.testStatus === 'completed' || element.testStatus === 'invite_sent' || element.testStatus === 'invite_accepted' ?
+                      <button className="invite_btn" onClick={() => handleInvite(element._id, element.languageId)} >Resend</button> :
+                      <button className="invite_btn" onClick={() => handleInvite(element._id, element.languageId)}>Invite</button>
+                  }
+                </td>
+                <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus}
                   <div>
-                   <MdEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} /> 
-                   <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
-                    
+                    <MdEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} />
+                    <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
                   </div>
-                   </td>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -170,10 +187,10 @@ const{show}=useAppContext()
       {
         modalShow && (
           <CandidateRegisterModal
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-          handleChange={setHandleChange}
-        />
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+            handleChange={setHandleChange}
+          />
         )}
       {showUpdateModal && (
         <UpdateCandidate
@@ -183,38 +200,28 @@ const{show}=useAppContext()
           handleChange={setHandleChange}
         />
       )}
-      { 
+      {
         showInviteModal && (
           <InviteCandidate
-          show={showInviteModal}
-          onHide={()=>setShowInviteModal(false)}
-          candidateID={candidateID}
-          languageId={LanguageId}
-          handleChange={setHandleChange}
+            show={showInviteModal}
+            onHide={() => setShowInviteModal(false)}
+            candidateID={candidateID}
+            languageId={LanguageId}
+            handleChange={setHandleChange}
           />
         )
       }
-      {/* <Row className="m-0">
       {
-            candidates.map((Element,index)=>(
-                <Col lg={3}>
-                <div className="user-profile-container">
-                <div className="user-details-card">
-                  <div className="user-icon">
-                    <FaUser size={50} />
-                  </div>
-                  <div className="cards-container">
-                    <h2>{Element.username}</h2>
-                    <p>{Element.email}</p>
-                    <p>{Element.profile}</p>
-                    <p>{Element.experience  }</p>
-                  </div>
-                </div>
-              </div>
-              </Col>
-            ))
-        }
-      </Row> */}
+        showHrRoundSentLink && (
+          <InviteHrRound
+            show={showHrRoundSentLink}
+            onHide={() => setShowHrRoundSentLink(false)}
+            candidateID = {candidateID}
+            handleChange={setHandleChange}
+          />
+        )
+      }
+     
       <Toaster />
     </div>
 

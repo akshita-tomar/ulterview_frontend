@@ -12,8 +12,7 @@ import { useAppContext } from '../../utils/useContext';
 
 const CandidateAnswerSheet = () => {
     let token = localStorage.getItem('token')
-    // let url = 'http://localhost:8000/api/v1/'
-    const url = 'http://16.171.41.223:8000/api/v1/'
+    let url = process.env.REACT_APP_BACKEND_URL
     let { id } = useParams()
     const [originalQuesAns, setOriginalQuesAns] = useState([])
     const [candidateResponse, setCandidateResponse] = useState([])
@@ -100,7 +99,7 @@ const CandidateAnswerSheet = () => {
             fetch(`${url}addCheckedSheet`, requestOptions)
                 .then((response) => response.json())
                 .then((result) => {
-                    console.log(result)
+                    // console.log(result)
                     if (result.type === 'success') {
                         navigate('/candidates-performance')
                     }

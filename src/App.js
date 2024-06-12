@@ -15,7 +15,6 @@ const CreateTask = React.lazy(() => import('./components/homepage/createTask'));
 const Sidebar = React.lazy(() => import('./components/sidebar/sidebar'));
 const UpdateQuestions = React.lazy(()=>import('./components/updateQuestions/updateQuestions'));
 const CandidateEntries = React.lazy(()=>import('./components/candidates/candidateEntries'))
-const ModalView = React.lazy(()=>import('./components/homepage/modal'))
 const RegisterCandidateModal = React.lazy(()=>import('./components/candidates/candidateRegistarModal'))
 const UpdateCandidate = React.lazy(()=>import('./components/candidates/updateCandidate'))
 const InviteCandidate = React.lazy(()=>import('./components/candidates/InviteCandidate'))
@@ -33,7 +32,11 @@ const UpdateHrRoundSeries = React.lazy(()=>import('./components/hrScreening/upda
 const HrRoundQuestions = React.lazy(()=>import('./components/hrScreening/HrRoundQuestions'))
 const AddHrRoundQuestion = React.lazy(()=>import('./components/hrScreening/addQuestionModal'))
 const UpdateHrRoundQuestions = React.lazy(()=>import('./components/hrScreening/updateQuestion'))
-const TestData = React.lazy(()=>import('./components/hrScreening/testData'))
+const HrRoundTest = React.lazy(()=>import('./components/hrScreening/hrRoundTest'))
+const InviteHrRound = React.lazy(()=>import('./components/candidates/hrRoundInvite'))
+const HrRoundResponse = React.lazy(()=>import('./components/HrRoundResponse/HrRoundResponse'))
+const CheckHrRoundAnswers = React.lazy(()=>import('./components/HrRoundResponse/chekAnswers'))
+
 
 
 function App() {
@@ -50,7 +53,6 @@ function App() {
           <Route path='/sidebar' element={<Suspense fallback={<Loader/>}><Sidebar /></Suspense>}></Route>
           <Route path='/updateQuestions' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><UpdateQuestions/></Suspense>}></Route>
           <Route path='/candidates' element={<Suspense fallback={<Loader/>}> <Header/><Sidebar/><CandidateEntries/></Suspense>}></Route>
-          <Route path='/modalview' element={<Suspense fallback={<Loader/>}> <ModalView/></Suspense>}></Route>
           <Route path='/register-candidate-modal' element={<Suspense fallback={<Loader/>}> <RegisterCandidateModal/></Suspense>}></Route>
           <Route path='/update-candidate' element={<Suspense fallback={<Loader/>}> <UpdateCandidate/></Suspense>}></Route>
           <Route path='/invite-candidate' element={<Suspense fallback={<Loader/>}> <InviteCandidate/></Suspense>}></Route>
@@ -68,7 +70,10 @@ function App() {
           <Route path='/hr-round-questions/:id' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><HrRoundQuestions/></Suspense>}></Route>
           <Route path='/hr-round-add-question' element={<Suspense fallback={<Loader/>}><AddHrRoundQuestion/></Suspense>}></Route>
           <Route path='/hr-round-update-question' element={<Suspense fallback={<Loader/>}><UpdateHrRoundQuestions/></Suspense>}></Route>
-          <Route path='/test-data' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/> <TestData/></Suspense>}></Route>
+          <Route path='/hr-round/:id' element={<Suspense fallback={<Loader/>}><HrRoundTest/></Suspense>}></Route>
+          <Route path='/hr-round-invite' element={<Suspense fallback={<Loader/>}><InviteHrRound/></Suspense>}></Route>
+          <Route path='/hr-round-response' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><HrRoundResponse/></Suspense>}></Route>
+          <Route path='/hr-answers-check/:id' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><CheckHrRoundAnswers/></Suspense>}></Route>
         </Routes> 
       </BrowserRouter>
     </div>  

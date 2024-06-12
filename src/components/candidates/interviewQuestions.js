@@ -5,10 +5,9 @@ import logo from "../header/ultivic-logo.png"
 import { toast, Toaster } from "react-hot-toast";
 
 
-const InterviewQuestions = () => {
+const InterviewQuestions = () => {  
   const { id } = useParams();
-  // let url = 'http://localhost:8000/api/v1/'
-  const url = 'http://16.171.41.223:8000/api/v1/'
+  let url = process.env.REACT_APP_BACKEND_URL
   var candidateID
   const [decryptedCandidateId, setDecryptedCandidateId] = useState()
   const [questions, setQuestions] = useState([])
@@ -52,6 +51,7 @@ const InterviewQuestions = () => {
   useEffect(() => {
     const cleanedEncryptedId = id.startsWith(':') ? id.slice(1) : id;
     const decryptedId = decryptId(decodeURIComponent(cleanedEncryptedId));
+    console.log('decrypted id --------',decryptedId)
     candidateID = decryptedId
     // setDecryptedCandidateId(decryptedId);
   }, [id]);
@@ -167,7 +167,6 @@ const InterviewQuestions = () => {
     // };
 
     const handleKeyDown = (e) => {
-      console.log("inside the handle key down")
       if (e.key === 'F5' || (e.ctrlKey && e.key === 'r' ||e.key === 'C' )) {
         e.preventDefault();
       }};
@@ -196,12 +195,12 @@ const InterviewQuestions = () => {
   };
 
   const handleCopy = (e) => {
-    console.log("here in the handlecopy ---------")
+   
     e.preventDefault();
   };
 
   const handlePaste =(e)=>{
-    console.log(' in the handle paste')
+   
     e.preventDefault()
   }
 
@@ -294,7 +293,6 @@ const InterviewQuestions = () => {
                   </div>
                   <div className="text-center mb-4">
                   <button onClick={handleLogoClick} className='timer-start'>Start</button>
-
                   </div>
                 </>
             }

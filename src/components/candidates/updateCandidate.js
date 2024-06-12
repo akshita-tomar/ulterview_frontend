@@ -13,8 +13,7 @@ const UpdateCandidate = (props) => {
     const token = localStorage.getItem('token')
     let candidateId = props.candidateId
 
-    // let url = 'http://localhost:8000/api/v1/'
-    const url = 'http://16.171.41.223:8000/api/v1/'
+    let url = process.env.REACT_APP_BACKEND_URL
 
     useEffect(() => {
         const myHeaders = new Headers();
@@ -29,7 +28,7 @@ const UpdateCandidate = (props) => {
         fetch(`${url}getAllLanguages`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 if (result.type === 'success') {
                     setlanguages(result.data)
                 }
@@ -51,7 +50,7 @@ const UpdateCandidate = (props) => {
         fetch(`${url}getSingleCandidate?candidateId=${candidateId}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 if (result.type === 'success') {
                     setData(result.isCandidateExist)
                 }
@@ -89,7 +88,7 @@ const UpdateCandidate = (props) => {
         fetch(`${url}updateCandidate?candidateId=${id}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 if (result.type === 'success') {
                     toast.success(result.message, {
                         duration: 700

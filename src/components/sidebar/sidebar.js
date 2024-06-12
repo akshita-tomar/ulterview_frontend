@@ -32,6 +32,10 @@ const Sidebar = () => {
     navigate('/hr-screening')
   }
 
+  const handleHrRound = () => {
+    navigate('/hr-round-response')
+  }
+
   const path = useLocation()
 
   const { show, setShow } = useAppContext();
@@ -58,6 +62,11 @@ const Sidebar = () => {
               <div className={`sidebar-button mt-4 ${path.pathname === "/hr-screening" ? "active-pathname" : ""}`} onClick={handleHrScreening} >
                 <div className="sidebar_content"><FaUserGroup />
                   <h4 className={show ? "d-none" : "sidebar_content"} >HR Screening</h4>
+                </div>
+              </div>
+              <div className={`sidebar-button mt-4 ${path.pathname === "/hr-round-response" ? "active-pathname" : ""}`} onClick={handleHrRound} >
+                <div className="sidebar_content"><FaUserGroup />
+                  <h4 className={show ? "d-none" : "sidebar_content"} >HR Round</h4>
                 </div>
               </div>
             </>

@@ -7,13 +7,12 @@ import { useAppContext } from "../../utils/useContext";
 
 
 const CandidatesPerformance = () => {
-    // let url = 'http://localhost:8000/api/v1/'
-    const url = 'http://16.171.41.223:8000/api/v1/'
+    let url = process.env.REACT_APP_BACKEND_URL
     let token = localStorage.getItem('token')
     let navigate = useNavigate()
     const [candidates, setCandidates] = useState([])
-    // const socketurl = "http://localhost:8000"
-     const socketurl = 'http://16.171.41.223:8000'
+    const socketurl = "http://localhost:8000"
+    //  const socketurl = 'http://16.171.41.223:8000'
     const socket = io(socketurl);
 
     useEffect(() => {

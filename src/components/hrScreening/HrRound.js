@@ -14,8 +14,7 @@ import { useNavigate } from "react-router-dom";
 const HrRound = () => {
   const token = localStorage.getItem('token')
   const { show } = useAppContext()
-  // const url = 'http://localhost:8000/api/v1/';
-  const url = 'http://16.171.41.223:8000/api/v1/'
+  const url =process.env.REACT_APP_BACKEND_URL
   const navigate = useNavigate()
   const [showHrRoundSeries, setShowHrRoundSeries] = useState(false)
   const [data, setData] = useState([])
@@ -92,7 +91,7 @@ const HrRound = () => {
     fetch(`${url}deleteHrRoundSeries`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.type === 'success') {
           setHandleChange(prev => prev + 1)
         }
