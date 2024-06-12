@@ -27,6 +27,8 @@ const CandidateEntries = () => {
   const [showHrRoundSentLink, setShowHrRoundSentLink] = useState(false)
   const url = process.env.REACT_APP_BACKEND_URL
   const socketurl = process.env.REACT_APP_SOCKET_URL
+  
+  console.log("url -----------",process.env.REACT_APP_SOCKET_URL)
   // const socketurl = 'http://16.171.41.223:8000'
   const socket = io(socketurl);
 
