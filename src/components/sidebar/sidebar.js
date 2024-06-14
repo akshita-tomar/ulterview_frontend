@@ -66,7 +66,7 @@ const Sidebar = () => {
               </div>
               <div className={`sidebar-button mt-4 ${path.pathname === "/hr-round-response" ? "active-pathname" : ""}`} onClick={handleHrRound} >
                 <div className="sidebar_content"><FaUserGroup />
-                  <h4 className={show ? "d-none" : "sidebar_content"} >HR Round</h4>
+                  <h4 className={show ? "d-none" : "sidebar_content"} >HR round response </h4>
                 </div>
               </div>
             </>

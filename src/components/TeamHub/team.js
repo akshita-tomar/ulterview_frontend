@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { Table } from "react-bootstrap";
@@ -8,23 +8,24 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import Swal from 'sweetalert2';
 import { useAppContext } from "../../utils/useContext";
 
-
 const Team = () => {
   const token = localStorage.getItem("token");
-  const url = process.env.REACT_APP_BACKEND_URL
+  const url = process.env.REACT_APP_BACKEND_URL;
   const [role, setRole] = useState('developer'); // Default role set to 'developer'
   const [userDetails, setUserDetails] = useState([]);
-  const [showRegistraionModel, setShowRegistrationModal] = useState(false)
-  const [configureChange, setConfigureChange] = useState(0)
-  const [showUpdateModal,setShowUpdateModal]= useState(false)
-  const [userId,setUserId]=useState('')
-  const [user,setUser]=useState('')
-  const [userProfile,setUserProfile]=useState('')
-  const [userExperience,setUserExperience]=useState('')
+  const [showRegistraionModel, setShowRegistrationModal] = useState(false);
+  const [configureChange, setConfigureChange] = useState(0);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [user, setUser] = useState('');
+  const [userProfile, setUserProfile] = useState('');
+  const [userExperience, setUserExperience] = useState('');
+  const [page, setPage] = useState(1); // Pagination state
+  const [totalPages, setTotalPages] = useState(1); // Total pages state
 
-  const{show}=useAppContext()
+  const { show } = useAppContext();
 
-  useEffect(() => {
+  const fetchUserDetails = () => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Authorization", "Bearer " + token);
@@ -35,20 +36,22 @@ const Team = () => {
       redirect: "follow"
     };
 
-    fetch(`${url}get-HR-or-Developer-Details?role=${role}`, requestOptions)
+    fetch(`${url}get-HR-or-Developer-Details?role=${role}&page=${page}&limit=10`, requestOptions)
       .then(response => response.json())
       .then(result => {
-        // console.log(result);
         setUserDetails(result.details);
-        
+        setTotalPages(result.totalPages); // Set total pages
       })
       .catch(error => console.error(error));
-  }, [role, token, configureChange]);
+  };
 
+  useEffect(() => {
+    fetchUserDetails();
+  }, [role, token, configureChange, page]); // Add page to dependency array
 
-  const handleDelete = (id,name) => {
+  const handleDelete = (id, name) => {
     Swal.fire({
-      title: "Are you sure to delete " +name +"?",
+      title: "Are you sure to delete " + name + "?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
@@ -57,10 +60,10 @@ const Team = () => {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        handleDeleteConfirm(id)
+        handleDeleteConfirm(id);
       }
     })
-  }
+  };
 
   const handleDeleteConfirm = (id) => {
     const myHeaders = new Headers();
@@ -81,34 +84,36 @@ const Team = () => {
     fetch(`${url}deleteUser`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result)
-        setConfigureChange(prev=>prev+1)
+        setConfigureChange(prev => prev + 1);
       })
       .catch((error) => console.error(error));
-  }
+  };
 
-
-  const handleEdit =(id,user,experience,profile)=>{
-    setShowUpdateModal(true)
-    setUserId(id)
-    setUser(user)
-    setUserExperience(experience)
-    setUserProfile(profile)
-  }
-
+  const handleEdit = (id, user, experience, profile) => {
+    setShowUpdateModal(true);
+    setUserId(id);
+    setUser(user);
+    setUserExperience(experience);
+    setUserProfile(profile);
+  };
 
   const handleChange = (teamRole) => {
-    // console.log("Changing role to:", teamRole);
     setRole(teamRole);
+    setPage(1); // Reset to first page when role changes
   };
 
   const handleRegistration = () => {
-    setShowRegistrationModal(true)
-  }
+    setShowRegistrationModal(true);
+  };
 
-  
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
+
   return (
-    <div className={`wrapper ${show?"cmn_margin":""} `}>
+    <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
       <div className="text-end mb-3 pe-3">
         <button className="register-btn" onClick={handleRegistration}>ADD {role.toUpperCase()}</button>
       </div>
@@ -130,18 +135,20 @@ const Team = () => {
                   <th>Profile</th>
                   <th>Experience</th>
                   <th>Actions</th>
-
                 </tr>
               </thead>
               <tbody>
                 {userDetails.map((element, index) => (
                   <tr key={index}>
-                    <td>{index + 1}</td>
+                    <td>{(page - 1) * 10 + index + 1}</td> {/* Adjust index for pagination */}
                     <td>{element.userName}</td>
                     <td>{element.email}</td>
                     <td>{element.profile}</td>
                     <td>{element.experience}</td>
-                    <td><MdEdit onClick={()=>handleEdit(element._id,element.userName,element.experience,element.profile)}/><MdDelete onClick={() => handleDelete(element._id,element.userName)} /> </td>
+                    <td>
+                      <MdEdit onClick={() => handleEdit(element._id, element.userName, element.experience, element.profile)} />
+                      <MdDelete onClick={() => handleDelete(element._id, element.userName)} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -163,11 +170,14 @@ const Team = () => {
               <tbody>
                 {userDetails.map((element, index) => (
                   <tr key={index}>
-                    <td>{index + 1}</td>
+                    <td>{(page - 1) * 10 + index + 1}</td> {/* Adjust index for pagination */}
                     <td>{element.userName}</td>
                     <td>{element.email}</td>
                     <td>{element.experience}</td>
-                    <td><MdEdit onClick={()=>handleEdit(element._id,element.userName,element.experience)}/><MdDelete onClick={() => handleDelete(element._id,element.userName)} /> </td>
+                    <td>
+                      <MdEdit onClick={() => handleEdit(element._id, element.userName, element.experience)} />
+                      <MdDelete onClick={() => handleDelete(element._id, element.userName)} />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -175,6 +185,11 @@ const Team = () => {
           </div>
         </Tab>
       </Tabs>
+      <div className="pagination">
+        <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
+        <span>Page {page} of {totalPages}</span>
+        <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages}>Next</button>
+      </div>
       {
         showRegistraionModel && (
           <RegistrationModal
@@ -188,14 +203,14 @@ const Team = () => {
       {
         showUpdateModal && (
           <UpdateUser
-          show={showUpdateModal}
-          onHide={()=>setShowUpdateModal(false)}
-          userId={userId}
-          configureChange={setConfigureChange}
-          user={user}
-          role={role}
-          userExperience={userExperience}
-          userProfile={userProfile}
+            show={showUpdateModal}
+            onHide={() => setShowUpdateModal(false)}
+            userId={userId}
+            configureChange={setConfigureChange}
+            user={user}
+            role={role}
+            userExperience={userExperience}
+            userProfile={userProfile}
           />
         )
       }

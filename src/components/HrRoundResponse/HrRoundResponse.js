@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const HrRoundResponse = () => {
-    let url = process.env.REACT_APP_BACKEND_URL
-    let token = localStorage.getItem('token')
-    let navigate = useNavigate()
-    let [candidates, setCandidates] = useState([])
+    let url = process.env.REACT_APP_BACKEND_URL;
+    let token = localStorage.getItem('token');
+    let navigate = useNavigate();
+    let [candidates, setCandidates] = useState([]);
+    let [page, setPage] = useState(1); 
+    let [totalPages, setTotalPages] = useState(1); 
 
-
-
-    useEffect(() => {
+    const fetchCandidates = () => {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token);
 
@@ -20,25 +20,33 @@ const HrRoundResponse = () => {
             redirect: "follow"
         };
 
-        fetch(`${url}HrRoundTestCompletd`, requestOptions)
+        fetch(`${url}HrRoundTestCompletd?page=${page}&limit=10`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                // console.log(result)
                 if (result.type === 'success') {
-                    setCandidates(result.testCompletedBy)
+                    setCandidates(result.testCompletedBy);
+                    setTotalPages(result.totalPages); 
                 }
             })
             .catch((error) => console.error(error));
-    }, [])
+    };
 
+    useEffect(() => {
+        fetchCandidates();
+    }, [page]); 
 
-    const handleClick=(id)=>{
-        navigate(`/hr-answers-check/${id}`)
-    }
-   
+    const handleClick = (id) => {
+        navigate(`/hr-answers-check/${id}`);
+    };
+
+    const handlePageChange = (newPage) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setPage(newPage);
+        }
+    };
+
     return (
         <div className="wrapper">
-
             <div className="table-responsive">
                 <Table striped bordered hover className="user-table candidate_entry_table">
                     <thead>
@@ -54,20 +62,24 @@ const HrRoundResponse = () => {
                     <tbody>
                         {candidates.map((element, index) => (
                             <tr key={index}>
-                                <td>{index + 1}</td>
+                                <td>{(page - 1) * 10 + index + 1}</td> 
                                 <td>{element.username}</td>
                                 <td>{element.profile}</td>
                                 <td>{element.experience}</td>
                                 <td>{element.hrRoundStatus}</td>
-                                <td><button onClick={()=>handleClick(element._id)}>show</button></td>
+                                <td><button onClick={() => handleClick(element._id)}>show</button></td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
             </div>
-
+            <div className="pagination">
+                <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
+                <span>Page {page} of {totalPages}</span>
+                <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages}>Next</button>
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default HrRoundResponse
+export default HrRoundResponse;

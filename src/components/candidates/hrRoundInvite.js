@@ -6,8 +6,9 @@ import { encryptId } from '../../utils/encryption'
 import toast from 'react-hot-toast';
 
 const InviteHrRound = (props) => {
-   
+
     let url = process.env.REACT_APP_BACKEND_URL
+    let interviewUrl = process.env.REACT_APP_INTERVIEW_URL
     const [showLoader, setShowLoader] = useState(false)
     const [series, setSeries] = useState([])
     const [selectedSeriesId, setSelectedSeriesId] = useState('');
@@ -35,8 +36,7 @@ const InviteHrRound = (props) => {
 
     const handleSendLink = () => {
         const encryptedCandidateId = encryptId(props.candidateID);
-        // const testLink = `http://localhost:3000/hr-round/:${encodeURIComponent(encryptedCandidateId)}`;
-        const testLink = `http://16.171.41.223/hr-round/:${encodeURIComponent(encryptedCandidateId)}`;
+        const testLink = `${interviewUrl}/hr-round/:${encodeURIComponent(encryptedCandidateId)}`;
         console.log('test link ---', testLink)
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -58,11 +58,18 @@ const InviteHrRound = (props) => {
         fetch(`${url}sendHrRoundQuesAns`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                // console.log('hr round result ----',result)
-                if(result.type==='success'){
+                if (result.type === 'success') {
                     toast.success(result.message)
-                    props.handleChange(prev=>prev+1)
+                    props.handleChange(prev => prev + 1)
                     props.onHide(false)
+                } else {
+                    if (result.message === 'Series Id not present.') {
+                        toast.error('Please enter series', {
+                            duration: 2000
+                        })
+                    } else {
+                        toast.error(result.message)
+                    }
                 }
             })
             .catch((error) => console.error(error));
@@ -95,9 +102,9 @@ const InviteHrRound = (props) => {
                     <select className="candidate-register-input form-control mt-3" value={selectedSeriesId} onChange={handleSelectChange} >
                         <option value="">Select series</option>
                         {series?.map((ele) => (
-                            
-                            <option disabled={ele.questions?.length<1 || ele.questions === undefined} className={ele.questions?.length<1 || ele.questions === undefined ? 'series-outer-box-pending' : "series-outer-box"} key={ele._id} value={ele._id}>
-                                {ele.questionSeries} {ele.questions?.length<1 || ele.questions === undefined?"(pending)":null}
+
+                            <option disabled={ele.questions?.length < 3 || ele.questions === undefined} className={ele.questions?.length < 3 || ele.questions === undefined ? 'series-outer-box-pending' : "series-outer-box"} key={ele._id} value={ele._id}>
+                                {ele.questionSeries} {ele.questions?.length < 1 || ele.questions === undefined ? "(pending)" : null}
                             </option>
                         ))}
                     </select>

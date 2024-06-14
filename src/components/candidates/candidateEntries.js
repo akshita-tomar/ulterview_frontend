@@ -11,66 +11,61 @@ import { io } from 'socket.io-client';
 import { useAppContext } from "../../utils/useContext";
 import InviteHrRound from "./hrRoundInvite";
 
-
-
 const CandidateEntries = () => {
-  // console.log('env credetials -------',process.env.REACT_APP_BACKEND_URL)
-  const token = localStorage.getItem('token')
-  const navigate = useNavigate()
-  const [candidates, setCandidates] = useState([])
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+  const [candidates, setCandidates] = useState([]);
   const [modalShow, setModalShow] = useState(false);
-  const [showUpdateModal, setShowUpdateModal] = useState(false)
-  const [showInviteModal, setShowInviteModal] = useState(false)
-  const [candidateID, setCandidateID] = useState('')
-  const [LanguageId, setLanguageId] = useState('')
-  const [handleChange, setHandleChange] = useState(0)
-  const [showHrRoundSentLink, setShowHrRoundSentLink] = useState(false)
-  const url = process.env.REACT_APP_BACKEND_URL
-  const socketurl = process.env.REACT_APP_SOCKET_URL
-  
-  console.log("url -----------",process.env.REACT_APP_SOCKET_URL)
-  // const socketurl = 'http://16.171.41.223:8000'
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [candidateID, setCandidateID] = useState('');
+  const [LanguageId, setLanguageId] = useState('');
+  const [handleChange, setHandleChange] = useState(0);
+  const [showHrRoundSentLink, setShowHrRoundSentLink] = useState(false);
+  const [page, setPage] = useState(1); // Pagination state
+  const [totalPages, setTotalPages] = useState(1); // Total pages state
+  const url = process.env.REACT_APP_BACKEND_URL;
+  const socketurl = process.env.REACT_APP_SOCKET_URL;
   const socket = io(socketurl);
 
-
   if (!token) {
-    navigate('/')
+    navigate('/');
   }
 
-
+  const fetchCandidates = () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + token);
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+    fetch(`${url}getCandidates?page=${page}&limit=10`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setCandidates(result.allCandidates);
+        setTotalPages(result.totalPages); 
+      })
+      .catch((error) => console.error(error));
+  };
 
   useEffect(() => {
-    const fetchCandidates = () => {
-      const myHeaders = new Headers();
-      myHeaders.append("Authorization", "Bearer " + token);
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        redirect: "follow"
-      };
-      fetch(`${url}getCandidates`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          // console.log(result);
-          setCandidates(result.allCandidates);
-        })
-        .catch((error) => console.error(error));
-    };
-
     fetchCandidates();
 
-
     socket.on('Interview_submitted', () => {
-      console.log("here in the socket-----")
       fetchCandidates();
     });
 
     return () => {
       socket.disconnect();
     };
-  }, [token, url, handleChange]);
-
-
+  }, [token, url, handleChange, page]); 
+  
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -83,10 +78,10 @@ const CandidateEntries = () => {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        handleDeleteConfirm(id)
+        handleDeleteConfirm(id);
       }
-    })
-  }
+    });
+  };
 
   const handleDeleteConfirm = (id) => {
     const myHeaders = new Headers();
@@ -99,34 +94,33 @@ const CandidateEntries = () => {
     fetch(`${url}deleteCandidate?candidateId=${id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        // console.log(result)
         if (result.type === 'success') {
           toast.success(result.message, {
             duration: 800
-          })
-          setHandleChange(prev => prev + 1)
+          });
+          setHandleChange(prev => prev + 1);
         }
       })
       .catch((error) => console.error(error));
   };
 
-
   const handleUpdateCandidate = (id) => {
-    setCandidateID(id)
-    setShowUpdateModal(true)
-  }
+    setCandidateID(id);
+    setShowUpdateModal(true);
+  };
 
   const handleInvite = (id, languageId) => {
-    setCandidateID(id)
-    setLanguageId(languageId)
-    setShowInviteModal(true)
-  }
+    setCandidateID(id);
+    setLanguageId(languageId);
+    setShowInviteModal(true);
+  };
 
   const handleHrRoundInvite = (candidateid) => {
-    setCandidateID(candidateid)
-    setShowHrRoundSentLink(true)
-  }
-  const { show } = useAppContext()
+    setCandidateID(candidateid);
+    setShowHrRoundSentLink(true);
+  };
+
+  const { show } = useAppContext();
 
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
@@ -148,13 +142,12 @@ const CandidateEntries = () => {
               <th>Technical round</th>
               <th>Invite(Tech round)</th>
               <th>Result Status</th>
-
             </tr>
           </thead>
           <tbody>
             {candidates.map((element, index) => (
               <tr key={index}>
-                <td>{index + 1}</td>
+                <td>{(page - 1) * 10 + index + 1}</td>
                 <td>{element.username}</td>
                 <td>{element.email}</td>
                 <td>{element.profile}</td>
@@ -186,6 +179,13 @@ const CandidateEntries = () => {
           </tbody>
         </Table>
       </div>
+
+      <div className="pagination">
+        <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
+        <span>Page {page} of {totalPages}</span>
+        <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages}>Next</button>
+      </div>
+
       {
         modalShow && (
           <CandidateRegisterModal
@@ -218,7 +218,7 @@ const CandidateEntries = () => {
           <InviteHrRound
             show={showHrRoundSentLink}
             onHide={() => setShowHrRoundSentLink(false)}
-            candidateID = {candidateID}
+            candidateID={candidateID}
             handleChange={setHandleChange}
           />
         )
@@ -226,7 +226,6 @@ const CandidateEntries = () => {
      
       <Toaster />
     </div>
-
   )
 }
-export default CandidateEntries
+export default CandidateEntries;

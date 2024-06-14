@@ -17,7 +17,6 @@ const CheckedSheet = () => {
     const [OriginalQuesLength, setOriginalQuesLength] = useState(0)
     const [correctQuesLength, setCorrectQuesLength] = useState(0)
     const [doneQuestions, setDoneQuestions] = useState({});
-    const [candidateQuesAnsLength, setCandidateQuesAnsLength] = useState(0)
     const [checkedBy, setCheckedBy]=useState('')
 
     const scrollToDiv = (id) => {
@@ -42,7 +41,6 @@ const CheckedSheet = () => {
                 setOriginalQuesAns(result.quesAns.providedQuesAns)
                 setCandidateResponse(result.quesAns.retrivedQuesAns)
                 setOriginalQuesLength(result.quesAns.providedQuesAns[0].logical.length + result.quesAns.providedQuesAns[0].objective.length + result.quesAns.providedQuesAns[0].subjective.length)
-                setCandidateQuesAnsLength(result.quesAns.retrivedQuesAns.logical.length + result.quesAns.retrivedQuesAns.objective.length + result.quesAns.retrivedQuesAns.subjective.length)
                 setDoneQuestions(result.quesAns.checkedAnswerSheet)
                 setCheckedBy(result.quesAns.checkedBy)
                 const checkedAnswerSheet = result.quesAns.checkedAnswerSheet; 

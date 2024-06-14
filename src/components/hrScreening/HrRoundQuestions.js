@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useAppContext } from "../../utils/useContext";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import AddHrRoundQuestion from "./addQuestionModal";
 import UpdateHrRoundQuestions from "./updateQuestion";
 import Swal from "sweetalert2";
@@ -10,6 +10,7 @@ const HrRoundQuestions = () => {
     let { id } = useParams()
     let token = localStorage.getItem('token')
     const { show } = useAppContext()
+    const navigate = useNavigate()
     const url = process.env.REACT_APP_BACKEND_URL
     const [data, setData] = useState([])
     const [series, setSeries] = useState('')
@@ -108,8 +109,12 @@ const HrRoundQuestions = () => {
         setQuestionId(questionIdD)
     }
 
+    const handleBack =()=>{
+        navigate('/hr-screening')
+    }
     return (
         <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
+              <div className="back-btn-outer"><button className="back-btn-checkans" onClick={handleBack}>back</button></div>
             <div className="text-end mb-3 pe-3">
                 <button className="register-btn" onClick={handleAddQuestion} >Add question</button>
             </div>

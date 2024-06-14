@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Navigate, useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
+import emptyIcon from '../../assets/empty.gif'
 
 const CheckHrRoundAnswers = () => {
     let navigate = useNavigate()
@@ -9,6 +10,7 @@ const CheckHrRoundAnswers = () => {
     const { id } = useParams()
     const [questions, setQuestions] = useState([])
     const [quesAns, setQuesAns] = useState([])
+    const [showIcon,setShowIcon]=useState(false)
 
 
     useEffect(() => {
@@ -24,8 +26,11 @@ const CheckHrRoundAnswers = () => {
         fetch(`${url}hrRoundCandidateAnswers?candidateId=${id}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                // console.log(result)
+                console.log(result)
                 if (result.type === 'success') {
+                    if(result.answers?.length<1){
+                        setShowIcon(true)
+                    }
                     setQuestions(result.questions)
                     setQuesAns(result.answers)
                 }
@@ -62,8 +67,14 @@ const CheckHrRoundAnswers = () => {
           .catch((error) => console.error(error));
     }
 
+    const handleBack =()=>{
+      navigate('/hr-round-response')
+    }
+
     return (
         <div className="wrapper">
+            <div className="back-btn-outer"><button className="back-btn-checkans" onClick={handleBack}>back</button></div>
+           {/* <div className=""> <button className="back-btn-checkans">back</button></div>  */}
             <div className="hrcheckans-heading">Asked questions</div>
             {
                 questions.map((ele) => {
@@ -76,6 +87,14 @@ const CheckHrRoundAnswers = () => {
 
             } <br></br>
             <div className="hrcheckans-heading">Candidate response</div>
+            {
+                showIcon && (
+                    <>
+                    <img src={emptyIcon} alt="image"/> 
+                    <h4>Not completed even a single question</h4>
+                    </>
+                )
+            }
             {quesAns.map((ele, index) => {
                 return (
                     <>

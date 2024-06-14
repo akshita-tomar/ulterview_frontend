@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 const HrRound = () => {
   const token = localStorage.getItem('token')
   const { show } = useAppContext()
-  const url =process.env.REACT_APP_BACKEND_URL
+  const url = process.env.REACT_APP_BACKEND_URL
   const navigate = useNavigate()
   const [showHrRoundSeries, setShowHrRoundSeries] = useState(false)
   const [data, setData] = useState([])
@@ -27,7 +27,7 @@ const HrRound = () => {
     setShowHrRoundSeries(true)
   }
 
-  
+
 
 
   useEffect(() => {
@@ -110,6 +110,8 @@ const HrRound = () => {
     navigate(`/hr-round-questions/${id}`)
   }
 
+
+
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
       <div className="text-end mb-3 pe-3">
@@ -121,6 +123,7 @@ const HrRound = () => {
             <tr>
               <th>Sr.no</th>
               <th>Series</th>
+              <th>Series status</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -129,6 +132,7 @@ const HrRound = () => {
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{element.questionSeries}</td>
+                <td> {element.questions?.length < 3 || element.questions === undefined ? "(pending)" : element.questions?.length + " questions"}</td>
                 <td><button onClick={() => handleShowQuestions(element._id)}>Show </button> <MdEdit onClick={() => handleEditSeries(element._id, element.questionSeries)} /> <MdDelete onClick={() => handleSeriesDelete(element._id)} /></td>
               </tr>
             ))}

@@ -125,7 +125,7 @@ const InviteCandidate = (props) => {
                 if (result.type === 'success') {
                     const encryptedCandidateId = encryptId(candidateId);
                     console.log("invite candidate id ---", encryptedCandidateId)
-                    const testLink = `http://16.171.41.223/interview-questions/:${encodeURIComponent(encryptedCandidateId)}`;
+                    const testLink = `${process.env.REACT_APP_INTERVIEW_URL}/interview-questions/:${encodeURIComponent(encryptedCandidateId)}`;
                     setShowLoader(true)
                     console.log('link----', testLink)
                     const myHeaders = new Headers();
@@ -189,13 +189,11 @@ const InviteCandidate = (props) => {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter heading">
-
                         Invite
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className='loader_outer_wrapper'>
-
                         {showLoader && (<img src={loader} height={"50px"} width={"50px"} />)}
                     </div>
 
@@ -218,3 +216,4 @@ const InviteCandidate = (props) => {
     )
 }
 export default InviteCandidate
+//may god bring all the luck in the wrord on your way. Have a bright future!

@@ -97,7 +97,7 @@ const UpdateCandidate = (props) => {
                     props.handleChange(prev => prev + 1)
                     props.onHide(false)
                 }
-                if (result.message === 'error') {
+                if (result.type === 'error') {
                     toast.error(result.message)
                 }
             })
