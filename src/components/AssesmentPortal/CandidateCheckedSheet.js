@@ -58,7 +58,7 @@ const CheckedSheet = () => {
     return (
         <div className={`wrapper ${show ? "cmn_margin":""}`}>
             <div className='check-result-header'>
-                {OriginalQuesLength}/{correctQuesLength} checked by: {checkedBy}
+            {correctQuesLength}/{OriginalQuesLength} checked by: {checkedBy}
             </div>
             <Container>
                 <Row>

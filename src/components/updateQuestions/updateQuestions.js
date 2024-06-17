@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast'
 import swal from "sweetalert";
+import Swal from 'sweetalert2'
 import { useAppContext } from "../../utils/useContext";
 
 const UpdateQuestions = () => {
@@ -36,7 +37,7 @@ const UpdateQuestions = () => {
         fetch(`${url}getQuestionsSeriesWise?seriesId=${series}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log("result -----", result)
+                // console.log("result -----", result)
                 if (result.message === 'No questions found') {
                     swal('This series is empty for now. You can add questions!', 'Thanks!', 'success')
                 }
@@ -48,6 +49,25 @@ const UpdateQuestions = () => {
   
 
     const delteQuestion = (type, id) => {
+
+        Swal.fire({
+            title: "Are you sure to delete this Question?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ce2128",
+            cancelButtonColor: "#333",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              handleDeleteConfirm(type, id);
+            }
+          });
+    }
+
+
+
+    const handleDeleteConfirm=(type, id)=>{
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "Bearer " + token);
@@ -65,7 +85,7 @@ const UpdateQuestions = () => {
         fetch(`${url}DeleteQuestionAnswer?questionId=${id}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 setConfigureSeriesChange(prev => prev + 1)
                 toast.success('Document delted successfully.')
             })
@@ -94,7 +114,7 @@ const UpdateQuestions = () => {
         fetch(`${url}updateQuestionAnswer?questionId=${id}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 if (result.type === 'success') {
                     setConfigureSeriesChange(prev => prev + 1)
                     setQuestion('')
@@ -107,6 +127,7 @@ const UpdateQuestions = () => {
             })
             .catch((error) => console.error(error));
     }
+
 
 
     const updateLogicalQuestion = (questionType, id, qus, ans) => {
@@ -130,7 +151,7 @@ const UpdateQuestions = () => {
         fetch(`${url}updateQuestionAnswer?questionId=${id}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 if (result.type === 'success') {
                     setConfigureSeriesChange(prev => prev + 1)
                     setQuestion('')
@@ -170,7 +191,7 @@ const UpdateQuestions = () => {
         fetch(`${url}updateQuestionAnswer?questionId=${id}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                // console.log(result)
                 if (result.type === 'success') {
                     setConfigureSeriesChange(prev => prev + 1)
                     setQuestion('')
@@ -191,7 +212,7 @@ const UpdateQuestions = () => {
 
     const handleOptionChange = (index, value, prevOpts) => {
         prevOpts[index] = value;
-        console.log("prev updted options ---", prevOpts)
+        // console.log("prev updted options ---", prevOpts)
         setOptions(prevOpts);
     }
 
@@ -236,12 +257,9 @@ const UpdateQuestions = () => {
                 }
                 <div className="sub-obj-log-heading">
                     {
-
                         questionAnswer?.questions?.objective?.length > 0 && (
-                            
                             <div onClick={handleShowobjective}   className= { `heading-objective_tab ${showobjective ===true?'heading-objective-active ' :'heading-objective'}`} >Objective {questionAnswer?.questions?.objective?.length}</div>
                         )
-                
                     }
                     {
                         questionAnswer?.questions?.subjective?.length > 0 && (
@@ -269,7 +287,6 @@ const UpdateQuestions = () => {
                                     <option key={index} value={index + 1}>{index + 1}</option>
                                 ))}
                             </select>
-
                             </div>
                             <div className="Update_btn_outer">
                             <button className=" cmn_btn_color me-3" onClick={() => delteQuestion('objective', Element._id)}>DELETE</button>

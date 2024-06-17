@@ -83,7 +83,7 @@ const CandidatesPerformance = () => {
                 <th>Profile</th>
                 <th>Experience</th>
                 <th>Result Status</th>
-                <th>Invite</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>

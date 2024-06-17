@@ -36,6 +36,7 @@ const HrRoundTest = React.lazy(()=>import('./components/hrScreening/hrRoundTest'
 const InviteHrRound = React.lazy(()=>import('./components/candidates/hrRoundInvite'))
 const HrRoundResponse = React.lazy(()=>import('./components/HrRoundResponse/HrRoundResponse'))
 const CheckHrRoundAnswers = React.lazy(()=>import('./components/HrRoundResponse/chekAnswers'))
+const UpdateQuestionModal =  React.lazy(()=>import('./components/updateQuestions/updateQuestonModal'))
 
 
 
@@ -74,6 +75,7 @@ function App() {
           <Route path='/hr-round-invite' element={<Suspense fallback={<Loader/>}><InviteHrRound/></Suspense>}></Route>
           <Route path='/hr-round-response' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><HrRoundResponse/></Suspense>}></Route>
           <Route path='/hr-answers-check/:id' element={<Suspense fallback={<Loader/>}><Header/><Sidebar/><CheckHrRoundAnswers/></Suspense>}></Route>
+          <Route path='/update-question' element={<Suspense fallback={<Loader/>}><UpdateQuestionModal/></Suspense>}></Route>
         </Routes> 
       </BrowserRouter>
     </div>  
