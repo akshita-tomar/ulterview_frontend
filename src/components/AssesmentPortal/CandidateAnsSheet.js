@@ -13,6 +13,7 @@ import { useAppContext } from '../../utils/useContext';
 const CandidateAnswerSheet = () => {
     let token = localStorage.getItem('token')
     let url = process.env.REACT_APP_BACKEND_URL
+
     let { id } = useParams()
     const [originalQuesAns, setOriginalQuesAns] = useState([])
     const [candidateResponse, setCandidateResponse] = useState([])

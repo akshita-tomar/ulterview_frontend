@@ -7,6 +7,7 @@ import { useAppContext } from "../../utils/useContext";
 
 const CandidatesPerformance = () => {
   const url = process.env.REACT_APP_BACKEND_URL;
+  console.log("url ------------->>",url)
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [candidates, setCandidates] = useState([]);
