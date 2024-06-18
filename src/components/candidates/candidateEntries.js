@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { Table, Pagination } from "react-bootstrap";
 import CandidateRegisterModal from "./candidateRegistarModal";
 import UpdateCandidate from "./updateCandidate";
 import InviteCandidate from "./InviteCandidate";
@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { MdEdit, MdDelete } from "react-icons/md";
 import toast, { Toaster } from 'react-hot-toast';
 import { io } from 'socket.io-client';
-import { useAppContext } from "../../utils/useContext";
+import { useAppContext } from "../../utils/useContext"; 
 import InviteHrRound from "./hrRoundInvite";
 
 const CandidateEntries = () => {
@@ -22,8 +22,8 @@ const CandidateEntries = () => {
   const [LanguageId, setLanguageId] = useState('');
   const [handleChange, setHandleChange] = useState(0);
   const [showHrRoundSentLink, setShowHrRoundSentLink] = useState(false);
-  const [page, setPage] = useState(1); // Pagination state
-  const [totalPages, setTotalPages] = useState(1); // Total pages state
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); 
   const url = process.env.REACT_APP_BACKEND_URL;
   const socketurl = process.env.REACT_APP_SOCKET_URL;
   const socket = io(socketurl);
@@ -142,6 +142,7 @@ const CandidateEntries = () => {
               <th>Technical round</th>
               <th>Invite(Tech round)</th>
               <th>Result Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -169,22 +170,30 @@ const CandidateEntries = () => {
                   }
                 </td>
                 <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus}
-                  <div>
+                </td>
+                <td>  <div>
                     <MdEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} />
                     <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
-                  </div>
-                </td>
+                  </div></td>
               </tr>
             ))}
           </tbody>
         </Table>
       </div>
 
-      <div className="pagination">
-        <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
-        <span>Page {page} of {totalPages}</span>
-        <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages}>Next</button>
-      </div>
+      <Pagination className="justify-content-center">
+        <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
+        {[...Array(totalPages)].map((_, index) => (
+          <Pagination.Item
+            key={index}
+            active={index + 1 === page}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} />
+      </Pagination>
 
       {
         modalShow && (
@@ -228,4 +237,5 @@ const CandidateEntries = () => {
     </div>
   )
 }
+
 export default CandidateEntries;

@@ -7,7 +7,6 @@ import { useAppContext } from "../../utils/useContext";
 
 const CandidatesPerformance = () => {
   const url = process.env.REACT_APP_BACKEND_URL;
-
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [candidates, setCandidates] = useState([]);
@@ -16,6 +15,7 @@ const CandidatesPerformance = () => {
   const itemsPerPage = 10;
   const socketurl = process.env.REACT_APP_SOCKET_URL;
   const socket = io(socketurl);
+
 
   const fetchCandidates = (page) => {
     const myHeaders = new Headers();
@@ -42,8 +42,7 @@ const CandidatesPerformance = () => {
           } else {
             setCandidates(result.candidates);
             setTotalPages(Math.ceil(result.totalCount / itemsPerPage));
-          }
-        }
+          }}
       })
       .catch((error) => console.error(error));
   };

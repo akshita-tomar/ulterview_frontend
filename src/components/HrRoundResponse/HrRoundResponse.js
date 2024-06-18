@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const HrRoundResponse = () => {
@@ -67,17 +67,25 @@ const HrRoundResponse = () => {
                                 <td>{element.profile}</td>
                                 <td>{element.experience}</td>
                                 <td>{element.hrRoundStatus}</td>
-                                <td><button onClick={() => handleClick(element._id)}>show</button></td>
+                                <td><button onClick={() => handleClick(element._id)}>Show</button></td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
             </div>
-            <div className="pagination">
-                <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
-                <span>Page {page} of {totalPages}</span>
-                <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages}>Next</button>
-            </div>
+            <Pagination className="justify-content-center">
+                <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
+                {[...Array(totalPages)].map((_, index) => (
+                    <Pagination.Item
+                        key={index}
+                        active={index + 1 === page}
+                        onClick={() => handlePageChange(index + 1)}
+                    >
+                        {index + 1}
+                    </Pagination.Item>
+                ))}
+                <Pagination.Next onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} />
+            </Pagination>
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { Table } from "react-bootstrap";
+import { Table, Pagination } from "react-bootstrap";
 import RegistrationModal from './registrationModal';
 import UpdateUser from './updateModal';
 import { MdEdit, MdDelete } from "react-icons/md";
@@ -11,7 +11,7 @@ import { useAppContext } from "../../utils/useContext";
 const Team = () => {
   const token = localStorage.getItem("token");
   const url = process.env.REACT_APP_BACKEND_URL;
-  const [role, setRole] = useState('developer'); // Default role set to 'developer'
+  const [role, setRole] = useState('developer');
   const [userDetails, setUserDetails] = useState([]);
   const [showRegistraionModel, setShowRegistrationModal] = useState(false);
   const [configureChange, setConfigureChange] = useState(0);
@@ -20,8 +20,8 @@ const Team = () => {
   const [user, setUser] = useState('');
   const [userProfile, setUserProfile] = useState('');
   const [userExperience, setUserExperience] = useState('');
-  const [page, setPage] = useState(1); // Pagination state
-  const [totalPages, setTotalPages] = useState(1); // Total pages state
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); 
 
   const { show } = useAppContext();
 
@@ -40,14 +40,14 @@ const Team = () => {
       .then(response => response.json())
       .then(result => {
         setUserDetails(result.details);
-        setTotalPages(result.totalPages); // Set total pages
+        setTotalPages(result.totalPages); 
       })
       .catch(error => console.error(error));
   };
 
   useEffect(() => {
     fetchUserDetails();
-  }, [role, token, configureChange, page]); // Add page to dependency array
+  }, [role, token, configureChange, page]); 
 
   const handleDelete = (id, name) => {
     Swal.fire({
@@ -99,7 +99,7 @@ const Team = () => {
 
   const handleChange = (teamRole) => {
     setRole(teamRole);
-    setPage(1); // Reset to first page when role changes
+    setPage(1);
   };
 
   const handleRegistration = () => {
@@ -185,11 +185,19 @@ const Team = () => {
           </div>
         </Tab>
       </Tabs>
-      <div className="pagination">
-        <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Previous</button>
-        <span>Page {page} of {totalPages}</span>
-        <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages}>Next</button>
-      </div>
+      <Pagination className="justify-content-center">
+        <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
+        {[...Array(totalPages)].map((_, index) => (
+          <Pagination.Item
+            key={index}
+            active={index + 1 === page}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} />
+      </Pagination>
       {
         showRegistraionModel && (
           <RegistrationModal
