@@ -133,7 +133,11 @@ const HrRound = () => {
                 <td>{index + 1}</td>
                 <td>{element.questionSeries}</td>
                 <td> {element.questions?.length < 3 || element.questions === undefined ? "(pending)" : element.questions?.length + " questions"}</td>
-                <td><button onClick={() => handleShowQuestions(element._id)}>Show </button> <MdEdit onClick={() => handleEditSeries(element._id, element.questionSeries)} /> <MdDelete onClick={() => handleSeriesDelete(element._id)} /></td>
+                <td>
+                 <MdEdit onClick={() => handleEditSeries(element._id, element.questionSeries)} /> 
+                  <MdDelete onClick={() => handleSeriesDelete(element._id)} />
+                  <button className="register-btn" onClick={() => handleShowQuestions(element._id)}>Show </button>
+                  </td>
               </tr>
             ))}
           </tbody>

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Table, Pagination } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../utils/useContext";
 
 const HrRoundResponse = () => {
+    const { show } = useAppContext()
     let url = process.env.REACT_APP_BACKEND_URL;
     let token = localStorage.getItem('token');
     let navigate = useNavigate();
@@ -44,9 +46,9 @@ const HrRoundResponse = () => {
             setPage(newPage);
         }
     };
-
+ 
     return (
-        <div className="wrapper">
+        <div  className={`wrapper ${show ? "cmn_margin" : ""} `}>
             <div className="table-responsive">
                 <Table striped bordered hover className="user-table candidate_entry_table">
                     <thead>
@@ -66,8 +68,9 @@ const HrRoundResponse = () => {
                                 <td>{element.username}</td>
                                 <td>{element.profile}</td>
                                 <td>{element.experience}</td>
-                                <td>{element.hrRoundStatus}</td>
-                                <td><button onClick={() => handleClick(element._id)}>Show</button></td>
+                                <td className={element.hrRoundStatus==='rejected'?'rejected-candidate':element.hrRoundStatus === 'selected' ? 'selected-candidate' : ''}>{element.hrRoundStatus}</td>
+                                {/* <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus} */}
+                                <td><button className="register-btn" onClick={() => handleClick(element._id)}>Show</button></td>
                             </tr>
                         ))}
                     </tbody>

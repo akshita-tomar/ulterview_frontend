@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useAppContext } from "../../utils/useContext";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddHrRoundQuestion from "./addQuestionModal";
 import UpdateHrRoundQuestions from "./updateQuestion";
 import Swal from "sweetalert2";

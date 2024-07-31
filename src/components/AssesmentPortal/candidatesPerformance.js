@@ -17,6 +17,7 @@ const CandidatesPerformance = () => {
   const socket = io(socketurl);
 
 
+
   const fetchCandidates = (page) => {
     const myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer " + token);

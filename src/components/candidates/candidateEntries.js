@@ -20,7 +20,7 @@ const CandidateEntries = () => {
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [candidateID, setCandidateID] = useState('');
   const [LanguageId, setLanguageId] = useState('');
-  const [handleChange, setHandleChange] = useState(0);
+  const [handleChange, setHandleChange] = useState(0); 
   const [showHrRoundSentLink, setShowHrRoundSentLink] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); 
@@ -120,6 +120,7 @@ const CandidateEntries = () => {
     setShowHrRoundSentLink(true);
   };
 
+
   const { show } = useAppContext();
 
   return (
@@ -146,14 +147,14 @@ const CandidateEntries = () => {
             </tr>
           </thead>
           <tbody>
-            {candidates.map((element, index) => (
+            {candidates?.map((element, index) => (
               <tr key={index}>
                 <td>{(page - 1) * 10 + index + 1}</td>
                 <td>{element.username}</td>
                 <td>{element.email}</td>
                 <td>{element.profile}</td>
                 <td>{element.experience}</td>
-                <td>{element.hrRoundStatus}</td>
+                <td className={element.hrRoundStatus === "rejected" ? 'rejected-candidate' : element.hrRoundStatus === 'selected' ? 'selected-candidate' : ''}>{element.hrRoundStatus}</td>
                 <td>
                   {
                     element.hrRoundStatus === 'invite_sent' || element.hrRoundStatus === 'invite_accepted' || element.hrRoundStatus === 'completed' || element.hrRoundStatus === 'selected' || element.hrRoundStatus === 'rejected' ?
@@ -171,7 +172,8 @@ const CandidateEntries = () => {
                 </td>
                 <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus}
                 </td>
-                <td>  <div>
+                <td>  
+                  <div>
                     <MdEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} />
                     <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
                   </div></td>

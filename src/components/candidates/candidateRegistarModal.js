@@ -76,7 +76,7 @@ const CandidateRegisterModal = (props) => {
             .catch((error) => console.error(error));
     }
 
-
+    
     const handleChange = (e) => {
         const selectedIndex = e.target.options.selectedIndex;
         const selectedLanguage = e.target.options[selectedIndex].text;

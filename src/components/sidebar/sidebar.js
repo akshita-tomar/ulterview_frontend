@@ -6,6 +6,8 @@ import { RxCross2 } from "react-icons/rx";
 import { PiNotebookFill } from "react-icons/pi"
 import { useAppContext } from "../../utils/useContext";
 import { FaUserGroup } from "react-icons/fa6";
+import { CgNotes } from "react-icons/cg";
+import { MdOutlineQuickreply } from "react-icons/md";
 
 
 const Sidebar = () => {
@@ -60,13 +62,13 @@ const Sidebar = () => {
                 </div>
               </div>
               <div className={`sidebar-button mt-4 ${path.pathname === "/hr-screening" ? "active-pathname" : ""}`} onClick={handleHrScreening} >
-                <div className="sidebar_content"><FaUserGroup />
+                <div className="sidebar_content"><CgNotes />
                   <h4 className={show ? "d-none" : "sidebar_content"} >HR Screening</h4>
                 </div>
               </div>
               <div className={`sidebar-button mt-4 ${path.pathname === "/hr-round-response" ? "active-pathname" : ""}`} onClick={handleHrRound} >
-                <div className="sidebar_content"><FaUserGroup />
-                  <h4 className={show ? "d-none" : "sidebar_content"} >HR round response </h4>
+                <div className="sidebar_content"><MdOutlineQuickreply />
+                  <h4 className={show ? "d-none" : "sidebar_content"} >HR feedback </h4>
                 </div>
               </div>
             </>

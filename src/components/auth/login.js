@@ -45,7 +45,7 @@ const requestOptions = {
 fetch(`${url}signIn`, requestOptions)
   .then((response) => response.json())
   .then((result) =>{
-    console.log(result)
+    // console.log(result)
     if(result.type==='error'){
       toast.error(result.message,{
         duration:1000 

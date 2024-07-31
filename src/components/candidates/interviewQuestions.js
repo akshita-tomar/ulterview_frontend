@@ -1,6 +1,6 @@
 import { decryptId } from "../../utils/encryption";
 import { useEffect, useState } from "react";
-import { useAsyncError, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import logo from "../header/ultivic-logo.png"
 import { toast, Toaster } from "react-hot-toast";
 

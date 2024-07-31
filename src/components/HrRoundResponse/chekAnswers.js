@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
-import { Navigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import emptyIcon from '../../assets/empty.gif'
+import { useAppContext } from "../../utils/useContext";
 
 const CheckHrRoundAnswers = () => {
+    const { show } = useAppContext()
     let navigate = useNavigate()
     let url = process.env.REACT_APP_BACKEND_URL
     let token = localStorage.getItem('token')
@@ -72,7 +74,7 @@ const CheckHrRoundAnswers = () => {
     }
 
     return (
-        <div className="wrapper">
+        <div  className={`wrapper ${show ? "cmn_margin" : ""} `}>
             <div className="back-btn-outer"><button className="back-btn-checkans" onClick={handleBack}>back</button></div>
            {/* <div className=""> <button className="back-btn-checkans">back</button></div>  */}
             <div className="hrcheckans-heading">Asked questions</div>
