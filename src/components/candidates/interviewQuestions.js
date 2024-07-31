@@ -172,8 +172,8 @@ const InterviewQuestions = () => {
       }};
 
     const handleContextMenu = (e) => {
-      // console.log("inside the handle context")
-      // e.preventDefault();
+      console.log("inside the handle context")
+      e.preventDefault();
     };
 
     // window.addEventListener('beforeunload', handleBeforeUnload);

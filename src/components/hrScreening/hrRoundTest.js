@@ -145,6 +145,38 @@ const HrRoundTest = () => {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'F5' || (e.ctrlKey && e.key === 'r' ||e.key === 'C' )) {
+        e.preventDefault();
+      }};
+
+    const handleContextMenu = (e) => {
+      console.log("inside the handle context")
+      e.preventDefault();
+    };
+
+    
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('contextmenu', handleContextMenu);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('contextmenu', handleContextMenu);
+    };
+  }, []);
+
+
+  const handleCopy = (e) => {
+    e.preventDefault();
+  };
+
+  const handlePaste =(e)=>{
+   
+    e.preventDefault()
+  }
+
   return (
     <div className="wrapper-hr-round-caution">
       {
@@ -186,12 +218,12 @@ const HrRoundTest = () => {
                       return (
                         <>
                           <div className="question-wrapper" key={ele._id}>
-                            <h3 className="question-text">{ele.question}</h3>
+                            <h3 onCopy={handleCopy}  className="question-text">{ele.question}</h3>
                             <textarea
                               className="text-input form-control"
                               placeholder="Your answer here"
                               onChange={(e) => handleChange(ele._id, ele.question, e.target.value)}
-                            // onPaste={handlePaste}
+                              onPaste={handlePaste}
                             />
                           </div>
                         </>
