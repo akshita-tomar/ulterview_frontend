@@ -142,7 +142,7 @@ const CandidateEntries = () => {
               <th>Invite(HR round)</th>
               <th>Technical round</th>
               <th>Invite(Tech round)</th>
-              <th>Result Status</th>
+              <th>Final Result</th>
               <th>Actions</th>
             </tr>
           </thead>
