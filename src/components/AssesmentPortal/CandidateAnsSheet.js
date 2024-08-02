@@ -180,7 +180,7 @@ const CandidateAnswerSheet = () => {
                                         )}
                                     </div>
                                     <div className="options-wrapper">
-                                        {questionAnswer.options.map((option, index) => (
+                                        {questionAnswer?.options.map((option, index) => (
                                             <label className="option-label" key={index}>
                                                 {option}
                                             </label>
@@ -206,8 +206,6 @@ const CandidateAnswerSheet = () => {
                                                 {doneQuestions[questionAnswer._id] === 'correct' ? <p> &#10004;</p> : <p>&#10006;</p>}
                                             </span>
                                         )}
-
-
                                     </div>
                                     <textarea
                                         className="text-input"

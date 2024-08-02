@@ -530,7 +530,7 @@ const HomePage = () => {
                   localStorage.getItem('role') === 'DEVELOPER' ? (
                     <div className="series-option-new" onClick={openAddseries} >Add new series</div>
                   ) : null}
-                  {seriesOptions.map((series, index) => (
+                  {seriesOptions?.map((series, index) => (
                     <>
                       <div className={series.status === 'pending' ? 'series-outer-box-pending mt-3' : "series-outer-box mt-3 series-outer-box-pending"}>
                         <h4 key={index} className="series-option" onClick={() => showQuestion(series._id)}> {series.seriesName} ({series.status})</h4>

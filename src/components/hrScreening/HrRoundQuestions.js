@@ -120,7 +120,7 @@ const HrRoundQuestions = () => {
             </div>
             <h4 className="hrRound-seriesname">Set of questions for {series}</h4>
             {
-                data.map((ele, index) => {
+                data?.map((ele, index) => {
                     return (
                         <div className="hr-question-outer">
                             <input className="hr-question-input" value={ele.question} />

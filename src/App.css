@@ -1405,3 +1405,61 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
   text-align: left;
   margin-bottom: 40px;
 }
+
+
+/* hr feedback ----------- */
+.hr-feedback-filters-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 15px; 
+  cursor: pointer;
+}
+
+.status-icons div {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.status-selected {
+  background-color: #e0f7fa; 
+  color: #007bff; 
+}
+
+.status-icons img {
+  margin-right: 5px;
+}
+
+.searchbox-hr-feedback {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.searchbox-hr-feedback input {
+  max-width: 300px;
+  width: 100%;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+}
+
+.text-end-mb-3-pe-3-teamhub{
+display: flex;
+}
+
+.page-headers{
+  text-align: left;
+}

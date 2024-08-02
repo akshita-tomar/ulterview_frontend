@@ -127,7 +127,7 @@ const CheckedSheet = () => {
                                 
                                 </div>
                                 <div className="options-wrapper">
-                                    {questionAnswer.options.map((option, index) => (
+                                    {questionAnswer?.options.map((option, index) => (
                                         <label className="option-label" key={index}>
                                             {option}
                                         </label>

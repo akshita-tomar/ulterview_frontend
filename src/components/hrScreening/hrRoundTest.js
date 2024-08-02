@@ -153,7 +153,6 @@ const HrRoundTest = () => {
       }};
 
     const handleContextMenu = (e) => {
-      console.log("inside the handle context")
       e.preventDefault();
     };
 
@@ -172,8 +171,7 @@ const HrRoundTest = () => {
     e.preventDefault();
   };
 
-  const handlePaste =(e)=>{
-   
+  const handlePaste = (e)=>{
     e.preventDefault()
   }
 
@@ -214,7 +212,7 @@ const HrRoundTest = () => {
                     </div>
                   </div>
                   {
-                    questions.map((ele, index) => {
+                    questions?.map((ele, index) => {
                       return (
                         <>
                           <div className="question-wrapper" key={ele._id}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { Table, Pagination } from "react-bootstrap";
+import { Table, Pagination, Form } from "react-bootstrap";
 import RegistrationModal from './registrationModal';
 import UpdateUser from './updateModal';
 import { MdEdit, MdDelete } from "react-icons/md";
@@ -23,7 +23,8 @@ const Team = () => {
   const [userProfile, setUserProfile] = useState('');
   const [userExperience, setUserExperience] = useState('');
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1); 
+  const [totalPages, setTotalPages] = useState(1);
+  let [search, setSearch] = useState('');
 
   const { show } = useAppContext();
 
@@ -38,18 +39,18 @@ const Team = () => {
       redirect: "follow"
     };
 
-    fetch(`${url}get-HR-or-Developer-Details?role=${role}&page=${page}&limit=10`, requestOptions)
+    fetch(`${url}get-HR-or-Developer-Details?role=${role}&page=${page}&limit=10&search=${search}`, requestOptions)
       .then(response => response.json())
       .then(result => {
         setUserDetails(result.details);
-        setTotalPages(result.totalPages); 
+        setTotalPages(result.totalPages);
       })
       .catch(error => console.error(error));
   };
 
   useEffect(() => {
     fetchUserDetails();
-  }, [role, token, configureChange, page]); 
+  }, [role, token, configureChange, page, search]);
 
   const handleDelete = (id, name) => {
     Swal.fire({
@@ -114,11 +115,29 @@ const Team = () => {
     }
   };
 
+
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
-      <div className="text-end mb-3 pe-3">
-        <button className="register-btn" onClick={handleRegistration}>ADD {role.toUpperCase()}</button>
+      <div className='page-headers'> <h5>Team Hub</h5></div>
+      <div className="d-flex justify-content-between align-items-center mb-3 pe-3 teamhub">
+        <div className="searchbox-hr-feedback-teamhub">
+          <Form.Control
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={handleSearchChange}
+          />
+        </div>
+        <button className="register-btn" onClick={handleRegistration}>
+          ADD {role.toUpperCase()}
+        </button>
       </div>
+
       <Tabs
         activeKey={role}
         onSelect={handleChange}
@@ -140,7 +159,7 @@ const Team = () => {
                 </tr>
               </thead>
               <tbody>
-                {userDetails.map((element, index) => (
+                {userDetails?.map((element, index) => (
                   <tr key={index}>
                     <td>{(page - 1) * 10 + index + 1}</td> {/* Adjust index for pagination */}
                     <td>{element.userName}</td>
@@ -170,7 +189,7 @@ const Team = () => {
                 </tr>
               </thead>
               <tbody>
-                {userDetails.map((element, index) => (
+                {userDetails?.map((element, index) => (
                   <tr key={index}>
                     <td>{(page - 1) * 10 + index + 1}</td> {/* Adjust index for pagination */}
                     <td>{element.userName}</td>

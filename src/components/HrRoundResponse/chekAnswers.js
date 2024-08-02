@@ -79,7 +79,7 @@ const CheckHrRoundAnswers = () => {
            {/* <div className=""> <button className="back-btn-checkans">back</button></div>  */}
             <div className="hrcheckans-heading">Asked questions</div>
             {
-                questions.map((ele) => {
+                questions?.map((ele) => {
                     return (
                         <div className="question-wrapper" key={ele._id}>
                             <h3 className="question-text-inner">{ele.question}</h3>
@@ -97,7 +97,7 @@ const CheckHrRoundAnswers = () => {
                     </>
                 )
             }
-            {quesAns.map((ele, index) => {
+            {quesAns?.map((ele, index) => {
                 return (
                     <>
                         <div className="question-wrapper" key={ele._id}>

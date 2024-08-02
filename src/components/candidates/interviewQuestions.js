@@ -195,12 +195,10 @@ const InterviewQuestions = () => {
   };
 
   const handleCopy = (e) => {
-   
     e.preventDefault();
   };
 
   const handlePaste =(e)=>{
-   
     e.preventDefault()
   }
 
@@ -234,7 +232,7 @@ const InterviewQuestions = () => {
                     <div className="question-wrapper" key={question._id}>
                       <h3 onCopy={handleCopy} className="question-text">{question.question}</h3>
                       <div className="options-wrapper">
-                        {question.options.map((option, index) => (
+                        {question?.options.map((option, index) => (
                           <label className="option-label" key={index}>
                             <input
                               type="radio"

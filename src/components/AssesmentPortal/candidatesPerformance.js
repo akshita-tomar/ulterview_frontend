@@ -88,7 +88,7 @@ const CandidatesPerformance = () => {
               </tr>
             </thead>
             <tbody>
-              {candidates.map((element, index) => (
+              {candidates?.map((element, index) => (
                 <tr key={index}>
                   <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                   <td>{element.username}</td>

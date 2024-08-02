@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Table, Pagination } from "react-bootstrap";
+import { Table, Pagination,Form } from "react-bootstrap";
 import CandidateRegisterModal from "./candidateRegistarModal";
 import UpdateCandidate from "./updateCandidate";
 import InviteCandidate from "./InviteCandidate";
@@ -27,6 +27,7 @@ const CandidateEntries = () => {
   const url = process.env.REACT_APP_BACKEND_URL;
   const socketurl = process.env.REACT_APP_SOCKET_URL;
   const socket = io(socketurl);
+  const [search,setSearch]= useState('')
 
   if (!token) {
     navigate('/');
@@ -40,7 +41,7 @@ const CandidateEntries = () => {
       headers: myHeaders,
       redirect: "follow"
     };
-    fetch(`${url}getCandidates?page=${page}&limit=10`, requestOptions)
+    fetch(`${url}getCandidates?page=${page}&limit=10&search=${search}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setCandidates(result.allCandidates);
@@ -59,7 +60,7 @@ const CandidateEntries = () => {
     return () => {
       socket.disconnect();
     };
-  }, [token, url, handleChange, page]); 
+  }, [token, url, handleChange, page,search]); 
   
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -121,14 +122,28 @@ const CandidateEntries = () => {
   };
 
 
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+};
+
   const { show } = useAppContext();
 
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
-      <div className="text-end mb-3 pe-3">
+       <div  className='page-headers'> <h5>Candidate Records</h5></div>
+       <div className="d-flex justify-content-between align-items-center mb-3 pe-3 teamhub">
+      
+      <div className="searchbox-hr-feedback-teamhub">
+        <Form.Control 
+            type="text" 
+            placeholder="Search" 
+            value={search} 
+            onChange={handleSearchChange} 
+        />
+    </div>
         <button className="register-btn" onClick={() => setModalShow(true)}>Register</button>
-      </div>
-
+    
+       </div>
       <div className="table-responsive">
         <Table striped bordered hover className="user-table candidate_entry_table">
           <thead>
@@ -176,7 +191,8 @@ const CandidateEntries = () => {
                   <div>
                     <MdEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} />
                     <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
-                  </div></td>
+                  </div>
+                  </td>
               </tr>
             ))}
           </tbody>
@@ -234,7 +250,7 @@ const CandidateEntries = () => {
           />
         )
       }
-     
+      
       <Toaster />
     </div>
   )

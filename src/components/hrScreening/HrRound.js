@@ -114,6 +114,7 @@ const HrRound = () => {
 
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
+        <div  className='page-headers'> <h5>HR Round Series</h5></div>
       <div className="text-end mb-3 pe-3">
         <button className="register-btn" onClick={addHrRoundSeries} >Add Series</button>
       </div>
@@ -128,7 +129,7 @@ const HrRound = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((element, index) => (
+            {data?.map((element, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{element.questionSeries}</td>

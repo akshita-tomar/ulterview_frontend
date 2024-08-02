@@ -213,13 +213,13 @@ const CreateTask = () => {
               {questionType === "mcq" && (
                 <div className="mcq-inputs">
                   <input className="mcq-question form-control mt-3" type="text" placeholder="Enter question" value={question} onChange={(e) => setQuestion(e.target.value)} />
-                  {options.map((option, index) => (
+                  {options?.map((option, index) => (
                     <input className="mcq-options form-control" key={index} type="text" placeholder={`Option ${index + 1}`} value={option} onChange={(e) => handleOptionChange(index, e.target.value)} />
                   ))}
                   <label className="new_series_label">Select correct answer:</label>
                   <select className="form-control mt-3" value={correctAnswer} onChange={(e) => setCorrectAnswer(parseInt(e.target.value))}>
                     <option defaultChecked ></option>
-                    {options.map((_, index) => (
+                    {options?.map((_, index) => (
                       <option key={index} value={index + 1}>{index + 1}</option>
                     ))}
                   </select>
