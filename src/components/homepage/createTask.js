@@ -189,16 +189,9 @@ const CreateTask = () => {
     <div className="homepage-outer-div">
       <div className="back-btn me-2" onClick={handleBackClick}>< MdOutlineArrowBack /></div>
       {
-        // openmodal || series && (
         series && (
           <>
-           
-            {/* <div className="headings"><h2 className="create-series-heading"> Create test for {series} ({language}) </h2>
-            </div> */}
-            
             <div className="test-box">
-
-              {/* <div className="cross-sign" onClick={closeTestModal}> <b>  &#10005; </b></div> */}
               <div className="internal-testbox">
               <button onClick={() => handleQuestionTypeChange("mcq")} className={`mcq-btn ${getButtonClass("mcq")}`}>
                 Objective

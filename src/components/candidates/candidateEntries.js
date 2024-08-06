@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Table, Pagination,Form } from "react-bootstrap";
+import { Table, Pagination, Form } from "react-bootstrap";
 import CandidateRegisterModal from "./candidateRegistarModal";
 import UpdateCandidate from "./updateCandidate";
 import InviteCandidate from "./InviteCandidate";
@@ -8,8 +8,10 @@ import Swal from "sweetalert2";
 import { MdEdit, MdDelete } from "react-icons/md";
 import toast, { Toaster } from 'react-hot-toast';
 import { io } from 'socket.io-client';
-import { useAppContext } from "../../utils/useContext"; 
+import { useAppContext } from "../../utils/useContext";
 import InviteHrRound from "./hrRoundInvite";
+import { Dropdown, DropdownItem, Submenu } from "../Dropdown/DropdownComponent";
+
 
 const CandidateEntries = () => {
   const token = localStorage.getItem('token');
@@ -20,14 +22,17 @@ const CandidateEntries = () => {
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [candidateID, setCandidateID] = useState('');
   const [LanguageId, setLanguageId] = useState('');
-  const [handleChange, setHandleChange] = useState(0); 
+  const [handleChange, setHandleChange] = useState(0);
   const [showHrRoundSentLink, setShowHrRoundSentLink] = useState(false);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1); 
+  const [totalPages, setTotalPages] = useState(1);
   const url = process.env.REACT_APP_BACKEND_URL;
   const socketurl = process.env.REACT_APP_SOCKET_URL;
   const socket = io(socketurl);
-  const [search,setSearch]= useState('')
+  const [search, setSearch] = useState('')
+  const [selectedField, setSelectedField] = useState('')
+  const [selectedStatus, setSelectedStatus] = useState('')
+  
 
   if (!token) {
     navigate('/');
@@ -41,11 +46,11 @@ const CandidateEntries = () => {
       headers: myHeaders,
       redirect: "follow"
     };
-    fetch(`${url}getCandidates?page=${page}&limit=10&search=${search}`, requestOptions)
+    fetch(`${url}getCandidates?page=${page}&limit=10&search=${search}&selectedField=${selectedField}&selectedStatus=${selectedStatus}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setCandidates(result.allCandidates);
-        setTotalPages(result.totalPages); 
+        setTotalPages(result.totalPages);
       })
       .catch((error) => console.error(error));
   };
@@ -60,8 +65,8 @@ const CandidateEntries = () => {
     return () => {
       socket.disconnect();
     };
-  }, [token, url, handleChange, page,search]); 
-  
+  }, [token, url, handleChange, page, search,selectedField,selectedStatus]);
+
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
       setPage(newPage);
@@ -124,26 +129,76 @@ const CandidateEntries = () => {
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
-};
+  };
 
   const { show } = useAppContext();
 
+  const handleItemClick = (status,field) => {
+    setSelectedStatus(status)
+    setSelectedField(field)
+  };
+
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
-       <div  className='page-headers'> <h5>Candidate Records</h5></div>
-       <div className="d-flex justify-content-between align-items-center mb-3 pe-3 teamhub">
-      
-      <div className="searchbox-hr-feedback-teamhub">
-        <Form.Control 
-            type="text" 
-            placeholder="Search" 
-            value={search} 
-            onChange={handleSearchChange} 
-        />
-    </div>
+      <div className='page-headers'> <h5>Candidate Records</h5></div>
+      <div className="d-flex justify-content-between align-items-center mb-3 pe-3 teamhub">
+        <div className="d-flex gap-4">
+          <div className="searchbox-hr-feedback-teamhub">
+            <Form.Control
+              type="text"
+              placeholder="Search"
+              value={search}
+              onChange={handleSearchChange}
+            />
+          </div>
+
+          <Dropdown title="Select status type">
+      <DropdownItem
+        className={selectedStatus === '' && selectedField === '' ? 'selected' : ''}
+        onClick={() => handleItemClick('', '')}
+      >
+        All
+      </DropdownItem>
+      <Submenu title="HR round" id="submenu1">
+        {['invite_sent', 'invite_accepted', 'completed', 'selected', 'rejected', 'pending'].map(status => (
+          <DropdownItem
+            key={status}
+            className={selectedStatus === status && selectedField === 'hr' ? 'selected' : ''}
+            onClick={() => handleItemClick(status, 'hr')}
+          >
+            {status}
+          </DropdownItem>
+        ))}
+      </Submenu>
+      <Submenu title="Technical Round" id="submenu2">
+        {['invite_sent', 'invite_accepted', 'completed', 'pending'].map(status => (
+          <DropdownItem
+            key={status}
+            className={selectedStatus === status && selectedField === 'technical' ? 'selected' : ''}
+            onClick={() => handleItemClick(status, 'technical')}
+          >
+            {status}
+          </DropdownItem>
+        ))}
+      </Submenu>
+      <Submenu title="Final Result" id="submenu3">
+        {['selected', 'rejected', 'pending'].map(status => (
+          <DropdownItem
+            key={status}
+            className={selectedStatus === status && selectedField === 'final' ? 'selected' : ''}
+            onClick={() => handleItemClick(status, 'final')}
+          >
+            {status}
+          </DropdownItem>
+        ))}
+      </Submenu>
+    </Dropdown>
+        </div>
+
+
         <button className="register-btn" onClick={() => setModalShow(true)}>Register</button>
-    
-       </div>
+
+      </div>
       <div className="table-responsive">
         <Table striped bordered hover className="user-table candidate_entry_table">
           <thead>
@@ -187,12 +242,12 @@ const CandidateEntries = () => {
                 </td>
                 <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus}
                 </td>
-                <td>  
+                <td>
                   <div>
                     <MdEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} />
                     <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
                   </div>
-                  </td>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -250,7 +305,7 @@ const CandidateEntries = () => {
           />
         )
       }
-      
+
       <Toaster />
     </div>
   )

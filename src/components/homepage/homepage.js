@@ -469,9 +469,12 @@ const HomePage = () => {
       </div>
       {showcreteTasksection && (
         <>
+        
           {showLanguageModal && (
             <div className="language-modal">
-              <div className={`d-flex flex-wrap-wrap language-modal_outer  ${show ? "" : "margin"}`}>
+              <h4>Choose a language to add questions</h4><br/>
+              {/* <div className={`d-flex flex-wrap-wrap language-modal_outer  ${show ? "" : "margin"}`}> */}
+             
                 {languages?.map((language) => (
                   <div key={language.id} className="language-card align-items-center">
                     <h3 className="text-space" onClick={() => handleLanguageClick(language.language, language._id)}> {language.language}</h3>
@@ -486,7 +489,7 @@ const HomePage = () => {
                     <button className="add-more-languages-btn" onClick={handleAddNewLanguage}>Add new</button>
                   ) : null}
 
-              </div>
+              {/* </div> */}
             </div>
 
           )}

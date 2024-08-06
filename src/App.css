@@ -139,6 +139,7 @@ button.register-btn {
   padding: 10px 20px;
   background-color: #333;
   color: white;
+  z-index: 99999;
 }
 
 
@@ -486,27 +487,17 @@ svg.MdEdit {
 
 /* LanguageModal.css */
 .language-modal {
-  /* position: fixed;
-  width: 40%;
-  top: 50%; 
-  left: 55%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  
-  margin-top: 25px;
-  height: 400px;
-  overflow-y: scroll;
-  scrollbar-width: thin; */
-  /* box-shadow: 1px 1px 3px 2px #c22e0a; */
   background-color: #fff6f4;
-  display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    height: 60vh;   
+    margin-top: 10%;
+    width: 60%;
+    margin-left: 20%;
+    overflow-y: scroll;
+    border-radius: 20px;
+    scrollbar-width: thin;
 }
 .language-modal_outer {
   height: 250px;
@@ -1462,4 +1453,17 @@ display: flex;
 
 .page-headers{
   text-align: left;
+}
+
+/* dropdown css */
+
+.selected {
+  background-color: #007bff; 
+  color: white; 
+}
+
+
+.DropdownItem:hover {
+  background-color: #0056b3; 
+  color: white; 
 }
