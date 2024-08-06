@@ -12,6 +12,7 @@ const UpdateCandidate = (props) => {
     const [selectedLanguage, setSelectedLanguage] = useState({ language: '', id: '' });
     const token = localStorage.getItem('token')
     let candidateId = props.candidateId
+    
 
     let url = process.env.REACT_APP_BACKEND_URL
 
@@ -103,6 +104,9 @@ const UpdateCandidate = (props) => {
             })
             .catch((error) => console.error(error));
     }
+    
+
+    console.log("details of user ----------",data)
 
     return (
         <div>
@@ -122,8 +126,9 @@ const UpdateCandidate = (props) => {
 
                     <input className="candidate-register-input mt-3 form-control" placeholder="Enter candidate email" defaultValue={data.email} onChange={(e) => setEmail(e.target.value)}></input>
 
-                    <select className="candidate-register-input mt-3 form-control" defaultValue={data.profile} onChange={handleChange}>
+                    <select className="candidate-register-input mt-3 form-control" value={data.languageId} onChange={handleChange}>
                         {/* <option value="">Select profile</option> */}
+                        
                         {languages?.map((ele) => (
                             <option key={ele._id} value={ele._id}>
                                 {ele.language}
