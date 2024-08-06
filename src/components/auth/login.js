@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom"; 
 import "./login.css"
+import logo from "../../assets/logo.png"
+import ultivicLogo from "../../assets/ultivicLogo.png"
 
 const Login = () => {
 const[email,setEmail]=useState('')
@@ -68,23 +70,51 @@ fetch(`${url}signIn`, requestOptions)
 
     return( 
       <>
-        <div className="login-container">
+        <div className="login_container">
+          <div className="row">
+          <div className="col-lg-6 col-sm-12 col-md-6">
+            <div className="login_bg_outer">
+              <div className="d-flex align-items-center justify-content-center login_bg_container">
+                <div>
+              <img src={logo} className="ultiviclogo_img"/>
+              <p>As a returning member, we’re thrilled to have you <br></br>back. Let’s continue our journey together!”</p>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6 col-sm-12 col-md-6">
+              <div className="login_inner_content">
           <div className="login_wrapper">
-          <h3 className="heading">Login</h3>
+           <div className="text-center d-flex welcome_outer align-items-center">
+           <h3>Welcome To </h3>
+           <img src={ultivicLogo} className="ultivic_logo"/>
+           </div>
         <form>
           <div className="form-group mt-3">
-            <label>E-mail</label>
+            <label>Your E-mail</label>
             <input className="form-control mt-2" type="email" id="username" name="username" placeholder="Enter your email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
           </div>
           <div className="form-group mt-3">
-          <label>Password</label>
+            <div className="d-flex justify-content-between">
+            <label>Your Password</label>
+            <h6> <a className="forget_password small_font mt-2" href="/">Forget password?</a></h6> 
+            </div>
+         
             <input className="form-control mt-2" type="password" id="password" name="password" placeholder="Enter your password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
           </div>
-          <a className="forget-password mt-2" href="/">Forget password?</a>  <br></br>
-          <button type="submit" className=" login-button mt-4" onClick={collectData}>Submit</button> <br></br>
-         {/* <div className="register"> Don't have account? <a href="/register"> register here</a></div> */}
+           <div className="mt-3">
+            <input type="checkbox" className="custom-checkbox"/>
+            <label className="small_font ms-2">Remember me </label>
+           </div>
+          <button type="submit" className=" login-button mt-4" onClick={collectData}>Sign in</button> <br></br>
         </form>
 
+          </div>
+
+              </div>
+          </div>
           </div>
         <Toaster/>
       </div>

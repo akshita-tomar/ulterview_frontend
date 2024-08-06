@@ -14,8 +14,8 @@ const Dropdown = ({ title, children }) => {
   };
 
   return (
-    <div className="dropdown">
-      <button className="dropdown-toggle" onClick={toggleDropdown}>
+    <div className="dropdown ">
+      <button className="dropdown-toggle cmn_btn_color" onClick={toggleDropdown}>
         {title}
       </button>
       {isOpen && (

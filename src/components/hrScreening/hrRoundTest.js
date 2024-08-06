@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { decryptId } from "../../utils/encryption"
-import logo from "../header/ultivic-logo.png"
+import logo from "../../assets/ultivic-logo.png"
 
 
 const HrRoundTest = () => {

@@ -11,6 +11,7 @@ import { io } from 'socket.io-client';
 import { useAppContext } from "../../utils/useContext";
 import InviteHrRound from "./hrRoundInvite";
 import { Dropdown, DropdownItem, Submenu } from "../Dropdown/DropdownComponent";
+import { IoMdAdd } from "react-icons/io";
 
 
 const CandidateEntries = () => {
@@ -152,7 +153,7 @@ const CandidateEntries = () => {
             />
           </div>
 
-          <Dropdown title="Select status type">
+          <Dropdown title="Select status type" >
       <DropdownItem
         className={selectedStatus === '' && selectedField === '' ? 'selected' : ''}
         onClick={() => handleItemClick('', '')}
@@ -196,11 +197,11 @@ const CandidateEntries = () => {
         </div>
 
 
-        <button className="register-btn" onClick={() => setModalShow(true)}>Register</button>
+        <button className="register-btn cmn_btn_color" onClick={() => setModalShow(true)}><IoMdAdd className="me-2"/>Register</button>
 
       </div>
-      <div className="table-responsive">
-        <Table striped bordered hover className="user-table candidate_entry_table">
+      <div className="table-responsive candidate_table_outer">
+        <Table  hover className="user-table candidate_entry_table">
           <thead>
             <tr>
               <th>Sr.no</th>
@@ -228,16 +229,16 @@ const CandidateEntries = () => {
                 <td>
                   {
                     element.hrRoundStatus === 'invite_sent' || element.hrRoundStatus === 'invite_accepted' || element.hrRoundStatus === 'completed' || element.hrRoundStatus === 'selected' || element.hrRoundStatus === 'rejected' ?
-                      <button className="invite_btn" onClick={() => handleHrRoundInvite(element._id)} >Resend</button> :
-                      <button className="invite_btn" onClick={() => handleHrRoundInvite(element._id)}>Invite</button>
+                      <button className="invite_btn  resend_btn" onClick={() => handleHrRoundInvite(element._id)} >Resend</button> :
+                      <button className="invite_btn cmn_btn_color" onClick={() => handleHrRoundInvite(element._id)}>Invite</button>
                   }
                 </td>
                 <td>{element.testStatus}</td>
                 <td>
                   {
                     element.testStatus === 'completed' || element.testStatus === 'invite_sent' || element.testStatus === 'invite_accepted' ?
-                      <button className="invite_btn" onClick={() => handleInvite(element._id, element.languageId)} >Resend</button> :
-                      <button className="invite_btn" onClick={() => handleInvite(element._id, element.languageId)}>Invite</button>
+                      <button className="invite_btn  resend_btn" onClick={() => handleInvite(element._id, element.languageId)} >Resend</button> :
+                      <button className="invite_btn cmn_btn_color" onClick={() => handleInvite(element._id, element.languageId)}>Invite</button>
                   }
                 </td>
                 <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus}

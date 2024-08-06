@@ -8,7 +8,7 @@ import { useAppContext } from "../../utils/useContext";
 import { FaUserGroup } from "react-icons/fa6";
 import { CgNotes } from "react-icons/cg";
 import { MdOutlineQuickreply } from "react-icons/md";
-
+import logo from '../../assets/logo1.png'
 
 const Sidebar = () => {
   const navigate = useNavigate()
@@ -41,13 +41,20 @@ const Sidebar = () => {
   const path = useLocation()
 
   const { show, setShow } = useAppContext();
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    navigate('/')
+  };
 
   return (
     <>
       <div className={`sidebar ${show ? "cmn_width" : ""}`}>
 
         <h3 className="bar" onClick={() => { setShow(!show) }}>{show ? <RxCross2 className="p-0 text-center" /> : <FaBars />}</h3>
-
+       <div className={`${show?"d-none":"text-center sidebar_logo_outer"}`}>
+       <img src={logo} height={"40px"} width={"158px"}/>
+       <h3 className="mt-1">TECHNOLOGIES</h3>
+       </div>
         {
           role === "HR" ?
             <>
@@ -90,6 +97,8 @@ const Sidebar = () => {
                 <h4 className={show ? "d-none" : "sidebar_content"}> Candidate Results</h4>
               </div>
             </div>
+            
+            
 
           </div> : null
         }

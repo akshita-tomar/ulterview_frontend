@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from './ultivic-logo.png'
+import logo from '../../assets/ultivic-logo.png'
 import { useNavigate } from 'react-router-dom'
 import Dropdown from 'react-bootstrap/Dropdown';
 import ChangePassword from './changePassword';
