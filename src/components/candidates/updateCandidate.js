@@ -147,4 +147,5 @@ const UpdateCandidate = (props) => {
         </div>
     );
 }
+
 export default UpdateCandidate
