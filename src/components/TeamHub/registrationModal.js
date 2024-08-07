@@ -1,15 +1,18 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { toast, Toaster } from 'react-hot-toast'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import loader from '../../assets/loading.gif'
+import { register_slice } from '../../utils/redux/authSlice/registerSlice';
+import { clear_register_slice } from '../../utils/redux/authSlice/registerSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
 
 const RegistrationModal = (props) => {
-    const url = process.env.REACT_APP_BACKEND_URL
-    let token = localStorage.getItem('token')
+    const dispatch = useDispatch()
+    const register_data = useSelector(store => store.REGISTER)
     const [username, setUserName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -17,46 +20,27 @@ const RegistrationModal = (props) => {
     const [experience, setExprience] = useState('')
     const [showLoader, setShowLoader] = useState(false)
 
-
-    
     const handleSubmit = () => {
         setShowLoader(true)
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer " + token);
-
-        const raw = JSON.stringify({
-            "userName": username,
-            "email": email,
-            "password": password,
-            "role": props.role,
-            "experience": experience,
-            "profile": profile
-        });
-
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-
-        fetch(`${url}signUp`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                // console.log(result)
-                if (result.type === 'error') {
-                    setShowLoader(false)
-                    toast.error(result.message)
-                } else {
-                    setShowLoader(false)
-                    props.configureChange((prev => prev + 1))
-                    props.onHide(false)
-                }
-            })
-            .catch((error) => console.error(error));
+        dispatch(register_slice({ userName: username, email, password, profile, experience, role: props.role }))
     }
 
+    useEffect(() => {
+        if (register_data?.isSuccess) {
+            props.configureChange((prev => prev + 1))
+            setShowLoader(false)
+            props.onHide(false)
+            dispatch(clear_register_slice())
+        }
+
+        if (register_data?.isError) {
+            toast.error(register_data?.error?.message, {
+                duration: 1300
+            })
+            setShowLoader(false)
+            dispatch(clear_register_slice())
+        }
+    }, [register_data])
 
     return (
         <div>
@@ -73,7 +57,7 @@ const RegistrationModal = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className='loader_outer_wrapper'>
-                        {showLoader && (<> <img src={loader} height={"50px"} width={"50px"} /><br></br> <h4>Sending email ....</h4></>)}
+                        {showLoader && (<> <img src={loader} height={"50px"} width={"50px"} alt="" /><br></br> <h4>Sending email ....</h4></>)}
                     </div>
                     <input className="candidate-register-input form-control mt-2" placeholder="Enter username" value={username} onChange={(e) => setUserName(e.target.value)} ></input>
                     <input className="candidate-register-input form-control mt-2" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} ></input>

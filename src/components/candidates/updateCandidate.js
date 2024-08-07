@@ -2,111 +2,64 @@ import { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from "react-redux";
+import { update_candidate, clear_update_candidate_slice } from "../../utils/redux/candidateSlice/updateCandidateSlice";
+import { get_single_candidate_data, clear_get_single_candidate_slice } from "../../utils/redux/candidateSlice/getSingleCandidateSlice";
+import { useLanguage } from "../../utils/customHooks/useLanguage.Hook";
 
 const UpdateCandidate = (props) => {
+    const dispatch = useDispatch()
     const [data, setData] = useState([])
     const [username, setUserName] = useState('')
     const [email, setEmail] = useState('')
     const [experience, setExprience] = useState('')
-    const [languages, setlanguages] = useState([])
     const [selectedLanguage, setSelectedLanguage] = useState({ language: '', id: '' });
-    const token = localStorage.getItem('token')
-    let candidateId = props.candidateId
-    
-
-    let url = process.env.REACT_APP_BACKEND_URL
-
-    useEffect(() => {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token);
-
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow"
-        };
-
-        fetch(`${url}getAllLanguages`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                // console.log(result)
-                if (result.type === 'success') {
-                    setlanguages(result.data)
-                }
-            })
-            .catch((error) => console.error(error));
-    }, [])
-
+    const updated_candidate_slice = useSelector(store => store.UPDATE_CANDIDATE);
+    const get_single_candidate = useSelector(store => store.GET_SINGLE_CANDIDATE)
+    let { candidateId } = props
+    const language = useLanguage()
 
     useEffect(() => {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token);
-
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow"
-        };
-
-        fetch(`${url}getSingleCandidate?candidateId=${candidateId}`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                // console.log(result)
-                if (result.type === 'success') {
-                    setData(result.isCandidateExist)
-                }
-            })
-            .catch((error) => console.error(error));
+        dispatch(get_single_candidate_data({ id: candidateId }))
     }, [candidateId])
+
+    useEffect(() => {
+        if (get_single_candidate?.isSuccess) {
+            setData(get_single_candidate?.data?.isCandidateExist)
+            dispatch(clear_get_single_candidate_slice())
+        }
+        if (get_single_candidate?.isError) {
+            setData(get_single_candidate?.error?.message)
+            dispatch(clear_get_single_candidate_slice())
+        }
+
+    }, [get_single_candidate])
 
     const handleChange = (e) => {
         const selectedIndex = e.target.options.selectedIndex;
         const selectedLanguage = e.target.options[selectedIndex].text;
         const selectedId = e.target.value;
         setSelectedLanguage({ language: selectedLanguage, id: selectedId });
-      };
+    };
 
 
     const handleUpdateCandidate = (id) => {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer " + token);
-
-        const raw = JSON.stringify({
-            "username": username ? username : data.username,
-            "email": email ? email : data.email,
-            "profile": selectedLanguage.language ? selectedLanguage.language : data.profile,
-            "experience": experience ? experience : data.experience,
-            "languageId":selectedLanguage.id?selectedLanguage.id:data.languageId
-        });
-
-        const requestOptions = {
-            method: "PUT",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-        fetch(`${url}updateCandidate?candidateId=${id}`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                // console.log(result)
-                if (result.type === 'success') {
-                    toast.success(result.message, {
-                        duration: 700
-                    })
-
-                    props.handleChange(prev => prev + 1)
-                    props.onHide(false)
-                }
-                if (result.type === 'error') {
-                    toast.error(result.message)
-                }
-            })
-            .catch((error) => console.error(error));
+        dispatch(update_candidate({ languageId: selectedLanguage.id ? selectedLanguage.id : data.languageId, username: username ? username : data.username, email: email ? email : data.email, profile: selectedLanguage.language ? selectedLanguage.language : data.profile, experience: experience ? experience : data.experience, id }))
     }
-    
 
-    console.log("details of user ----------",data)
+    useEffect(() => {
+        if (updated_candidate_slice?.isSuccess) {
+            props.handleChange(prev => prev + 1)
+            props.onHide(false)
+            toast(updated_candidate_slice?.message?.message)
+            dispatch(clear_update_candidate_slice())
+        }
+        if (updated_candidate_slice?.isError) {
+            toast(updated_candidate_slice?.error?.message)
+            dispatch(clear_update_candidate_slice())
+        }
+
+    }, [updated_candidate_slice])
 
     return (
         <div>
@@ -126,10 +79,10 @@ const UpdateCandidate = (props) => {
 
                     <input className="candidate-register-input mt-3 form-control" placeholder="Enter candidate email" defaultValue={data.email} onChange={(e) => setEmail(e.target.value)}></input>
 
-                    <select className="candidate-register-input mt-3 form-control" value={data.languageId} onChange={handleChange}>
+                    <select className="candidate-register-input mt-3 form-control" value={selectedLanguage?.id ? selectedLanguage?.id : data.languageId} onChange={handleChange}>
                         {/* <option value="">Select profile</option> */}
-                        
-                        {languages?.map((ele) => (
+
+                        {language?.languages?.data?.map((ele) => (
                             <option key={ele._id} value={ele._id}>
                                 {ele.language}
                             </option>

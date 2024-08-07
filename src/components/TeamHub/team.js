@@ -7,10 +7,16 @@ import UpdateUser from './updateModal';
 import { MdEdit, MdDelete } from "react-icons/md";
 import Swal from 'sweetalert2';
 import { useAppContext } from "../../utils/useContext";
+import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { get_hr_and_developer_details_slice } from '../../utils/redux/getHrAndDeveloperDetailSlice/hrAndDeveloperDetailsSlice';
+import { delete_user } from '../../utils/redux/getHrAndDeveloperDetailSlice/deleteUserSlice';
+import { clear_user_delete_slice } from '../../utils/redux/getHrAndDeveloperDetailSlice/deleteUserSlice';
 
 
 
 const Team = () => {
+  const dispatch = useDispatch()
   const token = localStorage.getItem("token");
   const url = process.env.REACT_APP_BACKEND_URL;
   const [role, setRole] = useState('developer');
@@ -25,32 +31,26 @@ const Team = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   let [search, setSearch] = useState('');
+  const details = useSelector(store => store.GET_HR_DEVELOPER_DETAILS)
+  const deleted_data = useSelector(store => store.DELETE_USER)
 
   const { show } = useAppContext();
-
-  const fetchUserDetails = () => {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer " + token);
-
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow"
-    };
-
-    fetch(`${url}get-HR-or-Developer-Details?role=${role}&page=${page}&limit=10&search=${search}`, requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        setUserDetails(result.details);
-        setTotalPages(result.totalPages);
-      })
-      .catch(error => console.error(error));
-  };
+  useEffect(() => {
+    dispatch(get_hr_and_developer_details_slice({ role, page, search }))
+  }, [role, token, configureChange, page, search]);
 
   useEffect(() => {
-    fetchUserDetails();
-  }, [role, token, configureChange, page, search]);
+    if (details?.isSuccess) {
+      setUserDetails(details?.data?.details)
+      setTotalPages(details?.data?.totalPages)
+    }
+    if (details?.isError) {
+      toast.error(details?.error?.message, {
+        duration: 1300
+      })
+    }
+
+  }, [details])
 
   const handleDelete = (id, name) => {
     Swal.fire({
@@ -63,34 +63,23 @@ const Team = () => {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        handleDeleteConfirm(id);
+        dispatch(delete_user({ id }))
       }
     })
   };
 
-  const handleDeleteConfirm = (id) => {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Bearer " + token);
-
-    const raw = JSON.stringify({
-      "userId": id
-    });
-
-    const requestOptions = {
-      method: "DELETE",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow"
-    };
-
-    fetch(`${url}deleteUser`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        setConfigureChange(prev => prev + 1);
+  useEffect(() => {
+    if (deleted_data?.isSuccess) {
+      setConfigureChange(prev => prev + 1)
+      dispatch(clear_user_delete_slice())
+    }
+    if (deleted_data?.isError) {
+      toast.error(deleted_data?.error?.message, {
+        duration: 1300
       })
-      .catch((error) => console.error(error));
-  };
+      dispatch(clear_user_delete_slice())
+    }
+  }, [deleted_data])
 
   const handleEdit = (id, user, experience, profile) => {
     setShowUpdateModal(true);
@@ -243,6 +232,7 @@ const Team = () => {
           />
         )
       }
+      <Toaster />
     </div>
   );
 };

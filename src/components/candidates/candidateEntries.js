@@ -12,9 +12,13 @@ import { useAppContext } from "../../utils/useContext";
 import InviteHrRound from "./hrRoundInvite";
 import { Dropdown, DropdownItem, Submenu } from "../Dropdown/DropdownComponent";
 import { IoMdAdd } from "react-icons/io";
+import { get_candidates } from "../../utils/redux/candidateSlice/getCandidateSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { delete_candidate, clear_delete_candidate_slice } from "../../utils/redux/candidateSlice/deleteCandidate";
 
 
 const CandidateEntries = () => {
+  const dispatch = useDispatch()
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const [candidates, setCandidates] = useState([]);
@@ -33,28 +37,41 @@ const CandidateEntries = () => {
   const [search, setSearch] = useState('')
   const [selectedField, setSelectedField] = useState('')
   const [selectedStatus, setSelectedStatus] = useState('')
-  
+  const candidate_details = useSelector(store => store.GET_CANDIDATES)
+  const deleted_candidate = useSelector(store => store.DELETE_CANDIDATE)
+
 
   if (!token) {
     navigate('/');
   }
 
   const fetchCandidates = () => {
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + token);
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow"
-    };
-    fetch(`${url}getCandidates?page=${page}&limit=10&search=${search}&selectedField=${selectedField}&selectedStatus=${selectedStatus}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        setCandidates(result.allCandidates);
-        setTotalPages(result.totalPages);
-      })
-      .catch((error) => console.error(error));
+    dispatch(get_candidates({ page: page, search: search, selectedField: selectedField, selectedStatus: selectedStatus }))
   };
+
+  useEffect(() => {
+    if (candidate_details?.isSuccess) {
+      setCandidates(candidate_details?.data?.allCandidates)
+      setTotalPages(candidate_details?.data?.totalPages)
+    }
+    if (candidate_details?.isError) {
+      toast(candidate_details?.error?.message)
+    }
+
+  }, [candidate_details])
+
+  useEffect(() => {
+    if (deleted_candidate?.isSuccess) {
+      toast(deleted_candidate?.message?.message)
+      setHandleChange(prev => prev + 1);
+      dispatch(clear_delete_candidate_slice())
+    }
+    if (deleted_candidate?.isError) {
+      toast(deleted_candidate?.error?.message)
+      dispatch(clear_delete_candidate_slice())
+    }
+
+  }, [deleted_candidate])
 
   useEffect(() => {
     fetchCandidates();
@@ -66,7 +83,7 @@ const CandidateEntries = () => {
     return () => {
       socket.disconnect();
     };
-  }, [token, url, handleChange, page, search,selectedField,selectedStatus]);
+  }, [token, url, handleChange, page, search, selectedField, selectedStatus]);
 
   const handlePageChange = (newPage) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -85,7 +102,7 @@ const CandidateEntries = () => {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        handleDeleteConfirm(id);
+        dispatch(delete_candidate({ id }))
       }
     });
   };
@@ -105,7 +122,7 @@ const CandidateEntries = () => {
           toast.success(result.message, {
             duration: 800
           });
-          setHandleChange(prev => prev + 1);
+
         }
       })
       .catch((error) => console.error(error));
@@ -134,7 +151,7 @@ const CandidateEntries = () => {
 
   const { show } = useAppContext();
 
-  const handleItemClick = (status,field) => {
+  const handleItemClick = (status, field) => {
     setSelectedStatus(status)
     setSelectedField(field)
   };
@@ -154,54 +171,54 @@ const CandidateEntries = () => {
           </div>
 
           <Dropdown title="Select status type" >
-      <DropdownItem
-        className={selectedStatus === '' && selectedField === '' ? 'selected' : ''}
-        onClick={() => handleItemClick('', '')}
-      >
-        All
-      </DropdownItem>
-      <Submenu title="HR round" id="submenu1">
-        {['invite_sent', 'invite_accepted', 'completed', 'selected', 'rejected', 'pending'].map(status => (
-          <DropdownItem
-            key={status}
-            className={selectedStatus === status && selectedField === 'hr' ? 'selected' : ''}
-            onClick={() => handleItemClick(status, 'hr')}
-          >
-            {status}
-          </DropdownItem>
-        ))}
-      </Submenu>
-      <Submenu title="Technical Round" id="submenu2">
-        {['invite_sent', 'invite_accepted', 'completed', 'pending'].map(status => (
-          <DropdownItem
-            key={status}
-            className={selectedStatus === status && selectedField === 'technical' ? 'selected' : ''}
-            onClick={() => handleItemClick(status, 'technical')}
-          >
-            {status}
-          </DropdownItem>
-        ))}
-      </Submenu>
-      <Submenu title="Final Result" id="submenu3">
-        {['selected', 'rejected', 'pending'].map(status => (
-          <DropdownItem
-            key={status}
-            className={selectedStatus === status && selectedField === 'final' ? 'selected' : ''}
-            onClick={() => handleItemClick(status, 'final')}
-          >
-            {status}
-          </DropdownItem>
-        ))}
-      </Submenu>
-    </Dropdown>
+            <DropdownItem
+              className={selectedStatus === '' && selectedField === '' ? 'selected' : ''}
+              onClick={() => handleItemClick('', '')}
+            >
+              All
+            </DropdownItem>
+            <Submenu title="HR round" id="submenu1">
+              {['invite_sent', 'invite_accepted', 'completed', 'selected', 'rejected', 'pending'].map(status => (
+                <DropdownItem
+                  key={status}
+                  className={selectedStatus === status && selectedField === 'hr' ? 'selected' : ''}
+                  onClick={() => handleItemClick(status, 'hr')}
+                >
+                  {status}
+                </DropdownItem>
+              ))}
+            </Submenu>
+            <Submenu title="Technical Round" id="submenu2">
+              {['invite_sent', 'invite_accepted', 'completed', 'pending'].map(status => (
+                <DropdownItem
+                  key={status}
+                  className={selectedStatus === status && selectedField === 'technical' ? 'selected' : ''}
+                  onClick={() => handleItemClick(status, 'technical')}
+                >
+                  {status}
+                </DropdownItem>
+              ))}
+            </Submenu>
+            <Submenu title="Final Result" id="submenu3">
+              {['selected', 'rejected', 'pending'].map(status => (
+                <DropdownItem
+                  key={status}
+                  className={selectedStatus === status && selectedField === 'final' ? 'selected' : ''}
+                  onClick={() => handleItemClick(status, 'final')}
+                >
+                  {status}
+                </DropdownItem>
+              ))}
+            </Submenu>
+          </Dropdown>
         </div>
 
 
-        <button className="register-btn cmn_btn_color" onClick={() => setModalShow(true)}><IoMdAdd className="me-2"/>Register</button>
+        <button className="register-btn cmn_btn_color" onClick={() => setModalShow(true)}><IoMdAdd className="me-2" />Register</button>
 
       </div>
       <div className="table-responsive candidate_table_outer">
-        <Table  hover className="user-table candidate_entry_table">
+        <Table hover className="user-table candidate_entry_table">
           <thead>
             <tr>
               <th>Sr.no</th>
