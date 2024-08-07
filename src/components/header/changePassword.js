@@ -55,19 +55,30 @@ const ChangePassword = (props) => {
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                className='custom_modal_container'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter " className="heading">
-                        Change Password
-                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter new password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}></input>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Re-type new password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} ></input>
+                    <h3 className="heading"> Change Password</h3>
+                    <div className='form-group mt-3'>
+                        <label className='modal_label'>Old Password</label>
+                        <input className="candidate-register-input form-control mt-1" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
+
+                    </div>
+                    <div className='form-group mt-3'>
+                        <label className='modal_label'>New Password</label>
+                        <input className="candidate-register-input form-control mt-1" placeholder="Enter new password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}></input>
+
+                    </div>
+                    <div className='form-group mt-3'>
+                        <label className='modal_label'>Confirm New Password</label>
+                        <input className="candidate-register-input form-control mt-1" placeholder="Re-type new password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} ></input>
+
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={handleChangePassword}>Submit</Button>
+                    <button onClick={handleChangePassword} className='submit_btn'>Change Password</button>
                 </Modal.Footer>
             </Modal>
             <Toaster />

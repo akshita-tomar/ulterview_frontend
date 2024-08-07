@@ -1,0 +1,17 @@
+ul.team_tab_outer button#justify-tab-example-tab-developer {
+    border: unset;
+    background: transparent;
+    color: #323232;
+}
+.team_tab_outer button#justify-tab-example-tab-hr {
+    color: #323232;
+    border: unset;
+    background: transparent;
+}
+.team_tab_outer.nav-justified > .nav-link, .nav-justified .nav-item{
+    flex-grow: unset;
+}
+ul.team_tab_outer.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+    color: #F41A1A !important;
+border-bottom: 2px solid #F41A1A !important;
+}
