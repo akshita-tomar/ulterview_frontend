@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import Button from 'react-bootstrap/Button';
+
 import Modal from 'react-bootstrap/Modal';
 import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux";
 import { update_candidate, clear_update_candidate_slice } from "../../utils/redux/candidateSlice/updateCandidateSlice";
 import { get_single_candidate_data, clear_get_single_candidate_slice } from "../../utils/redux/candidateSlice/getSingleCandidateSlice";
 import { useLanguage } from "../../utils/customHooks/useLanguage.Hook";
-
+import "./style.css"
 const UpdateCandidate = (props) => {
     const dispatch = useDispatch()
     const [data, setData] = useState([])
@@ -68,32 +68,46 @@ const UpdateCandidate = (props) => {
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                className="custom_modal_container"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter heading">
-                        Update Candidate
-                    </Modal.Title>
+
                 </Modal.Header>
                 <Modal.Body>
-                    <input className="candidate-register-input mt-3 form-control" placeholder="Enter candidate name" defaultValue={data.username} onChange={(e) => setUserName(e.target.value)}></input>
+                    <h3 className="heading">Update Candidate</h3>
+                    <div className="form-group">
+                        <label className="modal_label">Username</label>
+                        <input className="candidate-register-input form-control mt-1" placeholder="Enter candidate name" defaultValue={data.username} onChange={(e) => setUserName(e.target.value)}></input>
 
-                    <input className="candidate-register-input mt-3 form-control" placeholder="Enter candidate email" defaultValue={data.email} onChange={(e) => setEmail(e.target.value)}></input>
+                    </div>
+                    <div className="form-group mt-3">
+                        <label className="modal_label">E-mail address</label>
+                        <input className="candidate-register-input  form-control mt-1" placeholder="Enter candidate email" defaultValue={data.email} onChange={(e) => setEmail(e.target.value)}></input>
 
-                    <select className="candidate-register-input mt-3 form-control" value={selectedLanguage?.id ? selectedLanguage?.id : data.languageId} onChange={handleChange}>
-                        {/* <option value="">Select profile</option> */}
+                        <select className="candidate-register-input mt-3 form-control" value={selectedLanguage?.id ? selectedLanguage?.id : data.languageId} onChange={handleChange}>
+                            {/* <option value="">Select profile</option> */}
 
-                        {language?.languages?.data?.map((ele) => (
-                            <option key={ele._id} value={ele._id}>
-                                {ele.language}
-                            </option>
-                        ))}
-                    </select>
+                            {language?.languages?.data?.map((ele) => (
+                                <option key={ele._id} value={ele._id}>
+                                    {ele.language}
+                                </option>
+                            ))}
+                        </select>
 
-                    <input className="candidate-register-input mt-3 form-control" placeholder="Enter total experience" defaultValue={data.experience} onChange={(e) => setExprience(e.target.value)}></input>
+                    </div>
+                    <div className="form-group mt-3">
+                        <label className="modal_label">Experience</label>
+                        <input className="candidate-register-input  form-control mt-1" placeholder="Enter total experience" defaultValue={data.experience} onChange={(e) => setExprience(e.target.value)}></input>
+
+                    </div>
+
+
+
+
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="cmn_btn_color" onClick={() => handleUpdateCandidate(data._id)}>Update</Button>
+                    <buton className="cmn_btn_color submit_btn" onClick={() => handleUpdateCandidate(data._id)}>Update</buton>
                 </Modal.Footer>
             </Modal>
             <Toaster />
