@@ -65,25 +65,45 @@ const RegistrationModal = (props) => {
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                className='custom_modal_container'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter " className="heading">
-                        Register {props.role}
-                    </Modal.Title>
+                 
                 </Modal.Header>
                 <Modal.Body>
+                    <h3 className="heading"> Register {props.role} </h3>
                     <div className='loader_outer_wrapper'>
                         {showLoader && (<> <img src={loader} height={"50px"} width={"50px"} /><br></br> <h4>Sending email ....</h4></>)}
                     </div>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter username" value={username} onChange={(e) => setUserName(e.target.value)} ></input>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} ></input>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} ></input>
-                    {props.role === "developer" ? <input className="candidate-register-input form-control mt-2" value={profile} onChange={(e) => setProfile(e.target.value)} placeholder="Enter developer's profile" ></input> : null}
-                    <input className="candidate-register-input form-control mt-2" placeholder="Enter total experience" value={experience} onChange={(e) => setExprience(e.target.value)}></input>
+                    <div className='form-group'>
+                        <label className='modal_label'>Username</label>
+                        <input className="candidate-register-input form-control  mt-1" placeholder="Enter username" value={username} onChange={(e) => setUserName(e.target.value)} ></input>
+
+                    </div>
+                    <div className='form-group  mt-3'>
+                        <label className='modal_label'>E-mail address</label>
+                        <input className="candidate-register-input form-control  mt-1" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} ></input>
+
+                    </div>
+                    <div className='form-group mt-3'>
+                        <label className='modal_label'>Password</label>
+                        <input className="candidate-register-input form-control  mt-1" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} ></input>
+
+                    </div>
+                    <div className='form-group mt-3'>
+                        <label className='modal_label'>Profile</label>
+                        {props.role === "developer" ? <input className="candidate-register-input form-control  mt-1" value={profile} onChange={(e) => setProfile(e.target.value)} placeholder="Enter developer's profile" ></input> : null}
+
+                    </div>
+                    <div className='form-group mt-3'>
+                        <label className='modal_label'>Experience</label>
+                        <input className="candidate-register-input form-control mt-1" placeholder="Enter total experience" value={experience} onChange={(e) => setExprience(e.target.value)}></input>
+
+                    </div>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <button onClick={handleSubmit} className='submit_btn'>Submit</button>
                 </Modal.Footer>
             </Modal>
             <Toaster />

@@ -65,11 +65,11 @@ h1,h2,h3,h4,h5,h6,p{
 .modal_close_btn{
   background: #333;
 }
-input.candidate-register-input::placeholder {
-  color: #636364
-}
-select.candidate-register-input.form-control.mt-2 {
-  color: #636364;
+
+.cmn_heading{
+  color: black;
+    font-weight: 600;
+    font-size: 26px;
 }
 
 :focus-visible {
@@ -83,13 +83,11 @@ select.candidate-register-input.form-control.mt-2 {
 }
 
 .heading{
-  color: rgb(66, 65, 65) !important;
-  margin-bottom: 10px;
-  font-size: 29px;
-  font-family: "Poppins", sans-serif;
-  font-weight: 500 !important;
- 
-   /* font-family:Georgia, 'Times New Roman', Times, serif */
+  color:  #212B2E!important;
+  font-family: "Montserrat", sans-serif;
+  font-size: 23px;
+  font-weight: 600 !important;
+
 }
 
 .select-role{
@@ -102,6 +100,7 @@ button.register-btn {
   padding: 8px 20px;
   border-radius: 8px;
   color: white;
+  font-family: "Open-Sans" sans-serif;
 }
 
 
@@ -162,7 +161,7 @@ button.register-btn {
 
 
 
-.modal-overlay {
+/* .modal-overlay {
   position: fixed;
   top: 0;
   left: 0%;
@@ -173,17 +172,15 @@ button.register-btn {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
-.modal {
-  /* background-color: white; */
+/* .modal {
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   width: 50%; 
-  /* margin-left: 14%;  */
 position: absolute;
-}
+} */
 
 .close {
   position: absolute;
@@ -397,42 +394,57 @@ svg.MdEdit {
 
 }
 
-/* Sidebar -- */
 
-.sidebar {
-  height: 100%;
-  width: 230px;
-  margin-top: 60px;
-  padding: 15px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  background-color: #FFFFFF;
- 
-  border-top-right-radius: 40px;
 
-}
-.cmn_width{
-  width: 49px;
-  padding: 0px;
-}
+
 .cmn_margin{
   margin-left: 49px !important;
 }
+.submit_btn{
+  min-width: 114px;
+  color: white;
+  background-color: #FF3030 !important;
+  border: unset !important;
+  border-radius: 10px;
+  padding: 7px 16px;
+  text-align: center;
 
-.bar{
-  text-align: right;
-  padding-right: 10px;
-  font-size: 22px;
-  cursor: pointer;
 }
-.cmn_width .sidebar_content{
-display: block;
+.custom_modal_container .modal-body {
+  padding: 0px 25px 25px !important;
 }
-.cmn_width .sidebar-button{
-  padding: 12px 6px;
+.custom_modal_container .modal-header{
+  padding: 29px 29px 0px;
 }
+.custom_modal_container .modal-content{
+  border-radius: 20px;
+}
+.custom_modal_container input::placeholder{
+ color: #8D8D8E
+}
+
+.custom_modal_container input , select{
+  background-color:#f9f9f9 !important;
+}
+.custom_modal_container .modal-footer{
+  padding: 0px 25px 25px;
+}
+.custom_pagination_wapper{
+  z-index: 0;
+  position: relative;
+  gap: 10px;
+}
+.custom_pagination_wapper span.page-link {
+  border-radius: 4px;
+}
+.custom_pagination_wapper li a.page-link {
+  border-radius: 4px;
+  color: #313131;
+  font-size: 14px;
+  font-family: "Open Sans" sans-serif;
+}
+
+
 .user-table thead tr th {
   font-size: 15px;
   font-weight: 600;
@@ -443,42 +455,19 @@ display: block;
   background: #F41A1A !important;
   border: unset !important;
 }
-.sidebar-button {
 
-  margin: 5px;
-    padding: 12px 16px;
-    background-color: transparent;
-    border: none;
-    color: #333;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 11px;
-  
-}
 .cmn_gray_btn{
   background-color: #333;
   border: none;
   border-radius: 6px;
   padding: 6px 16px;
 }
-.sidebar_content{
-  font-size: 16px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 0px;
-    color: #333333;
-}
-.sidebar_content svg{
-  color: #79787B;
+
+.modal-header{
+  border-bottom:unset !important;
 }
 
-.sidebar-button:hover {
-  color: #c22e0a;
-  background-color: #fff2f2;
-}
+
 
 
 
@@ -537,6 +526,12 @@ display: block;
     font-size: 14px;
     font-family: "Open Sans", sans-serif;
 }
+div:where(.swal2-container).swal2-center>.swal2-popup{
+  border-radius: 20px;
+}
+div:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:focus {
+  box-shadow: unset !important;
+}
 .user-table tbody tr td:nth-child(2){
   font-weight: 600;
   color:#2E2E2E;
@@ -551,7 +546,6 @@ display: block;
 
 }
 .candidate_table_outer{
-  border-radius: 20px;
   margin-top: 35px !important;
 }
 .invite_btn{
@@ -623,15 +617,15 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 
 .modal-header {
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
-.modal-body {
+/* .modal-body {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   scrollbar-width: none;
-}
+} */
 
 /* Series Options */
 .series-option {
@@ -823,44 +817,50 @@ div:where(.swal2-container) h2:where(.swal2-title) {
   background-color: #f56445;
   color: white;
 }
-.sidebar_logo_outer h3{
-  font-family: "Open Sans", sans-serif;
-  font-size: 14px;
-  color: #555555;
-  font-weight: 600;
-  line-height: 20.83px;
-  letter-spacing: 4px;
+.form-group input{
+  padding: 8px 20px !important;
+  border: 1px solid #D9D9D9;
+  border-radius: 11px;
+
 }
+
 .cmn_btn_color{
   background-color: 
   #F41A1A !important;
   border: none !important;
 }
-.sidebar_logo_outer img{
-  object-fit: cover;
-}
-.active-pathname{
-  background-color: #F7E3E3;
-}
-.sidebar-button.active-pathname .sidebar_content h4{
-  color: #F41A1A;
-}
-.sidebar-button.active-pathname .sidebar_content svg{
-  color: #F41A1A;
-}
+
+
 /* *************  CANDIDATES DETAILS  */
 .wrapper {
   background: #fff6f4;
   margin-left: 230px;
-  padding: 80px 20px 0px;
+  padding:20px 30px;
   height: 100%;
   min-height: 100vh;
 }
-
-
+.cmn_radius{
+  border-radius: 20px;
+}
+.actions_wrapper{
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 18px;
+}
+/* table tr{
+  border: transparent;
+} */
+.modal_label{
+  color: #212B2E;
+  font-size: 14px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  }
 /* ******* Table  */
 .table-responsive {
-  margin: 20px 0;
+
+  background: white;
+  scrollbar-width: thin;
 }
 
 .user-table th, .user-table td {
@@ -875,12 +875,6 @@ div:where(.swal2-container) h2:where(.swal2-title) {
 
 
 /* //******************   REGISTER CANDIDATE MODAL******** */
-.candidate-register-input{
-  padding: 5px;
-  margin-bottom: 7px;
-  border-radius: 5px;
-  font-size: large;
-}
 
 .heading-check-result{
   text-align: left;
@@ -1144,182 +1138,6 @@ font-weight: 700;
 }
 
 
-@media screen and (min-width:1499px){
-  .wrapper{
-    padding: 97px 50px 0px;
-  }
-  .heading-objective_tab {
-    padding: 15px;
-  }
-}
-@media screen and (max-width:1280px){
-  div:where(.swal2-container) h2:where(.swal2-title) {
-    font-size: 24px !important;
-  }
-}
-  @media screen and (max-width:1024px){
-    .heading{
-      font-size: 21px;
-    }
-    .Update_btn_outer{
-   margin-top: 20px;
-    }
-    .heading-check-result {
-      font-size: 17px;
-    }
-  }
-  @media screen and (max-width:991px){
-    
-    .language-modal_outer {
-      margin-left: 12rem;
-      width: 60%;
-    }
-    .candidate_entry_table tbody tr td:last-child{
-      display:  block !important;
-    }
-    .series-modal {
-      margin-left: 4rem;
-    }
-    input.mcq-question-edit{
-      font-size: 16px
-    }
-    .swal-title {
-      font-size: 23px;
-    }
-    h2#swal2-title {
-      font-size: 18px !important;
-  }
-  button.swal2-confirm.swal2-styled.swal2-default-outline {
-    font-size: 14px;
-}
-button.swal2-cancel.swal2-styled.swal2-default-outline {
-  font-size: 14px;
-}
-  
-  div#swal2-html-container {
-      font-size: 15px;
-  }
-  .candidate-ques-ans {
-    margin-top: 15px;
-    padding: 15px;
-  }
-  
-  }
-
-@media (max-width: 767px) {
-  .language-card {
-    width: calc(50% - 10px); 
-  }
-  .series-option-new {
-    font-size: 15px;
-    padding: 9px;
-  }
-  .check-btn-outer button {
-    padding: 5px 19px;
-  }
-  .check-btn-outer{
-    flex-wrap: wrap;
-  }
-  .text-input {
-    font-size: 14px;
-  }
-  .interview-caution ol li {
-    font-size: 14px;
-  }
-  .interview-caution  h5{
-    font-size: 18px;
-  }
-  .Interview_header_content{
-    flex-wrap: wrap;
-  }
-  .Interview_header{
-    align-items: start;
-  }
-  .Interview_header_content h3{
-    font-size: 15px;
-  }
-  .swal-title {
-    font-size: 17px;
-  }
-  .question-form h2 {
-    font-size: 18px;
-  }
-  .submit-button {
-    width: 150px;
-  }
-  .option-label {
-    font-size: 13px;
-  }
-  .question-text {
-    font-size: 14px;
-  }
-  .regards-message h3 {
-    font-size: 14px;
-    margin: 0px 12px;
-  }
-  .correct_ans_outer select{
-    width: 100%;
-    margin-top: 11px;
- 
-  }
-  div.correct_ans_outer {
-    display: block !important;
-  }
-  .series-modal{
-    margin-left: 45px;
-    width: 75%;
-  }
-  .add_question_wrapper, .sub-obj-log-heading{
-    display: block;
-  }
-  .Update_btn_outer{
-    display: flex;
-    justify-content: center;
-  }
-  .cmn_text {
-    font-size: 16px;
-  }
-  .input.mcq-question-edit {
-    margin-top: 22px;
-  }
-  
-
-  .internal-testbox{
-    display: block
-  }
-  
-  .internal-testbox button{
-    width: 100%;
-  }
-  .subjective-btn{
-    margin-top: 14px;
-  }
-  .logical-btn{
-    margin-top: 14px;
-  }
-  .test-box {
-    width: 58%;
-  }
-  .modal{
-    margin-left: 0px
-  }
-  .user-table thead tr th {
-    font-size: 12px;
-  }
-  .heading{
-    font-size: 19px !important;
-  }
-  .language-modal_outer {
-    margin-left: 3rem;
-  }
-  .wrapper{
-    margin-left: 42px;
-    padding: 80px 10px 0px;
-  }
-  .candidate_entry_table tbody tr td:last-child {
-    display: block !important;
-  }
-}
 .message{
   /* background-color: rgb(232, 220, 220); */
   text-align: left;
@@ -1346,7 +1164,7 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
 
 
 .hr-question-outer{
-  /* background-color: #563f3f; */
+
   text-align: left;
 }
 
@@ -1469,23 +1287,287 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
   border: 1px solid #ced4da;
 }
 
-.text-end-mb-3-pe-3-teamhub{
-display: flex;
-}
-
-.page-headers{
-  text-align: left;
-}
-
-/* dropdown css */
 
 .selected {
   background-color: #007bff; 
   color: white; 
 }
 
-
+.form-control:focus{
+  box-shadow: unset !important;
+}
 .DropdownItem:hover {
   background-color: #0056b3; 
   color: white; 
+}
+.btn-close{
+  opacity: 1 !important;
+}
+.cmn_cancel_btn{
+background-color: #ECEAF3;
+border: none;
+color: #6C6F75;
+font-weight: 600;
+border-radius: 10px;
+padding: 7px 16px;
+min-width: 115px;
+}
+.form-control:focus {
+  border-color: #F41A1A !important
+}
+.custom-text{
+  color:#191D23;
+  margin-top: 21px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Open-Sans",sans-serif;
+  
+}
+.custom-title{
+  color: #212B2E !important;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  margin-top: 27px;
+}
+.swal-delete{
+  border-radius: 11px !important;
+  padding: 10px;
+  width: 108px;
+}
+.swal-cancel:hover{
+  background-image: unset !important;
+}
+.swal-cancel{
+  color: #6C6F75 !important;
+  border-radius: 11px !important;
+  padding: 10px;
+  width: 108px;
+
+}
+.custom_deleteicon_outer{
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.custom_deleteicon svg{
+  color: #FF5B5B;
+  text-align: center;
+  line-height: 31px;
+  font-size: 21px;
+  margin-top: 24px;
+
+}
+.custom_deleteicon {
+  height: 100px;
+  width: 100px;
+  background: #FFF2F3;
+  border-radius: 50px;
+
+  
+}
+@media screen and (min-width:1900px){
+  .heading{
+     font-size: 26px;;
+  }
+  .modal_label{
+    font-size: 16px;
+}
+}
+@media screen and (min-width:1499px){
+ 
+  .heading-objective_tab {
+    padding: 15px;
+  }
+}
+@media screen and (max-width:1280px){
+  div:where(.swal2-container) h2:where(.swal2-title) {
+    font-size: 24px !important;
+  }
+  .custom-title {
+    font-size: 22px;
+    }
+}
+  @media screen and (max-width:1024px){
+    .heading{
+      font-size: 21px;
+    }
+    .Update_btn_outer{
+   margin-top: 20px;
+    }
+    .heading-check-result {
+      font-size: 17px;
+    }
+  }
+  @media screen and (max-width:991px){
+    
+    .language-modal_outer {
+      margin-left: 12rem;
+      width: 60%;
+    }
+   
+    .series-modal {
+      margin-left: 4rem;
+    }
+    input.mcq-question-edit{
+      font-size: 16px
+    }
+    .swal-title {
+      font-size: 23px;
+    }
+    h2#swal2-title {
+      font-size: 18px !important;
+  }
+  button.swal2-confirm.swal2-styled.swal2-default-outline {
+    font-size: 14px;
+}
+button.swal2-cancel.swal2-styled.swal2-default-outline {
+  font-size: 14px;
+}
+  
+  div#swal2-html-container {
+      font-size: 15px;
+  }
+  .candidate-ques-ans {
+    margin-top: 15px;
+    padding: 15px;
+  }
+  
+  }
+
+@media (max-width: 767px) {
+  .language-card {
+    width: calc(50% - 10px); 
+  }
+  .custom-title {
+    font-size: 18px;
+    line-height: 28px;
+}
+.custom_deleteicon svg {
+
+  height: 30px;
+  width: 30px;
+  margin-top: 20px;
+}
+  .form-group input {
+    padding: 6px 20px !important;
+  }
+  .series-option-new {
+    font-size: 15px;
+    padding: 9px;
+  }
+  .check-btn-outer button {
+    padding: 5px 19px;
+  }
+  .register-btn{
+    margin-top: 20px;
+  }
+  .check-btn-outer{
+    flex-wrap: wrap;
+  }
+  .text-input {
+    font-size: 14px;
+  }
+  .interview-caution ol li {
+    font-size: 14px;
+  }
+  .interview-caution  h5{
+    font-size: 18px;
+  }
+  .Interview_header_content{
+    flex-wrap: wrap;
+  }
+  .Interview_header{
+    align-items: start;
+  }
+  .Interview_header_content h3{
+    font-size: 15px;
+  }
+  .swal-title {
+    font-size: 17px;
+  }
+  .question-form h2 {
+    font-size: 18px;
+  }
+  .submit-button {
+    width: 150px;
+  }
+  .option-label {
+    font-size: 13px;
+  }
+  .question-text {
+    font-size: 14px;
+  }
+  .regards-message h3 {
+    font-size: 14px;
+    margin: 0px 12px;
+  }
+  .correct_ans_outer select{
+    width: 100%;
+    margin-top: 11px;
+ 
+  }
+  div.correct_ans_outer {
+    display: block !important;
+  }
+  .series-modal{
+    margin-left: 45px;
+    width: 75%;
+  }
+  .add_question_wrapper, .sub-obj-log-heading{
+    display: block;
+  }
+  .Update_btn_outer{
+    display: flex;
+    justify-content: center;
+  }
+  .cmn_text {
+    font-size: 16px;
+  }
+  .input.mcq-question-edit {
+    margin-top: 22px;
+  }
+  
+
+  .internal-testbox{
+    display: block
+  }
+  
+  .internal-testbox button{
+    width: 100%;
+  }
+  .subjective-btn{
+    margin-top: 14px;
+  }
+  .logical-btn{
+    margin-top: 14px;
+  }
+  .test-box {
+    width: 58%;
+  }
+ 
+  .user-table thead tr th {
+    font-size: 12px;
+  }
+  .heading{
+    font-size: 19px !important;
+  }
+  .language-modal_outer {
+    margin-left: 3rem;
+  }
+  .wrapper{
+    margin-left: 42px;
+    padding: 80px 10px 0px;
+  }
+  .custom_deleteicon {
+    height: 70px;
+    width: 70px;
+  }
+  .cmn_heading {
+    font-size: 22px;
+  }
+  div.teamhub {
+    display: block !important;
+}
 }

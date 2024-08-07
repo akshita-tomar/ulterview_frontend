@@ -86,7 +86,7 @@ const CandidatesPerformance = () => {
     <div className={`wrapper ${show ? "cmn_margin" : ""}`}>
        
        <div className="d-flex justify-content-between align-items-center mb-3 pe-3 teamhub">
-       <div  className='page-headers'> <h5>Candidate Results</h5></div>
+        <h5 className="cmn_heading">Candidate Results</h5>
       <div className="searchbox-hr-feedback-teamhub">
         <Form.Control 
             type="text" 

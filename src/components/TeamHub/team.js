@@ -4,11 +4,14 @@ import Tabs from 'react-bootstrap/Tabs';
 import { Table, Pagination, Form } from "react-bootstrap";
 import RegistrationModal from './registrationModal';
 import UpdateUser from './updateModal';
-import { MdEdit, MdDelete } from "react-icons/md";
 import Swal from 'sweetalert2';
 import { useAppContext } from "../../utils/useContext";
+import { RiAddLargeFill, RiDeleteBinLine } from 'react-icons/ri';
+import ReactDOMServer from 'react-dom/server';
 
+import "./teamstyle.css"
 
+import { CiEdit } from 'react-icons/ci';
 
 const Team = () => {
   const token = localStorage.getItem("token");
@@ -51,16 +54,39 @@ const Team = () => {
   useEffect(() => {
     fetchUserDetails();
   }, [role, token, configureChange, page, search]);
+  const renderToString = (component) => ReactDOMServer.renderToString(component);
 
   const handleDelete = (id, name) => {
+    const deleteIconHtml = renderToString(<RiDeleteBinLine size={50} />);
+
     Swal.fire({
-      title: "Are you sure to delete " + name + "?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
+      html: `
+      <div>
+      <div class="custom_deleteicon_outer">
+      <div class="custom_deleteicon">
+      ${deleteIconHtml}
+      
+      </div>
+
+      </div>
+       <h2 class="custom-title">Are you sure to delete  ${name}  ?</h2>
+        <p class="custom-text">You won't be able to revert this!</p>
+      
+      </div>
+        
+        `,
+      
+      icon: null,
       showCancelButton: true,
-      confirmButtonColor: "#ce2128",
-      cancelButtonColor: "#333",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonColor: "#FF3030",
+      cancelButtonColor: "#ECEAF3",
+      confirmButtonText: " Delete",
+      customClass:{
+        cancelButton: 'swal-cancel',
+        confirmButton:"swal-delete",
+         title: 'custom-title',
+        content: 'custom-text'
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         handleDeleteConfirm(id);
@@ -123,7 +149,7 @@ const Team = () => {
 
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
-      <div className='page-headers'> <h5>Team Hub</h5></div>
+       <h5 className='cmn_heading'>Team Hub</h5>
       <div className="d-flex justify-content-between align-items-center mb-3 pe-3 teamhub">
         <div className="searchbox-hr-feedback-teamhub">
           <Form.Control
@@ -133,8 +159,8 @@ const Team = () => {
             onChange={handleSearchChange}
           />
         </div>
-        <button className="register-btn" onClick={handleRegistration}>
-          ADD {role.toUpperCase()}
+        <button className="register-btn cmn_btn_color" onClick={handleRegistration}>
+        <RiAddLargeFill  /> ADD {role.toUpperCase()} 
         </button>
       </div>
 
@@ -142,12 +168,13 @@ const Team = () => {
         activeKey={role}
         onSelect={handleChange}
         id="justify-tab-example"
-        className="mb-3"
+        className="mb-3 team_tab_outer"
         justify
+       
       >
         <Tab eventKey="developer" title="Developers">
-          <div className="table-responsive">
-            <Table striped bordered hover className="user-table candidate_entry_table">
+          <div className="table-responsive candidate_table_outer cmn_radius ">
+            <Table hover className="user-table candidate_entry_table team_table_wrapper">
               <thead>
                 <tr>
                   <th>Sr.no</th>
@@ -167,8 +194,10 @@ const Team = () => {
                     <td>{element.profile}</td>
                     <td>{element.experience}</td>
                     <td>
-                      <MdEdit onClick={() => handleEdit(element._id, element.userName, element.experience, element.profile)} />
-                      <MdDelete onClick={() => handleDelete(element._id, element.userName)} />
+                      <div className='actions_wrapper'>
+                      <CiEdit onClick={() => handleEdit(element._id, element.userName, element.experience, element.profile)} />
+                      <RiDeleteBinLine onClick={() => handleDelete(element._id, element.userName)} />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -196,8 +225,10 @@ const Team = () => {
                     <td>{element.email}</td>
                     <td>{element.experience}</td>
                     <td>
-                      <MdEdit onClick={() => handleEdit(element._id, element.userName, element.experience)} />
-                      <MdDelete onClick={() => handleDelete(element._id, element.userName)} />
+                      <div className='actions_wrapper'>
+                      <CiEdit  onClick={() => handleEdit(element._id, element.userName, element.experience)} />
+                      <RiDeleteBinLine onClick={() => handleDelete(element._id, element.userName)} />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -206,7 +237,7 @@ const Team = () => {
           </div>
         </Tab>
       </Tabs>
-      <Pagination className="justify-content-center">
+      <Pagination className="justify-content-center custom_pagination_wapper mt-4">
         <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
         {[...Array(totalPages)].map((_, index) => (
           <Pagination.Item

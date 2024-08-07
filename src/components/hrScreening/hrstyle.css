@@ -1,0 +1,13 @@
+.show_btn{
+    background: #ECEAF3;
+    border: 1px solid #4A4A4A;
+    color: #4A4A4A;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-family: "Open-Sans" sans-serif;
+}
+.CiEdit_outer svg{
+    font-size: 18px;
+}

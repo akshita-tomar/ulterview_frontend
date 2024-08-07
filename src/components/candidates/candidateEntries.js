@@ -5,15 +5,18 @@ import CandidateRegisterModal from "./candidateRegistarModal";
 import UpdateCandidate from "./updateCandidate";
 import InviteCandidate from "./InviteCandidate";
 import Swal from "sweetalert2";
-import { MdEdit, MdDelete } from "react-icons/md";
+
 import toast, { Toaster } from 'react-hot-toast';
 import { io } from 'socket.io-client';
 import { useAppContext } from "../../utils/useContext";
 import InviteHrRound from "./hrRoundInvite";
 import { Dropdown, DropdownItem, Submenu } from "../Dropdown/DropdownComponent";
 import { IoMdAdd } from "react-icons/io";
+import "./style.css"
+import ReactDOMServer from 'react-dom/server';
 
-
+import { RiDeleteBinLine } from "react-icons/ri";
+import { CiEdit } from "react-icons/ci";
 const CandidateEntries = () => {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -73,16 +76,38 @@ const CandidateEntries = () => {
       setPage(newPage);
     }
   };
+  const renderToString = (component) => ReactDOMServer.renderToString(component);
 
   const handleDelete = (id) => {
+    const deleteIconHtml = renderToString(<RiDeleteBinLine size={50} />);
     Swal.fire({
-      title: "Are you sure to delete this Candidate?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
+      html: `
+      <div>
+      <div class="custom_deleteicon_outer">
+      <div class="custom_deleteicon">
+      ${deleteIconHtml}
+      
+      </div>
+
+      </div>
+       <h2 class="custom-title">Are you sure to delete this Candidate?</h2>
+        <p class="custom-text">You won't be able to revert this!</p>
+      
+      </div>
+        
+        `,
       showCancelButton: true,
-      confirmButtonColor: "#ce2128",
-      cancelButtonColor: "#333",
-      confirmButtonText: "Yes, delete it!"
+       icon: null,
+      confirmButtonColor: "#FF3030",
+      cancelButtonColor: "#ECEAF3",
+      cancelButtonText: "Cancel",
+      confirmButtonText: "Delete",
+      customClass: {
+        cancelButton: 'swal-cancel',
+        confirmButton:"swal-delete",
+         title: 'custom-title',
+        content: 'custom-text'
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         handleDeleteConfirm(id);
@@ -141,9 +166,9 @@ const CandidateEntries = () => {
 
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
-      <div className='page-headers'> <h5>Candidate Records</h5></div>
-      <div className="d-flex justify-content-between align-items-center mb-3 pe-3 teamhub">
-        <div className="d-flex gap-4">
+       <h5 className="cmn_heading">Candidate Records</h5>
+      <div className="d-flex justify-content-between align-items-center mb-3 pe-3 Candidate_record_wrapper">
+        <div className="d-flex gap-4 searchbox_wrapper ">
           <div className="searchbox-hr-feedback-teamhub">
             <Form.Control
               type="text"
@@ -152,7 +177,7 @@ const CandidateEntries = () => {
               onChange={handleSearchChange}
             />
           </div>
-
+          <div className="Select_status_dropdown_outer">
           <Dropdown title="Select status type" >
       <DropdownItem
         className={selectedStatus === '' && selectedField === '' ? 'selected' : ''}
@@ -194,13 +219,15 @@ const CandidateEntries = () => {
         ))}
       </Submenu>
     </Dropdown>
+
+          </div>
         </div>
 
 
         <button className="register-btn cmn_btn_color" onClick={() => setModalShow(true)}><IoMdAdd className="me-2"/>Register</button>
 
       </div>
-      <div className="table-responsive candidate_table_outer">
+      <div className="table-responsive candidate_table_outer cmn_radius ">
         <Table  hover className="user-table candidate_entry_table">
           <thead>
             <tr>
@@ -244,9 +271,9 @@ const CandidateEntries = () => {
                 <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus}
                 </td>
                 <td>
-                  <div>
-                    <MdEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} />
-                    <MdDelete className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
+                  <div className="actions_wrapper">
+                    <CiEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} />
+                    <RiDeleteBinLine className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
                   </div>
                 </td>
               </tr>
@@ -255,7 +282,7 @@ const CandidateEntries = () => {
         </Table>
       </div>
 
-      <Pagination className="justify-content-center">
+      <Pagination className="justify-content-center custom_pagination_wapper">
         <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
         {[...Array(totalPages)].map((_, index) => (
           <Pagination.Item
