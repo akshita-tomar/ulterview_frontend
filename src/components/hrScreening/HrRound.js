@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "../../utils/useContext";
 import swal from "sweetalert";
 import { Table } from "react-bootstrap";
-import { MdEdit, MdDelete } from "react-icons/md";
+import { MdAdd } from "react-icons/md";
 import HrRoundSeries from "./addSeriesModal";
 import UpdateHrRoundSeries from "./updateSeriesModal";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-
-
+import ReactDOMServer from 'react-dom/server';
+import "./hrstyle.css"
+import { RiDeleteBinLine } from "react-icons/ri";
+import { CiEdit } from "react-icons/ci";
 
 
 const HrRound = () => {
@@ -53,17 +55,40 @@ const HrRound = () => {
       .catch((error) => console.error(error));
   }, [handleChange])
 
+  const renderToString = (component) => ReactDOMServer.renderToString(component);
 
   const handleSeriesDelete = (id) => {
 
+    const deleteIconHtml = renderToString(<RiDeleteBinLine size={50} />);
     Swal.fire({
-      title: "Are you sure to delete this Series?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
+
+      html: `
+      <div>
+      <div class="custom_deleteicon_outer">
+      <div class="custom_deleteicon">
+      ${deleteIconHtml}
+      
+      </div>
+
+      </div>
+       <h2 class="custom-title">Are you sure to delete this Series? </h2>
+        <p class="custom-text">You won't be able to revert this!</p>
+      
+      </div>
+        
+        `,
+      
+      icon: null,
       showCancelButton: true,
-      confirmButtonColor: "#ce2128",
-      cancelButtonColor: "#333",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonColor: "#FF3030",
+      cancelButtonColor: "#ECEAF3",
+      confirmButtonText: "Delete",
+      customClass:{
+        cancelButton: 'swal-cancel',
+        confirmButton:"swal-delete",
+         title: 'custom-title',
+        content: 'custom-text'
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         handleDeleteConfirm(id)
@@ -114,18 +139,19 @@ const HrRound = () => {
 
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
-        <div  className='page-headers'> <h5>HR Round Series</h5></div>
+         <h5 className="cmn_heading">HR Round Series</h5>
       <div className="text-end mb-3 pe-3">
-        <button className="register-btn" onClick={addHrRoundSeries} >Add Series</button>
+        <button className="register-btn submit_btn" onClick={addHrRoundSeries} > <MdAdd /> Add Series</button>
       </div>
-      <div className="table-responsive">
-        <Table striped bordered hover className="user-table candidate_entry_table">
+      <div className="table-responsive cmn_radius candidate_table_outer">
+        <Table   hover className="user-table">
           <thead>
             <tr>
               <th>Sr.no</th>
               <th>Series</th>
               <th>Series status</th>
-              <th>Action</th>
+              <th>Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -135,9 +161,15 @@ const HrRound = () => {
                 <td>{element.questionSeries}</td>
                 <td> {element.questions?.length < 3 || element.questions === undefined ? "(pending)" : element.questions?.length + " questions"}</td>
                 <td>
-                 <MdEdit onClick={() => handleEditSeries(element._id, element.questionSeries)} /> 
-                  <MdDelete onClick={() => handleSeriesDelete(element._id)} />
-                  <button className="register-btn" onClick={() => handleShowQuestions(element._id)}>Show </button>
+                  <div className="d-flex justify-content-center align-items-center gap-4 CiEdit_outer">
+              
+                 <CiEdit onClick={() => handleEditSeries(element._id, element.questionSeries)} /> 
+                  <RiDeleteBinLine onClick={() => handleSeriesDelete(element._id)} />
+
+                 
+                  </div>
+                  </td>
+                  <td> <button className="show_btn" onClick={() => handleShowQuestions(element._id)}>Show </button>
                   </td>
               </tr>
             ))}

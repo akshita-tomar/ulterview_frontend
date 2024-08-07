@@ -45,17 +45,17 @@ const UpdateHrRoundSeries =(props)=>{
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                className='custom_modal_container'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter " className="heading">
-                        Update Series
-                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <h3 className="heading"> Update Series</h3>
+                    
                     <input className="candidate-register-input form-control mt-2" placeholder="Enter series" defaultValue={props.series} onChange={(e)=>setSeriesName(e.target.value)}></input>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <button onClick={handleSubmit} className='submit_btn'>Submit</button>
                 </Modal.Footer>
             </Modal>
         </div>

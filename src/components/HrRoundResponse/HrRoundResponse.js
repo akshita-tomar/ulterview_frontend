@@ -74,7 +74,7 @@ const HrRoundResponse = () => {
 
     return (
         <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
-             <div  className='page-headers'> <h5>HR Feedback</h5></div>
+              <h5 className="cmn_heading">HR Feedback</h5>
             <div className="hr-feedback-filters-wrapper">
                 <div className="status-icons">
                     <div className={status === "selected" ? "status-selected" : ""}>
@@ -134,7 +134,7 @@ const HrRoundResponse = () => {
                     </tbody>
                 </Table>
             </div>
-            <Pagination className="justify-content-center">
+            <Pagination className="justify-content-center custom_pagination_wapper">
                 <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
                 {[...Array(totalPages)].map((_, index) => (
                     <Pagination.Item
