@@ -5,7 +5,7 @@ import logo from "../../assets/ultivic-logo.png"
 import { toast, Toaster } from "react-hot-toast";
 
 
-const InterviewQuestions = () => {  
+const InterviewQuestions = () => {
   const { id } = useParams();
   let url = process.env.REACT_APP_BACKEND_URL
   var candidateID
@@ -18,28 +18,28 @@ const InterviewQuestions = () => {
   const [estimateTime, setEstimatedTime] = useState()
   const [checkComplete, setCheckComplete] = useState('')
   const [ConfigureHandleChange, setConfigureHandleChange] = useState('content')
-  const [linkClickedCount,setLinkClickedCount]= useState(0)
+  const [linkClickedCount, setLinkClickedCount] = useState(0)
   const [updatedAnswers, setUpdatedAnswers] = useState({
     objective: [],
     subjective: [],
     logical: []
   });
-  
 
 
-  const handleChange = (questionId, quesiton, value, type,options) => {
+
+  const handleChange = (questionId, quesiton, value, type, options) => {
     setUpdatedAnswers((prev) => {
       if (type === 'objective') {
-        const newObjectiveAnswers = prev.objective.filter(ans => ans._id !== questionId);
-        newObjectiveAnswers.push({ _id: questionId, question: quesiton,options:options, correctAnswer: value });
+        const newObjectiveAnswers = prev?.objective?.filter(ans => ans?._id !== questionId);
+        newObjectiveAnswers?.push({ _id: questionId, question: quesiton, options: options, correctAnswer: value });
         return { ...prev, objective: newObjectiveAnswers };
       } else if (type === 'subjective') {
-        const newSubjectiveAnswers = prev.subjective.filter(ans => ans._id !== questionId);
-        newSubjectiveAnswers.push({ _id: questionId, question: quesiton, answer: value });
+        const newSubjectiveAnswers = prev?.subjective?.filter(ans => ans?._id !== questionId);
+        newSubjectiveAnswers?.push({ _id: questionId, question: quesiton, answer: value });
         return { ...prev, subjective: newSubjectiveAnswers };
       } else if (type === 'logical') {
-        const newObjectiveAnswers = prev.logical.filter(ans => ans._id !== questionId);
-        newObjectiveAnswers.push({ _id: questionId, question: quesiton, answer: value });
+        const newObjectiveAnswers = prev?.logical?.filter(ans => ans._id !== questionId);
+        newObjectiveAnswers?.push({ _id: questionId, question: quesiton, answer: value });
         return { ...prev, logical: newObjectiveAnswers };
       }
       return prev;
@@ -51,7 +51,7 @@ const InterviewQuestions = () => {
   useEffect(() => {
     const cleanedEncryptedId = id.startsWith(':') ? id.slice(1) : id;
     const decryptedId = decryptId(decodeURIComponent(cleanedEncryptedId));
-    console.log('decrypted id --------',decryptedId)
+    console.log('decrypted id --------', decryptedId)
     candidateID = decryptedId
     // setDecryptedCandidateId(decryptedId);
   }, [id]);
@@ -71,7 +71,7 @@ const InterviewQuestions = () => {
         setEstimatedTime(result.time)
         setCheckComplete(result.completedStatus)
         setQuestions(result.questions)
-        
+
       })
       .catch((error) => console.error(error));
   }, [id])
@@ -99,34 +99,35 @@ const InterviewQuestions = () => {
 
   const handleLogoClick = () => {
     // if (!startTime) {
-      
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      const raw = JSON.stringify({
-        "candidateId": decryptedCandidateId
-      });
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow"
-      };
-      fetch(`${url}inviteAccepted`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          if (result.type === 'success') {
-            if(result.linkClickedCount>1){             
-              setLinkClickedCount((prev)=>prev+1)
-            }else{
-              setStartTime(Date.now());
-              setStartTest(true)
-            }}
-        })
-        .catch((error) => console.error(error));
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const raw = JSON.stringify({
+      "candidateId": decryptedCandidateId
+    });
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+    fetch(`${url}inviteAccepted`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.type === 'success') {
+          if (result.linkClickedCount > 1) {
+            setLinkClickedCount((prev) => prev + 1)
+          } else {
+            setStartTime(Date.now());
+            setStartTest(true)
+          }
+        }
+      })
+      .catch((error) => console.error(error));
     // } 
   };
 
-  const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault()
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -134,10 +135,10 @@ const InterviewQuestions = () => {
     const raw = JSON.stringify({
       "candidateId": decryptedCandidateId,
       "quesAns": updatedAnswers,
-      "endTime":endTime
+      "endTime": endTime
     });
 
-    const requestOptions = {  
+    const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
@@ -167,9 +168,10 @@ const InterviewQuestions = () => {
     // };
 
     const handleKeyDown = (e) => {
-      if (e.key === 'F5' || (e.ctrlKey && e.key === 'r' ||e.key === 'C' )) {
+      if (e.key === 'F5' || (e.ctrlKey && e.key === 'r' || e.key === 'C')) {
         e.preventDefault();
-      }};
+      }
+    };
 
     const handleContextMenu = (e) => {
       console.log("inside the handle context")
@@ -198,15 +200,15 @@ const InterviewQuestions = () => {
     e.preventDefault();
   };
 
-  const handlePaste =(e)=>{
+  const handlePaste = (e) => {
     e.preventDefault()
   }
 
 
   return (
     <>
-     {
-        checkComplete === 'completed' || ConfigureHandleChange === '' ||linkClickedCount >1?
+      {
+        checkComplete === 'completed' || ConfigureHandleChange === '' || linkClickedCount > 1 ?
           <div className="regards-message">
             <h3>Your interview result will be shared with you as soon as possible. <br></br> Thankyou!</h3>
           </div> :
@@ -290,7 +292,7 @@ const InterviewQuestions = () => {
                     <h6 className="regards"> Best! <br></br>Ultivic Technologies</h6>
                   </div>
                   <div className="text-center mb-4">
-                  <button onClick={handleLogoClick} className='timer-start'>Start</button>
+                    <button onClick={handleLogoClick} className='timer-start'>Start</button>
                   </div>
                 </>
             }

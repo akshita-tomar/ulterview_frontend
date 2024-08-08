@@ -5,13 +5,15 @@ import AddHrRoundQuestion from "./addQuestionModal";
 import UpdateHrRoundQuestions from "./updateQuestion";
 import Swal from "sweetalert2";
 import toast, { Toaster } from "react-hot-toast";
+import { hr_round_questions, clear_hr_round_question_state } from "../../utils/redux/hr_screening_slice/hr_round_questions_slice";
+import { useDispatch, useSelector } from "react-redux";
+import { delete_hr_round_questions, clear_hr_deleted_question_state } from "../../utils/redux/hr_screening_slice/delete_hr_round_questions_slice";
 
 const HrRoundQuestions = () => {
+    const dispatch = useDispatch()
     let { id } = useParams()
-    let token = localStorage.getItem('token')
     const { show } = useAppContext()
     const navigate = useNavigate()
-    const url = process.env.REACT_APP_BACKEND_URL
     const [data, setData] = useState([])
     const [series, setSeries] = useState('')
     const [showAddQuestionModal, setShowAddQuestionModal] = useState(false)
@@ -20,38 +22,29 @@ const HrRoundQuestions = () => {
     const [question, setQuestion] = useState('')
     const [showUpdateQuestionModal, setShowUpdateQuestionModal] = useState(false)
     const [questionId, setQuestionId] = useState('')
-
-
-
+    const hr_round_questions_state = useSelector(store => store.HR_ROUND_QUESTIONS)
+    const deleted_hr_question_state = useSelector(store => store.DELETE_HR_ROUND_QUESTIONS)
 
     useEffect(() => {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer " + token);
-
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            // body: raw,
-            redirect: "follow"
-        };
-
-        fetch(`${url}getHrRoundQuestions?seriesId=${id}`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                // console.log(result)
-                if (result.type === 'success') {
-                    setSeries(result.series)
-                    var questions = result.questions.questions
-                    questions = questions.reverse()
-                    setData(questions)
-                }
-            })
-            .catch((error) => console.error(error));
+        dispatch(hr_round_questions({ id }))
     }, [handleChange])
 
+    useEffect(() => {
+        if (hr_round_questions_state?.isSuccess) {
+            setSeries(hr_round_questions_state?.message?.series)
+            var questions = hr_round_questions_state?.message?.questions?.questions
+            questions = questions?.reverse()
+            setData(questions)
+            dispatch(clear_hr_round_question_state())
+        }
+        if (hr_round_questions_state?.isError) {
+            toast(hr_round_questions_state?.error?.message)
+            dispatch(clear_hr_round_question_state())
+        }
+    }, [hr_round_questions_state])
 
-    const handleDelete=(questionID)=>{
+
+    const handleDelete = (questionID) => {
         Swal.fire({
             title: "Are you sure to delete this Question?",
             text: "You won't be able to revert this!",
@@ -60,42 +53,24 @@ const HrRoundQuestions = () => {
             confirmButtonColor: "#ce2128",
             cancelButtonColor: "#333",
             confirmButtonText: "Yes, delete it!"
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-                handleDeleteConfirm(questionID)
+                dispatch(delete_hr_round_questions({ id, questionID }))
             }
-          })
+        })
     }
 
-    const handleDeleteConfirm = (quetionId) => {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer "+token);
-
-        const raw = JSON.stringify({
-            "seriesId": id,
-            "questionId":quetionId
-        });
-
-        const requestOptions = {
-            method: "DELETE",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-
-        fetch(`${url}deleteHrRoundQuestion`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                // console.log(result)
-                if(result.type==='success'){
-                   toast.success(result.message)
-                   setHandleChange(prev=>prev+1)
-                }
-            })
-            .catch((error) => console.error(error));
-    }
-
+    useEffect(() => {
+        if (deleted_hr_question_state?.isSuccess) {
+            toast(deleted_hr_question_state?.message?.message)
+            setHandleChange(prev => prev + 1)
+            dispatch(clear_hr_deleted_question_state())
+        }
+        if (deleted_hr_question_state?.isError) {
+            toast(deleted_hr_question_state?.error?.message)
+            dispatch(clear_hr_deleted_question_state())
+        }
+    }, [deleted_hr_question_state])
 
     const handleAddQuestion = () => {
         setShowAddQuestionModal(true)
@@ -109,12 +84,12 @@ const HrRoundQuestions = () => {
         setQuestionId(questionIdD)
     }
 
-    const handleBack =()=>{
+    const handleBack = () => {
         navigate('/hr-screening')
     }
     return (
         <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
-              <div className="back-btn-outer"><button className="back-btn-checkans" onClick={handleBack}>back</button></div>
+            <div className="back-btn-outer"><button className="back-btn-checkans" onClick={handleBack}>back</button></div>
             <div className="text-end mb-3 pe-3">
                 <button className="register-btn" onClick={handleAddQuestion} >Add question</button>
             </div>
@@ -153,7 +128,7 @@ const HrRoundQuestions = () => {
                     />
                 )
             }
-            <Toaster/>
+            <Toaster />
         </div>
     )
 }

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import Modal from 'react-bootstrap/Modal';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -38,40 +37,36 @@ const InviteCandidate = (props) => {
                     setLanguage(result.isCandidateExist.profile)
                     if (result.isCandidateExist.testStatus === "completed" || result.isCandidateExist.testStatus === "invite_accepted" || result.isCandidateExist.testStatus === "invite_sent") {
                         // setHandleResendInvite(true)  
-                        handleResendLink()
+                        // handleResendLink()
                     }
                 }
             })
             .catch((error) => console.error(error));
     }, [])
+    // const handleResendLink = () => {
+    //     // console.log("in this function-----------")
+    //     const myHeaders = new Headers();
+    //     myHeaders.append("Content-Type", "application/json");
+    //     myHeaders.append("Authorization", "Bearer " + token);
 
+    //     const raw = JSON.stringify({
+    //         "candidateId": candidateId
+    //     });
 
+    //     const requestOptions = {
+    //         method: "POST",
+    //         headers: myHeaders,
+    //         body: raw,
+    //         redirect: "follow"
+    //     };
 
-
-    const handleResendLink = () => {
-        // console.log("in this function-----------")
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer " + token);
-
-        const raw = JSON.stringify({
-            "candidateId": candidateId
-        });
-
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-
-        fetch(`${url}handleResendLink`, requestOptions)
-            .then((response) => response.json())
-            .then((result) =>
-                console.log(result)
-            )
-            .catch((error) => console.error(error));
-    }
+    //     fetch(`${url}handleResendLink`, requestOptions)
+    //         .then((response) => response.json())
+    //         .then((result) =>
+    //             console.log(result, "----result")
+    //         )
+    //         .catch((error) => console.error(error));
+    // }
 
 
     useEffect(() => {
@@ -189,7 +184,7 @@ const InviteCandidate = (props) => {
                 className="custom_modal_container"
             >
                 <Modal.Header closeButton>
-                  
+
                 </Modal.Header>
                 <Modal.Body>
                     <h3 className='heading'>Invite</h3>
@@ -216,4 +211,3 @@ const InviteCandidate = (props) => {
     )
 }
 export default InviteCandidate
-//may god bring all the luck in the wrord on your way. Have a bright future!

@@ -1,59 +1,38 @@
 import React, { useEffect, useState } from "react";
-
 import Modal from 'react-bootstrap/Modal';
 import toast, { Toaster } from 'react-hot-toast';
 import "./style.css"
 import { useLanguage } from '../../utils/customHooks/useLanguage.Hook'
+import { register_candidate, clear_register_candidate_slice } from "../../utils/redux/candidateSlice/register_candidate_slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const CandidateRegisterModal = (props) => {
-
-    let token = localStorage.getItem('token')
-    let url = process.env.REACT_APP_BACKEND_URL
+    const dispatch = useDispatch()
     const [username, setUserName] = useState('')
     const [email, setEmail] = useState('')
     const [experience, setExprience] = useState('')
-    const [languages, setlanguages] = useState([])
     const [selectedLanguage, setSelectedLanguage] = useState({ language: '', id: '' });
     const language = useLanguage()
+    const registered_candidate_data = useSelector(store => store.REGISTER_CANDIDATE);
     const handleRegisterCandidate = () => {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer " + token);
-        const raw = JSON.stringify({
-            "username": username,
-            "email": email,
-            "profile": selectedLanguage.language,
-            "experience": experience,
-            'languageId': selectedLanguage.id
-        });
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-        fetch(`${url}registerCandidate`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                // console.log("result---", result)
-                if (result.type === 'error') {
-                    toast.error(result.message, {
-                        duration: 1000
-                    })
-                }
-                if (result.type === 'success') {
-                    toast.success(result.message, {
-                        duration: 1000
-                    })
-                    setUserName('')
-                    setEmail('')
-                    setExprience('')
-                    props.handleChange(prev => prev + 1)
-                    props.onHide(false)
-                }
-            })
-            .catch((error) => console.error(error));
+        dispatch(register_candidate({ username: username, email: email, profile: selectedLanguage.language, experience: experience, languageId: selectedLanguage.id }))
     }
+
+    useEffect(() => {
+        if (registered_candidate_data?.isSuccess) {
+            toast(registered_candidate_data?.data?.message)
+            setEmail('')
+            setExprience('')
+            props.handleChange(prev => prev + 1)
+            props.onHide(false)
+            dispatch(clear_register_candidate_slice())
+        }
+        if (registered_candidate_data?.isError) {
+            toast(registered_candidate_data?.error?.message)
+            props.onHide(false)
+            dispatch(clear_register_candidate_slice())
+        }
+    }, [registered_candidate_data])
 
 
     const handleChange = (e) => {

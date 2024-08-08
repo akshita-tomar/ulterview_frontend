@@ -1,84 +1,41 @@
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import loader from '../../assets/loading.gif'
 import { useEffect, useState } from 'react';
 import { encryptId } from '../../utils/encryption'
 import toast from 'react-hot-toast';
+import { useHrInvite } from '../../utils/customHooks/useHrInvite.Hook';
+import { useDispatch, useSelector } from 'react-redux';
+import { send_hr_round_que_ans, clear_hr_round_link_state } from '../../utils/redux/candidateSlice/send_hr_round_slice';
 
 const InviteHrRound = (props) => {
-
-    let url = process.env.REACT_APP_BACKEND_URL
+    const dispatch = useDispatch()
     let interviewUrl = process.env.REACT_APP_INTERVIEW_URL
-    const [showLoader, setShowLoader] = useState(false)
-    const [series, setSeries] = useState([])
     const [selectedSeriesId, setSelectedSeriesId] = useState('');
-    let token = localStorage.getItem('token')
-
-    useEffect(() => {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token);
-
-        const requestOptions = {
-            method: "GET",
-            headers: myHeaders,
-            redirect: "follow"
-        };
-
-        fetch(`${url}getHrRoundSeries`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                // console.log('series ---',result)
-                setSeries(result.allSeries)
-            })
-            .catch((error) => console.error(error));
-    }, [])
-
+    const series = useHrInvite()
+    const hr_round_state = useSelector(store => store.HR_ROUND_LINK)
 
     const handleSendLink = () => {
         const encryptedCandidateId = encryptId(props.candidateID);
         const testLink = `${interviewUrl}/hr-round/:${encodeURIComponent(encryptedCandidateId)}`;
         console.log('test link ---', testLink)
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer " + token);
-
-        const raw = JSON.stringify({
-            "candidateId": props.candidateID,
-            "seriesId": selectedSeriesId,
-            "link": testLink
-        });
-
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-
-        fetch(`${url}sendHrRoundQuesAns`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                if (result.type === 'success') {
-                    toast.success(result.message)
-                    props.handleChange(prev => prev + 1)
-                    props.onHide(false)
-                } else {
-                    if (result.message === 'Series Id not present.') {
-                        toast.error('Please enter series', {
-                            duration: 2000
-                        })
-                    } else {
-                        toast.error(result.message)
-                    }
-                }
-            })
-            .catch((error) => console.error(error));
+        if (testLink) dispatch(send_hr_round_que_ans({ candidateId: props.candidateID, seriesId: selectedSeriesId, link: testLink }))
     }
+
+    useEffect(() => {
+        if (hr_round_state?.isSuccess) {
+            toast(hr_round_state?.message?.message)
+            props.handleChange(prev => prev + 1)
+            dispatch(clear_hr_round_link_state())
+            props.onHide(false)
+        }
+        if (hr_round_state?.isError) {
+            toast(hr_round_state?.error?.message)
+            dispatch(clear_hr_round_link_state())
+        }
+    }, [hr_round_state])
 
     const handleSelectChange = (event) => {
         setSelectedSeriesId(event.target.value);
     };
-
 
     return (
         <div>
@@ -90,25 +47,21 @@ const InviteHrRound = (props) => {
                 className='custom_modal_container'
             >
                 <Modal.Header closeButton>
-                    
+
                 </Modal.Header>
                 <Modal.Body>
                     <h3 className='heading'>Invite for HR Round</h3>
-                    <div className='loader_outer_wrapper'>
-
-                        {showLoader && (<img src={loader} height={"50px"} width={"50px"} />)}
-                    </div>
                     <div className='form-group'>
                         <label className='modal_label'>Series</label>
-                    <select className="candidate-register-input form-control mt-1" value={selectedSeriesId} onChange={handleSelectChange} >
-                        <option value="">Select series</option>
-                        {series?.map((ele) => (
+                        <select className="candidate-register-input form-control mt-1" value={selectedSeriesId} onChange={handleSelectChange} >
+                            <option value="">Select series</option>
+                            {series?.series?.allSeries?.map((ele) => (
 
-                            <option disabled={ele.questions?.length < 3 || ele.questions === undefined} className={ele.questions?.length < 3 || ele.questions === undefined ? 'series-outer-box-pending' : "series-outer-box"} key={ele._id} value={ele._id}>
-                                {ele.questionSeries} {ele.questions?.length < 1 || ele.questions === undefined ? "(pending)" : null}
-                            </option>
-                        ))}
-                    </select>
+                                <option disabled={ele.questions?.length < 3 || ele.questions === undefined} className={ele.questions?.length < 3 || ele.questions === undefined ? 'series-outer-box-pending' : "series-outer-box"} key={ele._id} value={ele._id}>
+                                    {ele.questionSeries} {ele.questions?.length < 1 || ele.questions === undefined ? "(pending)" : null}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

@@ -1,46 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { hr_add_questions, clear_hr_question_state } from '../../utils/redux/hr_screening_slice/add_question_slice';
 
 const AddHrRoundQuestion = (props) => {
-    let token = localStorage.getItem('token')
-    const url = process.env.REACT_APP_BACKEND_URL
+    const dispatch = useDispatch()
     const [question, setQuestion] = useState('')
     const id = props.seriesId
-
-
-   
-
+    const hr_question_state = useSelector(store => store.HR_ADD_QUESTIONS)
     const handleSubmit = () => {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("Authorization", "Bearer "+token);
-
-        const raw = JSON.stringify({
-            "questionSeriesId": id,
-            "question": {
-                "question": question
-            }
-        });
-
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-
-        fetch(`${url}addQuestion`, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                // console.log(result)
-                if(result.type==='success'){
-                  props.handleChange(prev=>prev+1) 
-                  props.onHide(false)
-                }
-            })
-            .catch((error) => console.error(error));
+        dispatch(hr_add_questions({ questionSeriesId: id, question: question }))
     }
+
+    useEffect(() => {
+        if (hr_question_state?.isSuccess) {
+            toast(hr_add_questions?.message?.message)
+            props.handleChange(prev => prev + 1)
+            props.onHide(false)
+            dispatch(clear_hr_question_state())
+        }
+        if (hr_question_state?.isError) {
+            toast(hr_add_questions?.error?.message)
+            dispatch(clear_hr_question_state())
+        }
+    }, [hr_question_state])
 
     return (
         <div>
@@ -62,6 +47,7 @@ const AddHrRoundQuestion = (props) => {
                     <Button onClick={handleSubmit}>Submit</Button>
                 </Modal.Footer>
             </Modal>
+            <Toaster />
         </div>
     )
 }
