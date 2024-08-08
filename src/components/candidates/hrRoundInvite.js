@@ -87,19 +87,20 @@ const InviteHrRound = (props) => {
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter Invite_candidate_modal"
                 centered
+                className='custom_modal_container'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter heading">
-
-                        Invite for HR Round
-                    </Modal.Title>
+                    
                 </Modal.Header>
                 <Modal.Body>
+                    <h3 className='heading'>Invite for HR Round</h3>
                     <div className='loader_outer_wrapper'>
 
                         {showLoader && (<img src={loader} height={"50px"} width={"50px"} />)}
                     </div>
-                    <select className="candidate-register-input form-control mt-3" value={selectedSeriesId} onChange={handleSelectChange} >
+                    <div className='form-group'>
+                        <label className='modal_label'>Series</label>
+                    <select className="candidate-register-input form-control mt-1" value={selectedSeriesId} onChange={handleSelectChange} >
                         <option value="">Select series</option>
                         {series?.map((ele) => (
 
@@ -108,9 +109,10 @@ const InviteHrRound = (props) => {
                             </option>
                         ))}
                     </select>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='cmn_btn_color' onClick={handleSendLink}>Send link</Button>
+                    <button className='cmn_btn_color submit_btn' onClick={handleSendLink}>Send Invite</button>
                 </Modal.Footer>
             </Modal>
 

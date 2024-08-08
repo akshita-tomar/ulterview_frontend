@@ -37,12 +37,7 @@ button.login-button {
 a:-webkit-any-link:focus-visible {
     outline: 0px !important;
 }
-.form-group input{
-    padding: 10px 20px !important;
-    border: 1px solid #D9D9D9;
-    border-radius: 11px;
 
-}
 .form-group label {
     color: #282A30;
     font-size: 16px;

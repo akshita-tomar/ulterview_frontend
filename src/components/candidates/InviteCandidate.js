@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
+
 import Modal from 'react-bootstrap/Modal';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { encryptId } from '../../utils/encryption'
 import loader from '../../assets/loading.gif'
-
+import "./style.css"
 
 const InviteCandidate = (props) => {
 
@@ -186,13 +186,13 @@ const InviteCandidate = (props) => {
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter Invite_candidate_modal"
                 centered
+                className="custom_modal_container"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter heading">
-                        Invite
-                    </Modal.Title>
+                  
                 </Modal.Header>
                 <Modal.Body>
+                    <h3 className='heading'>Invite</h3>
                     <div className='loader_outer_wrapper'>
                         {showLoader && (<img src={loader} height={"50px"} width={"50px"} />)}
                     </div>
@@ -208,7 +208,7 @@ const InviteCandidate = (props) => {
                     </select>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='cmn_btn_color' onClick={handleSendLink} >Send link</Button>
+                    <button className='cmn_btn_color submit_btn' onClick={handleSendLink} >Send link</button>
                 </Modal.Footer>
             </Modal>
             <Toaster />
