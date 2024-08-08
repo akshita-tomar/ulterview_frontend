@@ -16,7 +16,7 @@ const InviteCandidate = (props) => {
     const [language, setLanguage] = useState('')
     const [selectedSeries, setSelectedSeries] = useState({ series: '', id: '' });
     const [showLoader, setShowLoader] = useState(false)
-    // const [handleResendInvite,setHandleResendInvite]=useState(false)
+   
     let candidateId = props.candidateID
     let languageid = props.languageId
 
@@ -33,7 +33,7 @@ const InviteCandidate = (props) => {
         fetch(`${url}getSingleCandidate?candidateId=${candidateId}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                // console.log('invite candidate mofule ------',result)
+               
                 if (result.type === 'success') {
                     setLanguage(result.isCandidateExist.profile)
                     if (result.isCandidateExist.testStatus === "completed" || result.isCandidateExist.testStatus === "invite_accepted" || result.isCandidateExist.testStatus === "invite_sent") {
@@ -192,7 +192,7 @@ const InviteCandidate = (props) => {
                   
                 </Modal.Header>
                 <Modal.Body>
-                    <h3 className='heading'>Invite</h3>
+                    <h3 className='heading'>Invite for technical round</h3>
                     <div className='loader_outer_wrapper'>
                         {showLoader && (<img src={loader} height={"50px"} width={"50px"} />)}
                     </div>
@@ -216,4 +216,3 @@ const InviteCandidate = (props) => {
     )
 }
 export default InviteCandidate
-//may god bring all the luck in the wrord on your way. Have a bright future!

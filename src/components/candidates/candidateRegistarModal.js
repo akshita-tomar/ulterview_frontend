@@ -12,7 +12,6 @@ const CandidateRegisterModal = (props) => {
     const [username, setUserName] = useState('')
     const [email, setEmail] = useState('')
     const [experience, setExprience] = useState('')
-    const [languages, setlanguages] = useState([])
     const [selectedLanguage, setSelectedLanguage] = useState({ language: '', id: '' });
     const language = useLanguage()
     const handleRegisterCandidate = () => {

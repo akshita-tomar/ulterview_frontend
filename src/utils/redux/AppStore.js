@@ -8,6 +8,7 @@ import getCandidates from "./candidateSlice/getCandidateSlice";
 import deleteCandidate from "./candidateSlice/deleteCandidate";
 import updateCandidateSlice from "./candidateSlice/updateCandidateSlice";
 import getSingleCandidateSlice from "./candidateSlice/getSingleCandidateSlice";
+import createTaskSlice from "./homepageSlice/createTaskSlice";
 
 const appStore = configureStore({
     reducer: {
@@ -19,7 +20,8 @@ const appStore = configureStore({
         GET_CANDIDATES: getCandidates,
         DELETE_CANDIDATE: deleteCandidate,
         UPDATE_CANDIDATE: updateCandidateSlice,
-        GET_SINGLE_CANDIDATE: getSingleCandidateSlice
+        GET_SINGLE_CANDIDATE: getSingleCandidateSlice, 
+        CREATE_TASK:createTaskSlice
     }
 })
 
