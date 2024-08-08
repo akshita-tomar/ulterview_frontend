@@ -236,122 +236,124 @@ const CandidateEntries = () => {
                 ))}
               </Submenu>
             </Dropdown>
+
           </div>
-
-
-          <button className="register-btn cmn_btn_color" onClick={() => setModalShow(true)}><IoMdAdd className="me-2" />Register</button>
-
         </div>
-        <div className="table-responsive candidate_table_outer">
-          <Table hover className="user-table candidate_entry_table">
-            <thead>
-              <tr>
-                <th>Sr.no</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Profile</th>
-                <th>Experience</th>
-                <th>HR round</th>
-                <th>Invite(HR round)</th>
-                <th>Technical round</th>
-                <th>Invite(Tech round)</th>
-                <th>Final Result</th>
-                <th>Actions</th>
+
+
+        <button className="register-btn cmn_btn_color" onClick={() => setModalShow(true)}><IoMdAdd className="me-2" />Register</button>
+
+      </div>
+      <div className="table-responsive candidate_table_outer cmn_radius ">
+        <Table hover className="user-table candidate_entry_table">
+          <thead>
+            <tr>
+              <th>Sr.no</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Profile</th>
+              <th>Experience</th>
+              <th>HR round</th>
+              <th>Invite(HR round)</th>
+              <th>Technical round</th>
+              <th>Invite(Tech round)</th>
+              <th>Final Result</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {candidates?.map((element, index) => (
+              <tr key={index}>
+                <td>{(page - 1) * 10 + index + 1}</td>
+                <td>{element.username}</td>
+                <td>{element.email}</td>
+                <td>{element.profile}</td>
+                <td>{element.experience}</td>
+                <td className={element.hrRoundStatus === "rejected" ? 'rejected-candidate' : element.hrRoundStatus === 'selected' ? 'selected-candidate' : ''}>{element.hrRoundStatus}</td>
+                <td>
+                  {
+                    element.hrRoundStatus === 'invite_sent' || element.hrRoundStatus === 'invite_accepted' || element.hrRoundStatus === 'completed' || element.hrRoundStatus === 'selected' || element.hrRoundStatus === 'rejected' ?
+                      <button className="invite_btn  resend_btn" onClick={() => handleHrRoundInvite(element._id)} >Resend</button> :
+                      <button className="invite_btn cmn_btn_color" onClick={() => handleHrRoundInvite(element._id)}>Invite</button>
+                  }
+                </td>
+                <td>{element.testStatus}</td>
+                <td>
+                  {
+                    element.testStatus === 'completed' || element.testStatus === 'invite_sent' || element.testStatus === 'invite_accepted' ?
+                      <button className="invite_btn  resend_btn" onClick={() => handleInvite(element._id, element.languageId)} >Resend</button> :
+                      <button className="invite_btn cmn_btn_color" onClick={() => handleInvite(element._id, element.languageId)}>Invite</button>
+                  }
+                </td>
+                <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus}
+                </td>
+                <td>
+                  <div className="actions_wrapper">
+                    <CiEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} />
+                    <RiDeleteBinLine className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {candidates?.map((element, index) => (
-                <tr key={index}>
-                  <td>{(page - 1) * 10 + index + 1}</td>
-                  <td>{element.username}</td>
-                  <td>{element.email}</td>
-                  <td>{element.profile}</td>
-                  <td>{element.experience}</td>
-                  <td className={element.hrRoundStatus === "rejected" ? 'rejected-candidate' : element.hrRoundStatus === 'selected' ? 'selected-candidate' : ''}>{element.hrRoundStatus}</td>
-                  <td>
-                    {
-                      element.hrRoundStatus === 'invite_sent' || element.hrRoundStatus === 'invite_accepted' || element.hrRoundStatus === 'completed' || element.hrRoundStatus === 'selected' || element.hrRoundStatus === 'rejected' ?
-                        <button className="invite_btn  resend_btn" onClick={() => handleHrRoundInvite(element._id)} >Resend</button> :
-                        <button className="invite_btn cmn_btn_color" onClick={() => handleHrRoundInvite(element._id)}>Invite</button>
-                    }
-                  </td>
-                  <td>{element.testStatus}</td>
-                  <td>
-                    {
-                      element.testStatus === 'completed' || element.testStatus === 'invite_sent' || element.testStatus === 'invite_accepted' ?
-                        <button className="invite_btn  resend_btn" onClick={() => handleInvite(element._id, element.languageId)} >Resend</button> :
-                        <button className="invite_btn cmn_btn_color" onClick={() => handleInvite(element._id, element.languageId)}>Invite</button>
-                    }
-                  </td>
-                  <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus}
-                  </td>
-                  <td>
-                    <div className="actions_wrapper">
-                      <CiEdit className="MdEdit cursor-pointer me-2" onClick={() => handleUpdateCandidate(element._id)} />
-                      <RiDeleteBinLine className="cursor-pointer MdEdit" onClick={() => handleDelete(element._id)} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
+            ))}
+          </tbody>
+        </Table>
+      </div>
 
-        <Pagination className="justify-content-center custom_pagination_wapper">
-          <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
-          {[...Array(totalPages)].map((_, index) => (
-            <Pagination.Item
-              key={index}
-              active={index + 1 === page}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </Pagination.Item>
-          ))}
-          <Pagination.Next onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} />
-        </Pagination>
+      <Pagination className="justify-content-center custom_pagination_wapper mt-4">
+        <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
+        {[...Array(totalPages)].map((_, index) => (
+          <Pagination.Item
+            key={index}
+            active={index + 1 === page}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </Pagination.Item>
+        ))}
+        <Pagination.Next onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} />
+      </Pagination>
 
-        {
-          modalShow && (
-            <CandidateRegisterModal
-              show={modalShow}
-              onHide={() => setModalShow(false)}
-              handleChange={setHandleChange}
-            />
-          )}
-        {showUpdateModal && (
-          <UpdateCandidate
-            show={showUpdateModal}
-            onHide={() => setShowUpdateModal(false)}
-            candidateId={candidateID}
+      {
+        modalShow && (
+          <CandidateRegisterModal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
             handleChange={setHandleChange}
           />
         )}
-        {
-          showInviteModal && (
-            <InviteCandidate
-              show={showInviteModal}
-              onHide={() => setShowInviteModal(false)}
-              candidateID={candidateID}
-              languageId={LanguageId}
-              handleChange={setHandleChange}
-            />
-          )
-        }
-        {
-          showHrRoundSentLink && (
-            <InviteHrRound
-              show={showHrRoundSentLink}
-              onHide={() => setShowHrRoundSentLink(false)}
-              candidateID={candidateID}
-              handleChange={setHandleChange}
-            />
-          )
-        }
+      {showUpdateModal && (
+        <UpdateCandidate
+          show={showUpdateModal}
+          onHide={() => setShowUpdateModal(false)}
+          candidateId={candidateID}
+          handleChange={setHandleChange}
+        />
+      )}
+      {
+        showInviteModal && (
+          <InviteCandidate
+            show={showInviteModal}
+            onHide={() => setShowInviteModal(false)}
+            candidateID={candidateID}
+            languageId={LanguageId}
+            handleChange={setHandleChange}
+          />
+        )
+      }
+      {
+        showHrRoundSentLink && (
+          <InviteHrRound
+            show={showHrRoundSentLink}
+            onHide={() => setShowHrRoundSentLink(false)}
+            candidateID={candidateID}
+            handleChange={setHandleChange}
+          />
+        )
+      }
 
-        <Toaster />
-      </div>
+      <Toaster />
     </div>
+
   )
 }
 
