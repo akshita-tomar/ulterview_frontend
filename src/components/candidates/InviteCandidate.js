@@ -208,7 +208,7 @@ const InviteCandidate = (props) => {
                     </select>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className='cmn_btn_color submit_btn' onClick={handleSendLink} >Send link</button>
+                    <button className='cmn_btn_color red_btn' onClick={handleSendLink} >Send link</button>
                 </Modal.Footer>
             </Modal>
             <Toaster />

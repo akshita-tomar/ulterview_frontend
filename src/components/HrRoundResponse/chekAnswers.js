@@ -3,7 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import emptyIcon from '../../assets/empty.gif';
 import { useAppContext } from "../../utils/useContext";
 import { Accordion } from 'react-bootstrap';
-
+import "./hrroundStyle.css"
+import { IoArrowBackSharp } from "react-icons/io5";
 const CheckHrRoundAnswers = () => {
     const { show } = useAppContext();
     let navigate = useNavigate();
@@ -71,11 +72,14 @@ const CheckHrRoundAnswers = () => {
 
     return (
         <div className={`wrapper ${show ? "cmn_margin" : ""}`}>
+            <h3 className="cmn_heading">HR Round Questions</h3>
             <div className="back-btn-outer">
-                <button className="back-btn-checkans" onClick={handleBack}>Back</button>
+                <button className="back_btn" onClick={handleBack}><IoArrowBackSharp/> Back</button>
             </div>
-            <div className="hrcheckans-heading">Asked Questions</div>
-            <Accordion defaultActiveKey="0">
+            <div className="asked_question_outer">
+
+        <h3 className="heading">Asked Questions</h3>
+            <Accordion defaultActiveKey="0" className="question_accordian_wrapper mt-4">
                 {questions.map((ele, index) => (
                     <Accordion.Item eventKey={index.toString()} key={ele._id}>
                         <Accordion.Header>{ele.question}</Accordion.Header>
@@ -90,17 +94,18 @@ const CheckHrRoundAnswers = () => {
                     </Accordion.Item>
                 ))}
             </Accordion>
+            </div>
             <br />
             {/* <div className="hrcheckans-heading">Candidate Response</div> */}
             {showIcon && (
                 <>
-                    <img src={emptyIcon} alt="No Data" />
-                    <h4>Not completed even a single question</h4>
+                    <img src={emptyIcon} alt="No Data" className="emptyIcon"/>
+                    <h4 className="heading mt-2">Not completed even a single question</h4>
                 </>
             )}
-            <div className="text-center">
-                <button type="submit" className="submit-button" onClick={() => handleClick('selected')}>Select</button> &nbsp;
+            <div className="text-end">
                 <button type="submit" className="reject-btn" onClick={() => handleClick('rejected')}>Reject</button>
+                <button type="submit" className="submit-button" onClick={() => handleClick('selected')}>Select</button> &nbsp;
             </div>
         </div>
     );

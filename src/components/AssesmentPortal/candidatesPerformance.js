@@ -4,7 +4,7 @@ import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useAppContext } from "../../utils/useContext";
-
+import "./candidate.css"
 const CandidatesPerformance = () => {
   const url = process.env.REACT_APP_BACKEND_URL;
   const token = localStorage.getItem('token');
@@ -37,7 +37,7 @@ const CandidatesPerformance = () => {
           if (result.candidates.length < 1) {
             if(checkRefreshCount===1){
             swal({
-              confirmButtonColor: "red",
+              confirmButtonColor: "#FF3030",
               title: "Interview not completed by any candidate.",
               text: "Thanks!",
               icon: "success",
@@ -97,8 +97,8 @@ const CandidatesPerformance = () => {
     </div>
        </div>
       <div className="cmn_container">
-        <div className="table-responsive mb-0">
-          <Table striped bordered hover className="user-table">
+        <div className="table-responsive mb-0 cmn_radius">
+          <Table  hover className="user-table">
             <thead>
               <tr>
                 <th>Sr.no</th>

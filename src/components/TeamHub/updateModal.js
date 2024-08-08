@@ -43,10 +43,7 @@ const UpdateUser = (props) => {
 
                 </Modal.Header>
                 <Modal.Body>
-                    <input className="candidate-register-input form-control mt-2" placeholder="Update username" defaultValue={props.user} onChange={(e) => setUsername(e.target.value)}></input>
-                    {props.role === "developer" ? <input className="candidate-register-input form-control mt-2" placeholder="Update developer's profile" defaultValue={props.userProfile} onChange={(e) => setProfile(e.target.value)}></input> : null}
-                    <input className="candidate-register-input form-control mt-2" placeholder="Update total experience" defaultValue={props.userExperience} onChange={(e) => setExprience(e.target.value)} ></input>
-
+                    
                     <h3 className="heading"> Update {props.user}</h3>
                     <div className='form-group'>
                         <label className='modal_label'>Username</label>
@@ -66,7 +63,7 @@ const UpdateUser = (props) => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={handleUpdate} className='submit_btn'>Submit</button>
+                    <button onClick={handleUpdate} className='red_btn'>Submit</button>
                 </Modal.Footer>
             </Modal>
             <Toaster />

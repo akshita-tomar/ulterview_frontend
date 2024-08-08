@@ -59,7 +59,7 @@ const HrRoundSeries = (props) => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={handleSubmit} className='submit_btn'>Submit</button>
+                    <button onClick={handleSubmit} className='red_btn'>Submit</button>
                 </Modal.Footer>
             </Modal>
         </div>

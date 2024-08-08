@@ -1,0 +1,24 @@
+.question_accordian_wrapper button{
+    color: #282A30;
+    font-weight: 600;
+    font-family: "Open-Sans" sans-serif;
+}
+.asked_question_outer{
+    background: white;
+    padding: 23px
+}
+.emptyIcon{
+    height: 250px;
+    width: 250px;
+    object-fit: contain;
+
+}
+ @media screen and (max-width:767px){
+    .searchbox_feedback{
+     margin-top: 20px;
+    }
+   
+    .question_accordian_wrapper button.accordion-button {
+        font-size: 12px;
+    }
+ }

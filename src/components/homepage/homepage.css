@@ -4,23 +4,39 @@
     padding: 20px;
     justify-content: flex-end;
 }
-.language_footer button{
-    border: unset;
-    color: white;
-    border-radius: 8px;
-    padding: 7px 25px;
-    min-width: 99px;
-}
+
 .new_series_label{
     color: #8f8c8c;
     font-weight: 500;
 }
+.language_container h4{
+    color: #2C2C2C;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: "Open-Sans", sans-serif;
+}
 .close-series{
     cursor: pointer;
 }
+.add_new_langauage_outer{
+    display: flex;
+    justify-content: end;
+}
+ @media screen and (max-width:1100px){
+.card_inner {
+    flex-wrap: wrap;
+    justify-content: start !important;
+   
+}
+
+ }
  @media screen  and (max-width:767px) {
     .language_footer{
     justify-content: center;
     } 
+    .language_container h4 {
+
+        font-size: 15px;
+    }
  }
 

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { FaBars, FaUser } from "react-icons/fa";
+import { FaBars  } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { RiLockPasswordLine, RiQuestionnaireFill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { PiNotebookFill } from "react-icons/pi"
 import { useAppContext } from "../../utils/useContext";
 import { FaUserGroup } from "react-icons/fa6";
-import { CgNotes } from "react-icons/cg";
+
 import { MdOutlineQuickreply } from "react-icons/md";
 import logo from '../../assets/logo1.png'
 import ChangePassword from "../header/changePassword";
@@ -14,6 +14,7 @@ import { IoIosLogOut } from "react-icons/io";
 
 import "./sidebar.css"
 import LogoutModal from "../Modal/LogoutModal";
+import { CiUser } from "react-icons/ci";
 const Sidebar = () => {
   const navigate = useNavigate()
   let role = localStorage.getItem('role')
@@ -61,7 +62,7 @@ const[showLogoutModal,setShowLogoutModal]=useState(false)
     <>
       <div className={`sidebar ${show ? "cmn_width" : ""}`}>
 
-        <h3 className="bar" onClick={() => { setShow(!show) }}>{show ? <RxCross2 className="p-0 text-center" /> : <FaBars />}</h3>
+        <h3 className="bar" onClick={() => { setShow(!show) }}>{show ?  <FaBars /> :<RxCross2 className="p-0 text-center" />}</h3>
        <div className={`${show?"d-none":"text-center sidebar_logo_outer"}`}>
        <img src={logo} height={"40px"} width={"158px"}/>
        <h3 className="mt-1">TECHNOLOGIES</h3>
@@ -70,7 +71,7 @@ const[showLogoutModal,setShowLogoutModal]=useState(false)
           role === "HR" ?
             <>
               <div className={`sidebar-button mt-4 ${path.pathname === "/candidates" ? "active-pathname" : ""}`} onClick={handleCandidates}>
-                <div className="sidebar_content"><FaUser />
+                <div className="sidebar_content"><CiUser /> 
                   <h4 className={show ? "d-none" : "sidebar_content"} >Candidates</h4>
                 </div>
               </div>
@@ -80,7 +81,7 @@ const[showLogoutModal,setShowLogoutModal]=useState(false)
                 </div>
               </div>
               <div className={`sidebar-button ${path.pathname === "/hr-screening" ? "active-pathname" : ""}`} onClick={handleHrScreening} >
-                <div className="sidebar_content"><CgNotes />
+                <div className="sidebar_content"><CiUser />
                   <h4 className={show ? "d-none" : "sidebar_content"} >HR Screening</h4>
                 </div>
               </div>
@@ -93,7 +94,7 @@ const[showLogoutModal,setShowLogoutModal]=useState(false)
             : null
         }
         {
-          role === 'DEVELOPER' ? <div>
+          role === 'DEVELOPER' ? <div className="mt-4">
             <div className={`sidebar-button  ${path.pathname === "/homepage" ? "active-pathname" : ""}`} onClick={fetchLanguages} >
               <div className="sidebar_content">
                 <RiQuestionnaireFill />

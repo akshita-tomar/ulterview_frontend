@@ -148,7 +148,7 @@ const Team = () => {
             onChange={handleSearchChange}
           />
         </div>
-        <button className="register-btn cmn_btn_color" onClick={handleRegistration}>
+        <button className="register-btn red_btn" onClick={handleRegistration}>
           <RiAddLargeFill /> ADD {role.toUpperCase()}
         </button>
       </div>
@@ -195,8 +195,8 @@ const Team = () => {
           </div>
         </Tab>
         <Tab eventKey="hr" title="HR">
-          <div className="table-responsive">
-            <Table striped bordered hover className="user-table candidate_entry_table">
+          <div className="table-responsive cmn_radius">
+            <Table hover className="user-table candidate_entry_table">
               <thead>
                 <tr>
                   <th>Sr.no</th>

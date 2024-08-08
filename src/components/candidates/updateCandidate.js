@@ -83,8 +83,13 @@ const UpdateCandidate = (props) => {
                     <div className="form-group mt-3">
                         <label className="modal_label">E-mail address</label>
                         <input className="candidate-register-input  form-control mt-1" placeholder="Enter candidate email" defaultValue={data.email} onChange={(e) => setEmail(e.target.value)}></input>
+                        
 
-                        <select className="candidate-register-input mt-3 form-control" value={selectedLanguage?.id ? selectedLanguage?.id : data.languageId} onChange={handleChange}>
+                    </div>
+                    <div className="form-group mt-3">
+                    <label className="modal_label">Profile</label>
+
+                        <select className="candidate-register-input form-control  mt-1" value={selectedLanguage?.id ? selectedLanguage?.id : data.languageId} onChange={handleChange}>
                             {/* <option value="">Select profile</option> */}
 
                             {language?.languages?.data?.map((ele) => (
@@ -93,8 +98,7 @@ const UpdateCandidate = (props) => {
                                 </option>
                             ))}
                         </select>
-
-                    </div>
+                        </div>
                     <div className="form-group mt-3">
                         <label className="modal_label">Experience</label>
                         <input className="candidate-register-input  form-control mt-1" placeholder="Enter total experience" defaultValue={data.experience} onChange={(e) => setExprience(e.target.value)}></input>
@@ -107,7 +111,7 @@ const UpdateCandidate = (props) => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <buton className="cmn_btn_color submit_btn" onClick={() => handleUpdateCandidate(data._id)}>Update</buton>
+                    <buton className="cmn_btn_color red_btn" onClick={() => handleUpdateCandidate(data._id)}>Update</buton>
                 </Modal.Footer>
             </Modal>
             <Toaster />

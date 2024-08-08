@@ -1,6 +1,5 @@
 import { updateData } from '@syncfusion/ej2-react-grids';
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
@@ -51,17 +50,17 @@ const UpdateHrRoundQuestions = (props) => {
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                className='custom_modal_container'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter " className="heading">
-                        Update Question
-                    </Modal.Title>
+                   
                 </Modal.Header>
                 <Modal.Body>
+                    <h3 className='heading'> Update Question</h3>
                     <input className="candidate-register-input form-control mt-2" placeholder="Enter series" defaultValue={props.question} onChange={(e) => setUpdatedQuestion(e.target.value)}></input>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <button onClick={handleSubmit} className='red_btn'>Submit</button>
                 </Modal.Footer>
             </Modal>
         </div>

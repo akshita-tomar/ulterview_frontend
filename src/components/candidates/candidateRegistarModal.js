@@ -129,7 +129,7 @@ const CandidateRegisterModal = (props) => {
                     
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={handleRegisterCandidate} className=" submit_btn">Submit</button>
+                    <button onClick={handleRegisterCandidate} className=" red_btn">Submit</button>
                 </Modal.Footer>
             </Modal>
             <Toaster />

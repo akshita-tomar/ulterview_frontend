@@ -4,7 +4,7 @@
   }
   
   .dropdown-toggle {
-    background-color: #3498db;
+    background-color: #F41A1A;
     color: white;
     padding: 10px;
     border: none;
@@ -53,6 +53,10 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
   }
+  .dropdown-submenu:hover {
+    background: #f1f1f1;
+}
+
   @media screen and (max-width:767px){
     .submenu-content {
       left: 52%;

@@ -112,7 +112,7 @@ const InviteHrRound = (props) => {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button className='cmn_btn_color submit_btn' onClick={handleSendLink}>Send Invite</button>
+                    <button className='cmn_btn_color red_btn' onClick={handleSendLink}>Send Invite</button>
                 </Modal.Footer>
             </Modal>
 

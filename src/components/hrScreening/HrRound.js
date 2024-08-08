@@ -141,7 +141,7 @@ const HrRound = () => {
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
          <h5 className="cmn_heading">HR Round Series</h5>
       <div className="text-end mb-3 pe-3">
-        <button className="register-btn submit_btn" onClick={addHrRoundSeries} > <MdAdd /> Add Series</button>
+        <button className="register-btn red_btn" onClick={addHrRoundSeries} > <MdAdd /> Add Series</button>
       </div>
       <div className="table-responsive cmn_radius candidate_table_outer">
         <Table   hover className="user-table">

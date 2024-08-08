@@ -5,6 +5,11 @@ import AddHrRoundQuestion from "./addQuestionModal";
 import UpdateHrRoundQuestions from "./updateQuestion";
 import Swal from "sweetalert2";
 import toast, { Toaster } from "react-hot-toast";
+import { IoMdAdd } from "react-icons/io";
+import "./hrstyle.css"
+import ReactDOMServer from 'react-dom/server';
+import { RiDeleteBinLine } from "react-icons/ri";
+import { IoArrowBackSharp } from "react-icons/io5";
 
 const HrRoundQuestions = () => {
     let { id } = useParams()
@@ -50,16 +55,39 @@ const HrRoundQuestions = () => {
             .catch((error) => console.error(error));
     }, [handleChange])
 
+    const renderToString = (component) => ReactDOMServer.renderToString(component);
 
     const handleDelete=(questionID)=>{
+        const deleteIconHtml = renderToString(<RiDeleteBinLine size={50} />);
+
         Swal.fire({
-            title: "Are you sure to delete this Question?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
+            html: `
+            <div>
+            <div class="custom_deleteicon_outer">
+            <div class="custom_deleteicon">
+            ${deleteIconHtml}
+            
+            </div>
+      
+            </div>
+             <h2 class="custom-title">Are you sure to delete this Question?</h2>
+              <p class="custom-text">You won't be able to revert this!</p>
+            
+            </div>
+              
+              `,
+           
+            icon: null,
             showCancelButton: true,
-            confirmButtonColor: "#ce2128",
-            cancelButtonColor: "#333",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonColor: "#FF3030",
+            cancelButtonColor: "#ECEAF3",
+            confirmButtonText: "Delete",
+            customClass: {
+                cancelButton: 'swal-cancel',
+                confirmButton: "swal-delete",
+                title: 'custom-title',
+                content: 'custom-text'
+              }
           }).then((result) => {
             if (result.isConfirmed) {
                 handleDeleteConfirm(questionID)
@@ -114,9 +142,10 @@ const HrRoundQuestions = () => {
     }
     return (
         <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
-              <div className="back-btn-outer"><button className="back-btn-checkans" onClick={handleBack}>back</button></div>
+            <h3 className="cmn_heading">HR Screening </h3>
+              <div className="back-btn-outer"><button className="back_btn" onClick={handleBack}><IoArrowBackSharp/> Back</button></div>
             <div className="text-end mb-3 pe-3">
-                <button className="register-btn" onClick={handleAddQuestion} >Add question</button>
+                <button className="register-btn red_btn" onClick={handleAddQuestion} ><IoMdAdd /> Add question</button>
             </div>
             <h4 className="hrRound-seriesname">Set of questions for {series}</h4>
             {
@@ -124,9 +153,10 @@ const HrRoundQuestions = () => {
                     return (
                         <div className="hr-question-outer">
                             <input className="hr-question-input" value={ele.question} />
-                            <div className="hrQuestion-update-delete-btn">
-                                <button className="hrQuestion-update-btn" onClick={() => handleUpdate(ele.question, ele._id)}>Update</button>
-                                <button className="hrQuestion-delete-btn" onClick={() => handleDelete(ele._id)}>Delete</button></div>
+                            <div className="hrQuestion-update-delete-btn mt-3">
+                                <button className="hrQuestion-delete-btn cmn_cancel_btn" onClick={() => handleDelete(ele._id)}>Delete</button>
+                                <button className="red_btn" onClick={() => handleUpdate(ele.question, ele._id)}>Update</button>
+                                </div>
                         </div>
                     )
                 })

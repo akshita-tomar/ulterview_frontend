@@ -7,11 +7,15 @@ import ultivicLogo from "../../assets/ultivicLogo.png"
 import { useDispatch, useSelector } from "react-redux";
 import { sign_in_slice } from "../../utils/redux/authSlice/signInSlice";
 import { clear_sign_in_slice } from "../../utils/redux/authSlice/signInSlice";
+import { IoEyeOutline } from "react-icons/io5";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState('')
+  
   const navigate = useNavigate()
   const signInData = useSelector(store => store.SIGN_IN)
   useEffect(() => {
@@ -36,10 +40,11 @@ const Login = () => {
         duration: 1300
       })
       if (signInData?.data?.data?.role === "DEVELOPER") {
-        navigate('/candidates')
+        navigate('/homepage')
+       
       }
       if (signInData?.data?.data?.role === "HR") {
-        navigate('/homepage')
+         navigate('/candidates')
       }
       localStorage.setItem('token', signInData?.data?.data?.token)
       localStorage.setItem('role', signInData?.data?.data?.role)
@@ -82,18 +87,27 @@ const Login = () => {
                     <label>Your E-mail</label>
                     <input className="form-control mt-2" type="email" id="username" name="username" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
-                  <div className="form-group mt-3">
-                    <div className="d-flex justify-content-between">
+                  <div className="form-group mt-3 position-relative">
+                    <div className="d-flex justify-content-between ">
                       <label>Your Password</label>
                       <h6> <a className="forget_password small_font mt-2" href="/">Forget password?</a></h6>
+                      
                     </div>
 
-                    <input className="form-control mt-2" type="password" id="password" name="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input className="form-control mt-2" type={`${showPassword?"text":"password"}`} id="password" name="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <div className='open_eye'>
+                            {
+                                showPassword?  <IoEyeOutline onClick={()=>{setShowPassword(false)}}/>:
+                                <FaRegEyeSlash onClick={()=>{setShowPassword(true)}}/>
+                            }
+                       
+                     
+                        </div>
                   </div>
-                  <div className="mt-3">
+                  {/* <div className="mt-3">
                     <input type="checkbox" className="custom-checkbox" />
                     <label className="small_font ms-2">Remember me </label>
-                  </div>
+                  </div> */}
                   <button type="submit" className=" login-button mt-4" onClick={collectData}>Sign in</button> <br></br>
                 </form>
 

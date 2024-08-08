@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { decryptId } from "../../utils/encryption"
-import logo from "../../assets/ultivic-logo.png"
-
+import logo from "../../assets/logo1.png"
+import "./hrstyle.css"
 
 const HrRoundTest = () => {
   let { id } = useParams()
@@ -180,14 +180,17 @@ const HrRoundTest = () => {
       {
         isCompleted === 'completed' || isCompleted === 'selected'||isCompleted === 'pending' || isCompleted === 'rejected' || linkClickedCount>0 ?
           <div className="regards-message">
-            <h3>Your interview result will be shared with you as soon as possible. <br></br> Thankyou!</h3>
+            <h3>We appreciate your participation and hope you enjoyed testing your knowledge.
+               Whether you scored high or low, remember that every interview is an opportunity to 
+               learn something new. <br></br>
+             Your interview result will be shared with you as soon as possible. Thank You !</h3>
           </div> :
           <div>
             {
               showQuestions === false ?
                 <>
                   <div className="interview-caution">
-                    <h5>Please read carefully</h5>
+                    <h5 className="heading">Please Read Carefully</h5>
                     <ol>
                       <li>When you will click on the start button(given bellow) you will see list of interview questions and your timer will start automatically.</li>
                       <li>Try to complete your test in the predefinded estimate time. ( minutes) </li>
@@ -195,17 +198,18 @@ const HrRoundTest = () => {
                       <li>You will get list of objective, subjective as well as logical questions</li>
                       <li>link is one time openable you can not access it again after submitting so please be carefull during test.</li>
                     </ol>
-                    <h6 className="regards"> Best! <br></br>Ultivic Technologies</h6>
+                    <h6 className="regards"> Best wishes! <br></br><span className="Ultivic_Technologies_heading">Ultivic Technologies</span></h6>
                   </div>
                   <div className="text-center mb-4">
-                    <button className='timer-start' onClick={handleStart}>Start</button>
+                    <button className='red_btn' onClick={handleStart}>Start</button>
                   </div>
                 </> :
                 <div>
                   <div className="Interview_header">
-                    <div className="d-flex align-items-center gap-3 Interview_header_content">
-                      <img src={logo} height={"40px"} width={"120px"} className="logo_img" />
-                      <h3>Good Luck for your Interview!</h3>
+                    <div className="Interview_header_content">
+                      <img src={logo} height={"40px"} width={"140px"} className="TECHNOLOGIES_img" />
+                      <h4 className="mt-1">TECHNOLOGIES</h4>
+                      <h3 className="heading mt-3">Good Luck for your Interview!</h3>
                     </div>
                     <div className="timer_outer">
                       {formatTime(elapsedTime)}
@@ -228,8 +232,8 @@ const HrRoundTest = () => {
                       )
                     })
                   }
-                  <div className="text-center">
-                    <button type="submit" className="submit-button" onClick={handleSubmit}  >Submit</button>
+                  <div className="text-end mt-3 mb-3">
+                    <button type="submit" className="red_btn" onClick={handleSubmit}  >Submit</button>
                   </div>
                 </div>
             }

@@ -75,7 +75,8 @@ const RegistrationModal = (props) => {
 
                     </div>
                     <div className='form-group mt-3'>
-                        <label className='modal_label'>Profile</label>
+                        {props.role === "developer" ? <label className='modal_label'>Profile</label>:null}
+                        
                         {props.role === "developer" ? <input className="candidate-register-input form-control  mt-1" value={profile} onChange={(e) => setProfile(e.target.value)} placeholder="Enter developer's profile" ></input> : null}
 
                     </div>
@@ -87,7 +88,7 @@ const RegistrationModal = (props) => {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={handleSubmit} className='submit_btn'>Submit</button>
+                    <button onClick={handleSubmit} className='red_btn'>Submit</button>
                 </Modal.Footer>
             </Modal>
             <Toaster />

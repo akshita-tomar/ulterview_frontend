@@ -272,8 +272,8 @@ const InterviewQuestions = () => {
                       />
                     </div>
                   ))}
-                  <div className="text-center">
-                    <button type="submit" className="submit-button" onClick={handleSubmit} >Submit</button>
+                  <div className="text-end">
+                    <button type="submit" className="red_btn" onClick={handleSubmit} >Submit</button>
                   </div>
                 </form>
               ) :

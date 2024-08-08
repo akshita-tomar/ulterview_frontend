@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 const AddHrRoundQuestion = (props) => {
@@ -49,17 +48,17 @@ const AddHrRoundQuestion = (props) => {
                 size="md"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
+                className='custom_modal_container'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter " className="heading">
-                        Add Question
-                    </Modal.Title>
+                    
                 </Modal.Header>
                 <Modal.Body>
+                    <h3 className='heading'>Add Question</h3>
                     <input className="candidate-register-input form-control mt-2" placeholder="Enter question" value={question} onChange={(e) => setQuestion(e.target.value)} ></input>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <button onClick={handleSubmit} className='red_btn'>Submit</button>
                 </Modal.Footer>
             </Modal>
         </div>

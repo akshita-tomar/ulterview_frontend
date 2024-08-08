@@ -114,6 +114,7 @@ const CandidateAnswerSheet = () => {
 
     return (
         <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
+             <h3 className="cmn_heading">Candidate Results </h3>
             <div className='check-result-header'>
             {correctQuesLength}/{OriginalQuesLength}
             </div>

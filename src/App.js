@@ -49,7 +49,7 @@ function App() {
           {/* <Route path='/register' element={<Suspense fallback={<Loader/>}><Register /></Suspense>}></Route> */}
           <Route path='/header' element={<Suspense fallback={<Loader/>}></Suspense>}></Route>
           <Route path='/language' element={<Suspense fallback={<Loader/>}><Language /></Suspense>}></Route>
-          <Route path='/homepage' element={<Suspense fallback={<Loader/>}> <Suspense fallback={<Loader/>}><HomePage /></Suspense></Suspense>}></Route>
+          <Route path='/homepage' element={<Suspense fallback={<Loader/>}> <Suspense fallback={<Loader/>}><Sidebar/><HomePage /></Suspense></Suspense>}></Route>
           <Route path='/create-task' element={<Suspense fallback={<Loader/>}><Sidebar/><CreateTask /></Suspense>}></Route>
           <Route path='/sidebar' element={<Suspense fallback={<Loader/>}><Sidebar /></Suspense>}></Route>
           <Route path='/updateQuestions' element={<Suspense fallback={<Loader/>}><Sidebar/><UpdateQuestions/></Suspense>}></Route>

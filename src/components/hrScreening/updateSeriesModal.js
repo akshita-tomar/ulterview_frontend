@@ -55,7 +55,7 @@ const UpdateHrRoundSeries =(props)=>{
                     <input className="candidate-register-input form-control mt-2" placeholder="Enter series" defaultValue={props.series} onChange={(e)=>setSeriesName(e.target.value)}></input>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={handleSubmit} className='submit_btn'>Submit</button>
+                    <button onClick={handleSubmit} className='red_btn'>Submit</button>
                 </Modal.Footer>
             </Modal>
         </div>

@@ -184,8 +184,8 @@ const CandidateEntries = () => {
   return (
     <div className={`wrapper ${show ? "cmn_margin" : ""} `}>
       <h5 className="cmn_heading">Candidate Records</h5>
-      <div className="d-flex justify-content-between align-items-center mb-3 pe-3 Candidate_record_wrapper">
-        <div className="d-flex gap-4 searchbox_wrapper ">
+      {/* <h6 className="subheading">Detailed Records of Candidates for Informed Hiring Decisions.</h6> */}
+        <div className="d-flex gap-4 searchbox_wrapper mt-4">
           <div className="searchbox-hr-feedback-teamhub">
             <Form.Control
               type="text"
@@ -239,10 +239,11 @@ const CandidateEntries = () => {
           </div>
 
 
-          <button className="register-btn cmn_btn_color" onClick={() => setModalShow(true)}><IoMdAdd className="me-2" />Register</button>
+          <button className="register-btn red_btn" onClick={() => setModalShow(true)}><IoMdAdd className="me-2" />Register</button>
 
         </div>
-        <div className="table-responsive candidate_table_outer">
+      <div className=" mb-3 pe-3 Candidate_record_wrapper">
+        <div className="table-responsive candidate_table_outer cmn_radius">
           <Table hover className="user-table candidate_entry_table">
             <thead>
               <tr>
@@ -297,19 +298,7 @@ const CandidateEntries = () => {
           </Table>
         </div>
 
-        <Pagination className="justify-content-center custom_pagination_wapper">
-          <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
-          {[...Array(totalPages)].map((_, index) => (
-            <Pagination.Item
-              key={index}
-              active={index + 1 === page}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </Pagination.Item>
-          ))}
-          <Pagination.Next onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} />
-        </Pagination>
+        
 
         {
           modalShow && (
@@ -351,6 +340,19 @@ const CandidateEntries = () => {
 
         <Toaster />
       </div>
+      <Pagination className="justify-content-center custom_pagination_wapper">
+          <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
+          {[...Array(totalPages)].map((_, index) => (
+            <Pagination.Item
+              key={index}
+              active={index + 1 === page}
+              onClick={() => handlePageChange(index + 1)}
+            >
+              {index + 1}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next onClick={() => handlePageChange(page + 1)} disabled={page === totalPages} />
+        </Pagination>
     </div>
   )
 }

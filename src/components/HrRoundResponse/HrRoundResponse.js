@@ -6,7 +6,7 @@ import selectedLogo from '../../assets/selectedLogo.png'
 import rejectedLogo from '../../assets/rejectedLogo.png'
 import incompleteLogo from '../../assets/incomplete.png'
 import showAll from '../../assets/allstatus.png'
-
+import "./hrroundStyle.css"
 const HrRoundResponse = () => {
     const { show } = useAppContext()
     let url = process.env.REACT_APP_BACKEND_URL;
@@ -95,7 +95,7 @@ const HrRoundResponse = () => {
                     </div>
                 </div>
 
-                <div className="searchbox-hr-feedback">
+                <div className="searchbox_feedback">
                     <Form.Control
                         type="text"
                         placeholder="Search"
@@ -107,8 +107,8 @@ const HrRoundResponse = () => {
 
 
 
-            <div className="table-responsive">
-                <Table striped bordered hover className="user-table candidate_entry_table">
+            <div className="table-responsive cmn_radius">
+                <Table  hover className="user-table candidate_entry_table">
                     <thead>
                         <tr>
                             <th>Sr.no</th>
@@ -128,13 +128,13 @@ const HrRoundResponse = () => {
                                 <td>{element.experience}</td>
                                 <td className={element.hrRoundStatus === 'rejected' ? 'rejected-candidate' : element.hrRoundStatus === 'selected' ? 'selected-candidate' : ''}>{element.hrRoundStatus}</td>
                                 {/* <td className={element.resultStatus === 'rejected' ? 'rejected-candidate' : element.resultStatus === 'selected' ? 'selected-candidate' : ''} >{element.resultStatus} */}
-                                <td><button className="register-btn" onClick={() => handleClick(element._id)}>Show</button></td>
+                                <td><button className=" show_btn" onClick={() => handleClick(element._id)}>Show</button></td>
                             </tr>
                         ))}
                     </tbody>
                 </Table>
             </div>
-            <Pagination className="justify-content-center custom_pagination_wapper">
+            <Pagination className="justify-content-center custom_pagination_wapper mt-4">
                 <Pagination.Prev onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
                 {[...Array(totalPages)].map((_, index) => (
                     <Pagination.Item

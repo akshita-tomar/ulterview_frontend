@@ -43,7 +43,7 @@ const handleLogout=()=>{
           <button className='cmn_cancel_btn' onClick={handleClose}>
           Cancel
           </button>
-          <button className='submit_btn' onClick={handleLogout}>
+          <button className='red_btn' onClick={handleLogout}>
            Logout
           </button>
         </Modal.Footer>
