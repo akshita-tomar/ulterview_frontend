@@ -32,14 +32,14 @@ const Login = () => {
 
   useEffect(() => {
     if (signInData?.isSuccess) {
-      toast.success("Logged In", {
+      toast("Logged In", {
         duration: 1300
       })
       if (signInData?.data?.data?.role === "DEVELOPER") {
-        navigate('/candidates')
+        navigate('/homepage')
       }
       if (signInData?.data?.data?.role === "HR") {
-        navigate('/homepage')
+        navigate('/candidates')
       }
       localStorage.setItem('token', signInData?.data?.data?.token)
       localStorage.setItem('role', signInData?.data?.data?.role)
